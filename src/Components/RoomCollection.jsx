@@ -16,26 +16,6 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
     // backgroundColor: '#757de8'
 };
 
-  // const [totalroom, settotalroom] = useState('')
-
-  // console.log(totalRoom.TotalRooms)
-
-  
-
-  const [roomsData, setRoomsData] = useState([]);
-  const [amenity, setamenity] = useState({
-
-    room:[{
-      roomNumber: '',
-      roomType: '',
-      amenities:[]
-      }
-      ]
-  })
-
-  console.log(amenity)
-
-  console.log(roomsData)
 
   const Room = parseInt(totalRoom.TotalRooms, 10);
   const myarray = Array.from({ length: Room }, (_, index) => index + 1);
@@ -54,10 +34,32 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
   ];
   const Multidropdown = makeAnimated();
 
+  const [amenity, setAmenity] = useState({
+    rooms: [
+      {
+        roomNumber: '',
+        roomType: '',
+        amenities: []
+    }
+  ]
+});
+
+
+
+  const handleRoomChange = (index, field, value) => {
+    setAmenity(prevState => {
+        const updatedRooms = [...prevState.rooms]; // Create a copy of the room array
+        updatedRooms[index] = {
+            ...updatedRooms[index],
+            [field]: value,
+        };
+        return { ...prevState, rooms: updatedRooms }; // Update the state with the new room array
+    });
+};
 
   const apiCall = () => {
 
-    axios.post(`${process.env.REACT_APP_SECRET_KEY}/signup/room`, {  room: amenity.room  },{
+    axios.post(`${process.env.REACT_APP_SECRET_KEY}/signup/room`, { ...amenity },{
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -79,23 +81,7 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
 
 
 
-  const handleRoomChange = (index, field, value) => {
-    const updatedRoomsData = {...amenity};
-    updatedRoomsData[index] = {
-      ...updatedRoomsData[index],
-      [field]: value,
-    };
-    setamenity(updatedRoomsData);
-  };
-
-  // const handleRoomChange = (index, field, value) => {
-  //   const updatedRoomsData = [...roomsData];
-  //   updatedRoomsData[index] = {
-  //     ...updatedRoomsData[index],
-  //     [field]: value,
-  //   };
-  //   setRoomsData(updatedRoomsData);
-  // };
+ 
 
   return (
     <div>

@@ -45,40 +45,6 @@ const HotelDetails = ({page, setpage}) => {
       }
     
 
-    // const [file, setfile] = useState({
-    //     panPhoto : null
-
-    // })
-
-
-//     const handleFileUpload = async (event) => {
-//         const file = event.target.files[0];
-//         const fileType = getFileType(file);
-//         console.log(fileType)
-
-       
-//         if (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf') {
-           
-//             try {
-//                 const response = await axios.post('http://192.168.1.5:800/upload', { fileType
-                   
-//   });
-//                 console.log(response.data); 
-//             } catch (error) {
-//                 console.error('Error uploading file:', error);
-//             }
-//         } else {
-//             alert('Please upload a file of type JPG, PNG, or PDF.');
-//         }
-//     };
-
-   
-//     const getFileType = (file) => {
-//         const fileName = file.name.toLowerCase();
-//         const fileExtension = fileName.split('.').pop();
-//         return fileExtension;
-//     };
-
 
     return (
 
@@ -86,7 +52,6 @@ const HotelDetails = ({page, setpage}) => {
             <div className='Foam-groups form-groups'>
                 <div className='rows'>
                     <div className='row'>
-                        {/* <button onClick={handleFileUpload}>dvfdv</button> */}
                         <label>Owner Pan Number</label>
                         <input type="text" id="pan" name="pan" 
                         onChange={(event) =>

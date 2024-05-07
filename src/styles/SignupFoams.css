@@ -13,7 +13,7 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     float: right;
     width: 45rem;
-    height: 40rem;
+    height: auto;
     margin-right: 2rem;
     background-color: #f2f2f2;  
 }
@@ -48,7 +48,7 @@
 }
 
 .form-groups {
-    margin-bottom: 20px;  
+    margin-bottom: 10px;  
 }
 
 /* .row{
@@ -74,6 +74,11 @@ gap: 15px;
   /* font-style: normal; */
    
    
+}
+
+.error{
+color: red;
+font-size: 14px;
 }
 
 .form-groups input[type="text"],
@@ -111,7 +116,6 @@ button:hover {
 }
 
 #footer-section{
-    
     display: flex;
     margin-top: 2rem;
     gap: 1rem;

@@ -7,9 +7,9 @@
     width: 300px;
 } */
 
-.form-groups {
-    margin-bottom: 20px;
-}
+/* .form-groups {
+    margin-bottom: 10px;
+} */
 .rows{
     display: flex;
     justify-content: space-between;

@@ -5,18 +5,18 @@ import HotelDetails from './HotelDetails';
 import RoomCollection from './RoomCollection';
 import HotelDetailsSecond from './HotelDetailsSecond';
 import OtpPass from './OtpPass';
-import axios from 'axios';
+
 import { Link } from 'react-router-dom';
 
 const Signupfoams = () => {
     
 const [page, setpage] = useState(0);
-const [verification, setverification] = useState({
-    name: "",
-    email: "",
-    hotelName: "",
-    Mobilenumber: ""
-});
+// const [verification, setverification] = useState({
+//     name: "",
+//     email: "",
+//     hotelName: "",
+//     Mobilenumber: ""
+// });
 
 const [totalRoom, settotalRoom ] = useState({
     TotalRooms: ''
