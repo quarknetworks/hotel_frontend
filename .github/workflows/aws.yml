@@ -37,7 +37,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'ap-south-1'
         SOURCE_DIR: 'build/'
-        AWS_S3_BUCKET: 'hotelfe'
+        AWS_S3_BUCKET: 'flutterfamo'
         # DEST_DIR: 'stagging'
         exclude: '*.map'
 
