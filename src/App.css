@@ -1,0 +1,29 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+
+}
+
+body, html{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+.App{
+    width: 100vw;
+    height: 100vh;
+    
+}
+
+.themed-component.light {
+    background-color: #ffffff; /* Light mode background color */
+    color: #000000; /* Light mode text color */
+  }
+  
+  .themed-component.dark {
+    background-color: #050b21; /* Dark mode background color */
+    color: #ffffff; /* Dark mode text color */
+  }
