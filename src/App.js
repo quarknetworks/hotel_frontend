@@ -1,38 +1,25 @@
+import logo from './logo.svg';
 import './App.css';
-import React from 'react';
-import {BrowserRouter as Router, Routes,Route} from "react-router-dom"
-import Foam from './Components/Foam';
-import MainDashbord from './Components/MainDashbord';
-import { ThemeProvider } from './Components/ThemeContext';
-import Roomsdash from './Components/Roomsdash';
-import HotelGuestForm from './Components/HotelGuestForm';
-import GuestTable from './Components/GuestTable';
-import SignupFoams from './Components/SignupFoams';
-
-
 
 function App() {
-
-  
   return (
-
     <div className="App">
-     
-    <Router>
-    <ThemeProvider>
-      <Routes>
-      <Route path="/" element={<SignupFoams/>}/>
-      <Route path="/dashbord" element={<MainDashbord />}/>
-      <Route path="/login" element={<Foam />}/>
-      <Route path="/roomsdashboard" element={<Roomsdash />}/>
-      <Route path="/guestfoam" element={<HotelGuestForm/>}/>
-      <Route path="/guestTable" element={<GuestTable/>}/>
-        
-   </Routes>
-   </ThemeProvider>
-   </Router>
-     </div>
-  ); 
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
 }
 
 export default App;
