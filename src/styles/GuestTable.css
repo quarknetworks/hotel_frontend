@@ -7,3 +7,12 @@
 .Guesttable-container h1{
    
 }
+
+.light-theme .data-grid-container {
+   background-color: #f0f0f0; /* Change to the desired background color */
+}
+
+/* Dark theme */
+.dark-theme .data-grid-container {
+   background-color: #333; /* Change to the desired background color */
+}

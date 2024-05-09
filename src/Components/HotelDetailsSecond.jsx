@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import axios from 'axios'
+import API_ENDPOINTS from '../confi';
 
 const HotelDetailsSecond = ({totalRoom, settotalRoom, page, setpage}) => {
 
@@ -41,7 +42,7 @@ const apiCall = () => {
     console.log(filesData)
 
     axios
-        .post(`${process.env.REACT_APP_SECRET_KEY}/signup/doc-detail`, filesData, {
+        .post(`${API_ENDPOINTS.API}/signup/doc-detail`, filesData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',

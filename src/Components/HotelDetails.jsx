@@ -1,9 +1,15 @@
 import React, {useState} from 'react'
 import "../styles/Hoteldetails.css"
-import Foam from './Foam'
+import API_ENDPOINTS from '../confi.js';
 import axios from 'axios'
 
 const HotelDetails = ({page, setpage}) => {
+
+    const [panError, setPanError] = useState('');
+    const [aadharNoError, setAadharNoError] = useState('');
+    const [hotelEmailError, setHotelEmailError] = useState('');
+    const [hotelPincodeError, setHotelPincodeError] = useState('');
+    const [backendError, setBackendError] = useState('');
 
     const [HotelData, setHotelData] = useState({
         panNumber : '',
@@ -20,12 +26,44 @@ const HotelDetails = ({page, setpage}) => {
 
     });
 
+    // const [error, setError] = useState({
+    //     panNumber: '',
+    //     aadharNo: '',
+    //     hotelEmail: '',
+    //     hotelPincode: ''
+    // });
+
     console.log(HotelData);
 
-
+    
     const apiCall = () => {
 
-        axios.post(`${process.env.REACT_APP_SECRET_KEY}/signup/owner`, { ...HotelData },{
+        clearErrors();
+
+        // Frontend validation
+        let frontendErrors = false;
+        if (!validatePanNumber(HotelData.panNumber)) {
+            setPanError('Please Check Pan Number');
+            frontendErrors = true;
+        }
+        if (!validateEmail(HotelData.hotelEmail)) {
+            setHotelEmailError('Please check Email');
+            frontendErrors = true;
+        }
+        if (!validateAadharNumber(HotelData.aadharno)) {
+            setAadharNoError('Please check Aadhar Number');
+            frontendErrors = true;
+        }
+        if (!validatePincode(HotelData.hotelPincode)) {
+            setHotelPincodeError('Invalid Pincode');
+            frontendErrors = true;
+        }
+
+        // If there are frontend errors, stop processing
+        if (frontendErrors) return;
+
+      
+        axios.post(`${API_ENDPOINTS.API}/signup/owner`, { ...HotelData },{
           headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
@@ -35,15 +73,40 @@ const HotelDetails = ({page, setpage}) => {
           .then(result => {
             console.log(result)
             if (result.status === 201) {  
-                setpage(3);
+                setpage(page => page+1);
             } else {
               console.log('api failed')
+              if (result.data && result.data.error) {
+                const errorMessage = result.data.error;
+                const field = errorMessage.split(':')[0]; // Assuming error message format: field:message
+                setError({ ...error, [field]: errorMessage });
+            }
             }
           })
     
           .catch(err => console.log(err))
       }
     
+      const handleInputChange = (field, value) => {
+        setHotelData({ ...HotelData, [field]: value });
+        setError({ ...error, [field]: '' }); // Clear error when user edits the field
+    };
+
+    const clearErrors = () => {
+        setPanError('');
+        setHotelEmailError('');
+        setAadharNoError('');
+        setHotelPincodeError('');
+    };
+
+    const validateEmail = email => /\S+@\S+\.\S+/.test(email);
+    
+    const validatePanNumber = pan =>  /[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(pan);
+
+    const validateAadharNumber = aadhar =>  /^\d{12}$/.test(aadhar);
+
+    const validatePincode = pincode =>  /^\d{6}$/.test(pincode);
+
 
 
     return (
@@ -57,12 +120,14 @@ const HotelDetails = ({page, setpage}) => {
                         onChange={(event) =>
                             setHotelData({ ...HotelData, panNumber: event.target.value })}
                         />
+                        {panError && <p className="error">{panError}</p>}
                     </div>
                     <div className='row'>
                         <label>Owner Aadhaar Number</label>
                         <input type="text" id="aadhar" name="aadhar"
                         onChange={(event) =>
                             setHotelData({ ...HotelData, aadharNo: event.target.value })} />
+                            {aadharNoError && <p className="error">{aadharNoError}</p>}
                     </div>
                     <div className='row'>
                         <label>Hotel Email Address</label>
@@ -70,6 +135,7 @@ const HotelDetails = ({page, setpage}) => {
                         onChange={(event) =>
                             setHotelData({ ...HotelData, hotelEmail: event.target.value })}
                          />
+                         {hotelEmailError && <p className="error">{hotelEmailError}</p>}
                     </div>
                 </div>
             </div>
@@ -142,8 +208,8 @@ const HotelDetails = ({page, setpage}) => {
                         <input type="text" id="hotel-address" name="hotel-address" accept=".jpg,.jpeg,.png,.pdf"
                           onChange={(event) =>
                             setHotelData({ ...HotelData, hotelPincode: event.target.value })}
-                       
                             />
+                            {hotelPincodeError && <p className="error">{hotelPincodeError}</p>}
                     </div>
                 </div>
             </div>

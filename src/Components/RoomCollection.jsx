@@ -3,6 +3,7 @@ import makeAnimated from 'react-select/animated';
 import Select from 'react-select';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API_ENDPOINTS from '../confi.js';
 
 
 const RoomCollection = ({totalRoom, settotalRoom}) => {
@@ -59,7 +60,7 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
 
   const apiCall = () => {
 
-    axios.post(`${process.env.REACT_APP_SECRET_KEY}/signup/room`, { ...amenity },{
+    axios.post(`${API_ENDPOINTS.API}/signup/room`, { ...amenity },{
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -69,7 +70,7 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
       .then(result => {
         console.log(result)
         if (result.status === 201) {  
-            ;
+            
         } else {
           console.log('api failed')
         }
@@ -78,10 +79,6 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
       .catch(err => console.log(err))
   }
 
-
-
-
- 
 
   return (
     <div>

@@ -21,58 +21,25 @@ const [page, setpage] = useState(0);
 const [totalRoom, settotalRoom ] = useState({
     TotalRooms: ''
 })
+const [token, setToken] = useState('');
 
-console.log(totalRoom)
+const handleApiResponseFromChild = (token) => {
+    // Do something with the API response received from the child component
+    console.log('API response received in parent:', token);
+    setToken(token);
+  };
 
 
-    // const [formData, setFormData] = useState({
-    //     pannumber: '',
-    //     aadharNo: '',
-    //     hotelEmail: '',
-    //     hotelWebsite: '',  
-    //     longatitute: '',
-    //     letitute: '',  
-    //     gpsLocation: '',
-    //     hotelAadress: '',
-    //     panPhoto: '',
-    //     aadharPhoto: '',
-    //     gstCertificate: '',
-    //     pincode: '',
-    //     state: '',
-    //     city: '',
-    //     landmark:'',
-    //     businessPan: '',
-    //     totalroom: '',
-    //      rooms:[ 
-    //           {roomNumber : "",
-    //           roomType : "",
-    //           amenities : [],
-    //         }]
-    // });
-    
-//    console.log(formData)
 
     const FormTitles = [ "Please Enter Hotel Information","Verification User", "Hotel Details","uplaod Hotal Documents", "Please Fill your room details"]
 
-    // const apiCall = () => {
-    // axios.post('http://192.168.1.5:800/signup/find', { }, {
-    //     headers: {
-    //         'ngrok-skip-browser-warning': '69420',
-    //         'Access-Control-Allow-Origin': '*',
-    //         'Access-Control-Allow-Headers': '*',
-    //     },
-    //   })
-    //     .then(result => {
-    //     console.log(result)
-    //     }) .catch(err => console.log(err))
-    // }
 
     const Page = () =>{
        if (page === 0 ){
-        return <FirstPages  page={page} setpage={setpage}/>
+        return <FirstPages  page={page} setpage={setpage} handleApiResponse={handleApiResponseFromChild}/>
        }
        else if(page === 1) {
-        return <OtpPass page={page} setpage={setpage} />
+        return <OtpPass page={page} setpage={setpage} token={token}/>
        }
        else if(page === 2) {
         return <HotelDetails page={page} setpage={setpage} />

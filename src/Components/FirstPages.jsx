@@ -1,17 +1,19 @@
 
 import axios from 'axios';
 import React, {useState} from 'react'
+import API_ENDPOINTS from '../confi.js';
 
 
-const FirstPages = ({ page, setpage}) => {
+const FirstPages = ({ page, setpage, handleApiResponse}) => {
 
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [hotelError, setHotelError] = useState('');
     const [mobileError, setMobileError] = useState('');
     const [backendError, setBackendError] = useState('');
+   
 
-  
+
     const [verification, setverification] = useState({
         name: "",
         email: "",
@@ -49,14 +51,16 @@ const FirstPages = ({ page, setpage}) => {
         if (frontendErrors) return;
 
 
-        axios.post(`${process.env.REACT_APP_SECRET_KEY}/signup`, { ...verification }, {
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     'Access-Control-Allow-Origin': '*',
-        //     'Access-Control-Allow-Headers': '*',
-        //   },
+     const response =  axios.post(`${API_ENDPOINTS.API}/signup`, { ...verification }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*',
+          },
+          
         })
           .then(result => {
+            handleApiResponse(result.data.token);
             if (result.status === 201) {  
                 setpage(page => page+1);
             } else {
@@ -68,7 +72,7 @@ const FirstPages = ({ page, setpage}) => {
             }
           })
     
-          .catch(err => console.log(err))
+          .catch(err =>  err)
       }
 
       const handleChange = event => {
@@ -93,9 +97,7 @@ const FirstPages = ({ page, setpage}) => {
     const validateEmail = email => /\S+@\S+\.\S+/.test(email);
 
     const validateMobileNumber = MobileNumber => /^\d{10}$/.test(MobileNumber);
-   
-    
-
+  
 
   return (
     <div>
@@ -108,6 +110,7 @@ const FirstPages = ({ page, setpage}) => {
                         //     setverification({ ...verification, name: event.target.value })}
                         required />
                          <p className="error">{nameError}</p>
+                         {backendError && <p className="error">{backendError}</p>}
                     </div>
                     <div className="form-groups">
                         <label htmlFor="email">Email</label>
@@ -117,6 +120,7 @@ const FirstPages = ({ page, setpage}) => {
                         //     setverification({ ...verification, email: event.target.value })}
                         required/>
                          <p className="error">{emailError}</p>
+                         {backendError && <p className="error">{backendError}</p>}
                     </div>
                     <div className="form-groups">
                         <label htmlFor="hotelName">Hotel Name</label>
@@ -126,6 +130,7 @@ const FirstPages = ({ page, setpage}) => {
                         //     setverification({ ...verification, hotelName: event.target.value })}
                         required />
                          <p className="error">{hotelError}</p>
+                         {backendError && <p className="error">{backendError}</p>}
                     </div>
                     <div className="form-groups">
                         <label htmlFor="password">Phone Number</label>
@@ -135,6 +140,7 @@ const FirstPages = ({ page, setpage}) => {
                         //     setverification({ ...verification, mobileNumber: event.target.value })}
                             />
                              <p className="error">{mobileError}</p>
+                             {backendError && <p className="error">{backendError}</p>}
 
                     </div>
                     <div className="form-groups">
