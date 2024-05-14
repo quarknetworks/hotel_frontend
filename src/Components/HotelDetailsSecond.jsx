@@ -14,7 +14,9 @@ const handleFileUpload = async (event) => {
 
     if (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf') {
         try {
-            // Send file type to server
+            
+
+            
             const response = await axios.post('http://192.168.1.5:800/upload', { fileType });
             console.log(response.data);
         } catch (error) {
