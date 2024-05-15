@@ -84,6 +84,9 @@ const HotelDetails = ({page, setpage, token}) => {
             }
             }
           })
+
+
+          
     
           .catch(err => console.log(err))
       }
