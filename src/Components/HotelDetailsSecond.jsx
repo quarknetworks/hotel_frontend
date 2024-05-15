@@ -52,7 +52,7 @@ const apiCall = () => {
             },
         })
         .then((result) => {
-            if (result.status === 201) {
+            if (result.data.success === true) {
                 setpage((page) => page + 1);
             } else {
                 console.log('api failed');

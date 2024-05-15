@@ -12,7 +12,7 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
     const [mobileError, setMobileError] = useState('');
     const [backendError, setBackendError] = useState('');
    
-
+   
 
     const [verification, setverification] = useState({
         name: "",
@@ -60,8 +60,10 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
           
         })
           .then(result => {
-            handleApiResponse(result.data.token);
-            if (result.status === 201) {  
+            handleApiResponse(result.data.token,);
+         
+
+            if (result.data.success === true) {  
                 setpage(page => page+1);
             } else {
               console.log('api failed')

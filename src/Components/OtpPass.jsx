@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import API_ENDPOINTS from '../confi'
 
-const OtpPass = ({ page, setpage, token }) => {
+const OtpPass = ({ page, setpage, token , handleApiRespon}) => {
 
     const [Otp, setOtp] = useState({
         emailOtp: '',
@@ -42,7 +42,8 @@ const OtpPass = ({ page, setpage, token }) => {
             },
         })
             .then(result => {
-                if (result.status === 201) {
+                handleApiRespon(result.data.tokenVerified);
+                if (result.data.success === true) {
                     setpage(2);
                 } else {
                     console.log('api failed')

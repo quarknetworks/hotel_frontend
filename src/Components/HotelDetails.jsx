@@ -3,7 +3,7 @@ import "../styles/Hoteldetails.css"
 import API_ENDPOINTS from '../confi.js';
 import axios from 'axios'
 
-const HotelDetails = ({page, setpage}) => {
+const HotelDetails = ({page, setpage, token}) => {
 
     const [panError, setPanError] = useState('');
     const [aadharNoError, setAadharNoError] = useState('');
@@ -65,6 +65,7 @@ const HotelDetails = ({page, setpage}) => {
       
         axios.post(`${API_ENDPOINTS.API}/signup/owner`, { ...HotelData },{
           headers: {
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*', 
@@ -72,7 +73,7 @@ const HotelDetails = ({page, setpage}) => {
         })
           .then(result => {
             console.log(result)
-            if (result.status === 201) {  
+            if (result.data.success === true) {  
                 setpage(page => page+1);
             } else {
               console.log('api failed')
