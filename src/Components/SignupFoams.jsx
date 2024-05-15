@@ -18,16 +18,23 @@ const [page, setpage] = useState(0);
 //     Mobilenumber: ""
 // });
 
+const [news , setnews ] = useState('')
+console.log(news)
+
 const [totalRoom, settotalRoom ] = useState({
     TotalRooms: ''
 })
 const [token, setToken] = useState('');
 
-const handleApiResponseFromChild = (token) => {
-    // Do something with the API response received from the child component
-    console.log('API response received in parent:', token);
+const handleApiResponseFromChild = (token , datas) => {
     setToken(token);
+    setnews(datas)
   }; 
+
+  const handleApiRespons = ( datas) => {
+    setnews(datas)
+  }; 
+
 
 
 
@@ -41,10 +48,10 @@ const handleApiResponseFromChild = (token) => {
         return <FirstPages  page={page} setpage={setpage} handleApiResponse={handleApiResponseFromChild}/>
        }
        else if(page === 1) {
-        return <OtpPass page={page} setpage={setpage} token={token}/>
+        return <OtpPass page={page} setpage={setpage} token={token} handleApiRespon={handleApiRespons}/>
        }
        else if(page === 2) {
-        return <HotelDetails page={page} setpage={setpage} />
+        return <HotelDetails page={page} setpage={setpage} token={news} />
        }
        else if(page === 3) {
         return <HotelDetailsSecond totalRoom={totalRoom} settotalRoom={settotalRoom} page={page} setpage={setpage}/>

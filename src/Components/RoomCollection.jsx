@@ -69,7 +69,7 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
     })
       .then(result => {
         console.log(result)
-        if (result.status === 201) {  
+        if (result.data.success === true) {  
             
         } else {
           console.log('api failed')
