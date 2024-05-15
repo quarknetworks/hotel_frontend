@@ -1,10 +1,16 @@
 const API_ENDPOINTS = {
+<<<<<<< hotel-system
     // API: 'http://192.168.195.223:8080'
 
 API:'https://hotelbe.quarknetworks.net:8080'
 
 
     
+=======
+API:'https://hotelbe.quarknetworks.net:8080'
+    
+    // API: 'http://172.31.5.164:8080'
+>>>>>>> master
 }
 
 
