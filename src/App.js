@@ -8,6 +8,7 @@ import Roomsdash from './Components/Roomsdash';
 import HotelGuestForm from './Components/HotelGuestForm';
 import GuestTable from './Components/GuestTable';
 import SignupFoams from './Components/SignupFoams';
+import Login from './Components/Login';
 
 
 
@@ -23,7 +24,7 @@ function App() {
       <Routes>
       <Route path="/" element={<SignupFoams/>}/>
       <Route path="/dashbord" element={<MainDashbord />}/>
-      <Route path="/login" element={<Foam />}/>
+      <Route path="/login" element={<Login />}/>
       <Route path="/roomsdashboard" element={<Roomsdash />}/>
       <Route path="/guestfoam" element={<HotelGuestForm/>}/>
       <Route path="/guestTable" element={<GuestTable/>}/>

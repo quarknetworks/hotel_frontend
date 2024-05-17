@@ -9,7 +9,7 @@ const HotelDetails = ({page, setpage, token}) => {
     const [aadharNoError, setAadharNoError] = useState('');
     const [hotelEmailError, setHotelEmailError] = useState('');
     const [hotelPincodeError, setHotelPincodeError] = useState('');
-    const [backendError, setBackendError] = useState('');
+    // const [error, setError] = useState('');
 
     const [HotelData, setHotelData] = useState({
         panNumber : '',
@@ -38,29 +38,29 @@ const HotelDetails = ({page, setpage, token}) => {
     
     const apiCall = () => {
 
-        clearErrors();
+        // clearErrors();
 
         // Frontend validation
-        let frontendErrors = false;
-        if (!validatePanNumber(HotelData.panNumber)) {
-            setPanError('Please Check Pan Number');
-            frontendErrors = true;
-        }
-        if (!validateEmail(HotelData.hotelEmail)) {
-            setHotelEmailError('Please check Email');
-            frontendErrors = true;
-        }
-        if (!validateAadharNumber(HotelData.aadharno)) {
-            setAadharNoError('Please check Aadhar Number');
-            frontendErrors = true;
-        }
-        if (!validatePincode(HotelData.hotelPincode)) {
-            setHotelPincodeError('Invalid Pincode');
-            frontendErrors = true;
-        }
+        // let frontendErrors = false;
+        // if (!validatePanNumber(HotelData.panNumber)) {
+        //     setPanError('Please Check Pan Number');
+        //     frontendErrors = true;
+        // }
+        // if (!validateEmail(HotelData.hotelEmail)) {
+        //     setHotelEmailError('Please check Email');
+        //     frontendErrors = true;
+        // }
+        // if (!validateAadharNumber(HotelData.aadharno)) {
+        //     setAadharNoError('Please check Aadhar Number');
+        //     frontendErrors = true;
+        // }
+        // if (!validatePincode(HotelData.hotelPincode)) {
+        //     setHotelPincodeError('Invalid Pincode');
+        //     frontendErrors = true;
+        // }
 
         // If there are frontend errors, stop processing
-        if (frontendErrors) return;
+        // if (frontendErrors) return;
 
       
         axios.post(`${API_ENDPOINTS.API}/signup/owner`, { ...HotelData },{
@@ -77,11 +77,11 @@ const HotelDetails = ({page, setpage, token}) => {
                 setpage(page => page+1);
             } else {
               console.log('api failed')
-              if (result.data && result.data.error) {
-                const errorMessage = result.data.error;
-                const field = errorMessage.split(':')[0]; // Assuming error message format: field:message
-                setError({ ...error, [field]: errorMessage });
-            }
+            //   if (result.data && result.data.error) {
+            //     const errorMessage = result.data.error;
+                // const field = errorMessage.split(':')[0]; // Assuming error message format: field:message
+                // setError({ ...error, [field]: errorMessage });
+            // }
             }
           })
 
@@ -91,25 +91,25 @@ const HotelDetails = ({page, setpage, token}) => {
           .catch(err => console.log(err))
       }
     
-      const handleInputChange = (field, value) => {
-        setHotelData({ ...HotelData, [field]: value });
-        setError({ ...error, [field]: '' }); // Clear error when user edits the field
-    };
+    //   const handleInputChange = (field, value) => {
+    //     setHotelData({ ...HotelData, [field]: value });
+    //     setError({ ...error, [field]: '' }); 
+    // };
 
-    const clearErrors = () => {
-        setPanError('');
-        setHotelEmailError('');
-        setAadharNoError('');
-        setHotelPincodeError('');
-    };
+    // const clearErrors = () => {
+    //     setPanError('');
+    //     setHotelEmailError('');
+    //     setAadharNoError('');
+    //     setHotelPincodeError('');
+    // };
 
-    const validateEmail = email => /\S+@\S+\.\S+/.test(email);
+    // const validateEmail = email => /\S+@\S+\.\S+/.test(email);
     
-    const validatePanNumber = pan =>  /[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(pan);
+    // const validatePanNumber = pan =>  /[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(pan);
 
-    const validateAadharNumber = aadhar =>  /^\d{12}$/.test(aadhar);
+    // const validateAadharNumber = aadhar =>  /^\d{12}$/.test(aadhar);
 
-    const validatePincode = pincode =>  /^\d{6}$/.test(pincode);
+    // const validatePincode = pincode =>  /^\d{6}$/.test(pincode);
 
 
 

@@ -17,7 +17,7 @@ const handleFileUpload = async (event) => {
             
 
             
-            const response = await axios.post('http://192.168.1.5:800/upload', { fileType });
+            const response = await axios.post('http://192.168.1.5:800/signup/docdetail', { fileType });
             console.log(response.data);
         } catch (error) {
             console.error('Error uploading file:', error);

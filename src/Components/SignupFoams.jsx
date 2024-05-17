@@ -7,6 +7,7 @@ import HotelDetailsSecond from './HotelDetailsSecond';
 import OtpPass from './OtpPass';
 
 import { Link } from 'react-router-dom';
+import Login from './Login';
 
 const Signupfoams = () => {
     
@@ -78,7 +79,7 @@ const handleApiResponseFromChild = (token , datas) => {
                     
                 <div id='footer-section'>
                     <div >
-                        <link rel="stylesheet" href="Login" />If you already have an account, <Link>login</Link>
+                      alredy have a account <Link to='/login'>Login</Link>
                     </div>
                     <div id='terms-conditions'>
                         By proceeding i agree to T&C & privacy policy
