@@ -9,7 +9,7 @@ const Login = () => {
 
     const [token, settoken] = useState('')
 
-
+    const [error, seterror] = useState('')
     const [data, setdata] = useState({
         email: '',
         password: ''

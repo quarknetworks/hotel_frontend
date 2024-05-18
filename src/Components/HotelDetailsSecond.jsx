@@ -44,7 +44,7 @@ const apiCall = () => {
     console.log(filesData)
 
     axios
-        .post(`${API_ENDPOINTS.API}/signup/doc`, filesData, {
+        .post(`${API_ENDPOINTS.API}/signup/documentsssss`, filesData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
