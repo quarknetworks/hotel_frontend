@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import axios from 'axios'
 import API_ENDPOINTS from '../confi';
 
-const HotelDetailsSecond = ({totalRoom, settotalRoom, page, setpage}) => {
+const HotelDetailsSecond = ({totalRoom, settotalRoom, page, setpage ,token}) => {
 
   const [formData, setFormData] = useState({
     HotelTotalRooms: '',
@@ -44,8 +44,9 @@ const apiCall = () => {
     console.log(filesData)
 
     axios
-        .post(`${API_ENDPOINTS.API}/signup/doc-detail`, filesData, {
+        .post(`${API_ENDPOINTS.API}/signup/doc`, filesData, {
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': '*',

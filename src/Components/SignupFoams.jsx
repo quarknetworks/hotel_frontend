@@ -55,10 +55,10 @@ const handleApiResponseFromChild = (token , datas) => {
         return <HotelDetails page={page} setpage={setpage} token={news} />
        }
        else if(page === 3) {
-        return <HotelDetailsSecond totalRoom={totalRoom} settotalRoom={settotalRoom} page={page} setpage={setpage}/>
+        return <HotelDetailsSecond totalRoom={totalRoom} settotalRoom={settotalRoom} page={page} setpage={setpage} token={news}/>
        }
        else if(page=== 4) {
-        return <RoomCollection totalRoom={totalRoom} settotalRoom={settotalRoom} page={page} setpage={setpage}/>
+        return <RoomCollection totalRoom={totalRoom} settotalRoom={settotalRoom} page={page} setpage={setpage} token={news}/>
        }
     }
 

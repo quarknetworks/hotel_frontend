@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import API_ENDPOINTS from '../confi.js';
 
 
-const RoomCollection = ({totalRoom, settotalRoom}) => {
+const RoomCollection = ({totalRoom, settotalRoom, token}) => {
 
 
   const style = {
@@ -62,6 +62,7 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
 
     axios.post(`${API_ENDPOINTS.API}/signup/room`, { ...amenity },{
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*', 
@@ -70,6 +71,7 @@ const RoomCollection = ({totalRoom, settotalRoom}) => {
       .then(result => {
         console.log(result)
         if (result.data.success === true) {  
+          setpage(0);
             
         } else {
           console.log('api failed')
