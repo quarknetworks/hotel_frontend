@@ -17,7 +17,7 @@ const handleFileUpload = async (event) => {
             
 
             
-            const response = await axios.post('http://192.168.1.5:800/signup/docdetail', { fileType });
+            const response = await axios.post('http://192.168.1.5:800/signup/doc', { fileType });
             console.log(response.data);
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -44,7 +44,7 @@ const apiCall = () => {
     console.log(filesData)
 
     axios
-        .post(`${API_ENDPOINTS.API}/signup/doc`, filesData, {
+        .post(`${API_ENDPOINTS.API}/signup/documentsssss`, filesData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
