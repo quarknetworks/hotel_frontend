@@ -8,7 +8,7 @@ import API_ENDPOINTS from '../confi.js';
 const Login = () => {
 
     const [token, settoken] = useState('')
-    console.log(token)
+
 
     const [data, setdata] = useState({
         email: '',
