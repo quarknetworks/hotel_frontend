@@ -1,18 +1,37 @@
+
+.Maincontai{
+   width: 73.5vw;
+   height: 100vh;
+   margin-left: 25rem;
+   margin-top: 2rem;
+}
+
 .mainguest-table{
-   display: flex;
-   align-items: center;
+   /* display: flex;
+   align-items: center; */
    /* margin: 5rem 5rem; */
 }
 
-.Guesttable-container h1{
-   
+@media screen and (max-width: 1400px) {
+
+   .Maincontai{
+     margin-left: 15rem;
+   }
+
 }
 
-.light-theme .data-grid-container {
-   background-color: #f0f0f0; /* Change to the desired background color */
+@media screen and (max-width: 1200px) {
+
+   .Maincontai{
+     margin-left: 15rem;
+   }
+
 }
 
-/* Dark theme */
-.dark-theme .data-grid-container {
-   background-color: #333; /* Change to the desired background color */
+@media screen and (max-width: 900px) {
+
+   .Maincontai{
+     margin-left: 8rem;
+   }
+
 }

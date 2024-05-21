@@ -5,9 +5,10 @@ import axios from 'axios'
 import API_ENDPOINTS from '../confi.js';
 
 
-const Login = () => {
+const Login = ({ handlePageChange }) => {
 
     const [token, settoken] = useState('')
+    console.log(token)
 
     const [error, seterror] = useState('')
     const [data, setdata] = useState({
@@ -20,11 +21,9 @@ const Login = () => {
 
     const navigate = useNavigate()
 
-    const loginfun = () => {
+    const loginfun = async () => {
 
-
-
-         axios.post(`${API_ENDPOINTS.API}/signup/login`, { ...data }, {
+      const response = await axios.post(`${API_ENDPOINTS.API}/login`, { ...data }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
@@ -35,7 +34,13 @@ const Login = () => {
             .then(result => {
                 settoken(result.data.token);
                 if (result.data.success === true) {
-                    navigate('/dashbord')
+                    const pageNumber = result.data.checklistPage 
+                    if (pageNumber === 5){
+                        navigate('/dashboard')
+                    }else{
+                    // handlePageChange(pageNumber,token)
+                    navigate('/')
+                    }
                 } else {
                     console.log('api failed')
 
@@ -43,11 +48,7 @@ const Login = () => {
                         setBackendError(result.data.error);
                     }
                 }
-            })
-
-
-
-            
+            }) 
 
             .catch(err => err)
     }

@@ -33,7 +33,7 @@ const OtpPass = ({ page, setpage, token , handleApiRespon}) => {
             return;
         }
 
-        axios.post(`${API_ENDPOINTS.API}/signup/verify`, { ...Otp }, {
+        axios.post(`${API_ENDPOINTS.API}/verify`, { ...Otp }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const OtpPass = ({ page, setpage, token , handleApiRespon}) => {
                         <p className="error">{passwordError}</p>
                     </div>
                     <div className="form-groups">
-                        <button type="submit" onClick={apiCall}>Sign Up</button>
+                        <button type="submit" onClick={apiCall}>Next</button>
                     </div>
 
 

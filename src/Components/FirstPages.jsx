@@ -13,7 +13,6 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
     const [backendError, setBackendError] = useState('');
    
    
-
     const [verification, setverification] = useState({
         name: "",
         email: "",
@@ -56,15 +55,14 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
-          },
-          
+          },  
         })
           .then(result => {
             handleApiResponse(result.data.token,);
-         
+         console.log(result)
 
-            if (result.data.success === true) {  
-                setpage(page => page+1);
+            if (result.data.success === true) { 
+                setpage(prevPage => prevPage + 1);
             } else {
               console.log('api failed')
            
