@@ -19,15 +19,15 @@ const Roomsdash = () => {
         { id: 7, RoomNo: '107', Available: true },
     ]);
 
-    
+
     useEffect(() => {
         fetchRooms();
     }, []);
 
-   
+
     const fetchRooms = async () => {
         try {
-            const response = await axios.get('http://192.168.1.3:800/roomstatus',{
+            const response = await axios.get('http://192.168.1.3:800/roomstatus', {
                 headers: {
                     'ngrok-skip-browser-warning': '69420',
                     'Access-Control-Allow-Origin': '*',
@@ -52,37 +52,37 @@ const Roomsdash = () => {
     console.log(rooms)
 
     // Function to toggle room availability and update backend via PUT API
-  async function handleToggleStatus(roomNumber, currentAvailability) {
-    const Available = !currentAvailability; 
-    try {
+    async function handleToggleStatus(roomNumber, currentAvailability) {
+        const Available = !currentAvailability;
+        try {
 
-      const response = await axios.put(`http://192.168.1.3:800/roomstatus/update/${roomNumber}`, {
-         Available
-      });
-      if (response.status === 200) {
-       
-        fetchRooms();
-      } else {
-        console.error('Error updating room availability');
-      }
-    } catch (error) {
-      console.error('Error updating room availability:', error);
+            const response = await axios.put(`http://192.168.1.3:800/roomstatus/update/${roomNumber}`, {
+                Available
+            });
+            if (response.status === 200) {
+
+                fetchRooms();
+            } else {
+                console.error('Error updating room availability');
+            }
+        } catch (error) {
+            console.error('Error updating room availability:', error);
+        }
     }
-  }
 
-// const handleToggleStatus = (roomId, currentAvailability) => {
-//     const roomIndex = rooms.findIndex(room => room.id === roomId);
+    // const handleToggleStatus = (roomId, currentAvailability) => {
+    //     const roomIndex = rooms.findIndex(room => room.id === roomId);
 
-//     if (roomIndex !== -1) {
-//         const updatedRooms = [...rooms];
-//         updatedRooms[roomIndex].Available = !currentAvailability ? true : false;
-//         setRooms(updatedRooms);
-//     } else {
-//         console.error('Room not found');
-//     }
-// };
+    //     if (roomIndex !== -1) {
+    //         const updatedRooms = [...rooms];
+    //         updatedRooms[roomIndex].Available = !currentAvailability ? true : false;
+    //         setRooms(updatedRooms);
+    //     } else {
+    //         console.error('Room not found');
+    //     }
+    // };
 
- 
+
 
     return (
         <div className={`themed-component ${theme}`} id='RoomsdahContainer'>
@@ -91,9 +91,8 @@ const Roomsdash = () => {
             <div className='Roommaincontainer'>
                 <div className='Roomupparfiled'>
                     <div className='Roomleftside'>
-                        {/* <button onClick={fetchRooms}>Refresh Rooms</button> */}
-                        <h1 style={{marginLeft : '2.2rem'}} >Rooms Details</h1>
-                        <p style={{marginLeft : '2.2rem'}} >{currentDate}</p>
+                        <h1  >Rooms Details</h1>
+                        <p>{currentDate}</p>
                     </div>
                     <div className='Roomrightside'>
                         <div>

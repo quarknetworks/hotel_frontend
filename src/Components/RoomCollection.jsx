@@ -2,12 +2,11 @@ import React, { useState } from 'react'
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import API_ENDPOINTS from '../confi.js';
 
 
-const RoomCollection = ({totalRoom, settotalRoom, token}) => {
-
+const RoomCollection = ({totalRoom, settotalRoom, token,setpage}) => {
 
   const style = {
     marginTop: '40px',
@@ -18,20 +17,29 @@ const RoomCollection = ({totalRoom, settotalRoom, token}) => {
 };
 
 
+const navigat = useNavigate()
+
   const Room = parseInt(totalRoom.TotalRooms, 10);
   const myarray = Array.from({ length: Room }, (_, index) => index + 1);
 
 
   const options = [
-    { value: 'Standard', label: 'Standard' },
+    { value: 'Standard', label: 'Standard'  },
     { value: 'Economy', label: 'Economy' },
-    { value: 'Delux', label: 'Delux' }
+    { value: 'Excutive', label: 'Excutive' },
+    { value: 'Double', label: 'Double' },
+    { value: 'Suite', label: 'Suite' },
+    { value: 'Villa', label: 'Villa' },
   ];
   const Amenity = [
     { value: 'A/C', label: 'A/C' },
     { value: 'Non A/C', label: 'Non A/C' },
     { value: 'Wifi', label: 'Wifi' },
     { value: 'parking', label: 'parking' },
+    { value: 'Pool', label: 'Pool' },
+    { value: 'Jacuzi', label: 'Jacuzi' },
+    { value: 'Balcony', label: 'Balcony' },
+    { value: 'Moutain View', label: 'Mountain view' },
   ];
   const Multidropdown = makeAnimated();
 
@@ -46,6 +54,11 @@ const RoomCollection = ({totalRoom, settotalRoom, token}) => {
 });
 
 
+const [roomtoken, setroomtoken] = useState('')
+
+console.log(roomtoken)
+
+
 
   const handleRoomChange = (index, field, value) => {
     setAmenity(prevState => {
@@ -58,9 +71,13 @@ const RoomCollection = ({totalRoom, settotalRoom, token}) => {
     });
 };
 
-  const apiCall = () => {
+const checlistHotelApi =() =>{
+  axios.post('http://localhost:8080/hotelonboard'),{ ...roomtoken }
+}
 
-    axios.post(`${API_ENDPOINTS.API}/signup/room`, { ...amenity },{
+  const apiCall = async () => {
+
+   await axios.post(`${API_ENDPOINTS.API}/room`, { ...amenity },{
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -69,17 +86,27 @@ const RoomCollection = ({totalRoom, settotalRoom, token}) => {
       },
     })
       .then(result => {
-        console.log(result)
-        if (result.data.success === true) {  
-          setpage(0);
+        
+        if (result.data.success == true) { 
+          setroomtoken(result.data.newToken)
+         return
+          // checlistHotelApi();
             
         } else {
           console.log('api failed')
+          return Promise.reject('API call failed')
         }
+      })
+      .then(()=>{
+
+        alert("Signup Added Succesfully")
+
+        setpage(0) 
       })
 
       .catch(err => console.log(err))
   }
+
 
 
   return (
@@ -130,7 +157,7 @@ const RoomCollection = ({totalRoom, settotalRoom, token}) => {
       </div>
 
       <div className="form-groups">
-                        <button type="submit" onClick={apiCall} >Sign Up</button>
+                        <button type="submit" onClick={apiCall} >Submit</button>
                     </div>
     </div>
   )

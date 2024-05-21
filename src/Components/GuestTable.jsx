@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../styles/GuestTable.css"
 import Navbar from './Navbar';
 import { useTheme } from './ThemeContext';
@@ -66,25 +66,25 @@ const columns = [
     },
     {
         field: 'email',
-        headerName: 'email',     
+        headerName: 'email',
         width: 150,
         editable: true,
     },
     {
         field: 'Room Number',
-        headerName: 'Room Number',     
+        headerName: 'Room Number',
         width: 150,
         editable: true,
     },
     {
         field: 'phone',
-        headerName: 'Phone Number',   
+        headerName: 'Phone Number',
         width: 200,
         editable: true,
     },
     {
         field: 'Aadhar',
-        headerName: 'Aadhar No',     
+        headerName: 'Aadhar No',
         sortable: false,
         width: 160,
 
@@ -105,7 +105,7 @@ const GuestTable = () => {
 
 
     // const [rows, setrows] = useState([]);
-    
+
 
     // useEffect(() => {
     //     const fetchGuests = async () => {
@@ -116,16 +116,16 @@ const GuestTable = () => {
     //                     'Access-Control-Allow-Origin': '*',
     //                     'Access-Control-Allow-Headers': '*',
     //                 },
-                    
+
     //             });
     //             const guestArray = Object.values(response.data).map((guest, index) =>({
     //                 ...guest,
     //                 id: index + 1,
     //             }));
-            
+
     //             setrows(guestArray);
-                   
-               
+
+
     //         } catch (error) {
     //             console.error("Error fetching guest data:", error);
     //         }
@@ -134,7 +134,7 @@ const GuestTable = () => {
 
     //     fetchGuests();
     // }, []);
-    
+
 
     const { theme } = useTheme();
 
@@ -143,31 +143,31 @@ const GuestTable = () => {
         <div id='guesttable' className={`themed-component ${theme}`} >
 
             <Navbar />
-            <div>
+            <div className='Maincontai'>
                 <div className='mainguest-table' >
-                    <h1 style={{ marginLeft: "24.5rem", paddingTop: "2rem" }}>Guest Details</h1>
+                    <h1>Guest Details</h1>
                 </div >
-                <div style={{ height: "100vh", width: '100vw' }} className={`themed-component ${theme}`} >
-                    
-                <div style={style} className={`themed-component ${theme}`} > 
-                          
-                 <DataGrid className={`themed-component ${theme}`} 
+                <div className={`themed-component ${theme}`} >
+
+                    <div style={style} className={`themed-component ${theme}`} >
+
+                        <DataGrid className={`themed-component ${theme}`}
                             rows={rows}
-                            columns={columns} 
+                            columns={columns}
                             pageSize={10}
                             initialState={{
                                 pagination: {
-                                  paginationModel: {
-                                    pageSize: 10,
-                                  },
+                                    paginationModel: {
+                                        pageSize: 10,
+                                    },
                                 },
-                              }}
-                              pageSizeOptions={[10]}
-                              checkboxSelection
-                              disableRowSelectionOnClick
-                              disableSelectionOnClick 
+                            }}
+                            pageSizeOptions={[10]}
+                            checkboxSelection
+                            disableRowSelectionOnClick
+                            disableSelectionOnClick
                         />
-                  
+
                     </div>
                 </div>
 

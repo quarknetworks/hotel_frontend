@@ -6,20 +6,30 @@
   
 }
 
+.Roommaincontainer{
+  margin-top: 2rem;
+  width: 70vw;
+  height: auto;
+  /* display: flex */
+  margin-left: 20rem;
+  
+}
+
 .Roomupparfiled{
- display: flex;
+  display: flex; 
  justify-content: space-between;
  align-items: center;
 }
 
 .Roomrightside{
-  margin-top: 2rem;
-  margin-right: 5rem;
+ 
+  /* margin-top: 2rem;
+  margin-right: 5rem; */
 }
 
 .Roomleftside{
-  margin-top: 1.5rem;
-  margin-left: 21.5rem;
+  /* margin-top: 1.5rem;
+  margin-left: 21.5rem; */
 }
 
 .maindiv{
@@ -30,9 +40,9 @@ height: 70vh;
 border: 1px solid #dddddd;
 padding: 1rem 1rem;
 margin-top: 1.5rem;
-/* background-color: #000435; */
-float: right;
-margin-right: 5rem;
+
+/* float: right; */
+/* margin-right: 5rem;  */
 }
 
 
@@ -180,18 +190,30 @@ height: 10px;
 border-radius: 50%;
 }
 
+@media screen and (max-width: 1062px) {
 
+  .Roommaincontainer{
+    margin-left: 10rem;
+  }
+  .card {
+    width: calc(50% - 20px); 
+  }
+}
 
 @media screen and (max-width: 768px) {
+
+  .Roommaincontainer{
+    margin-left: 6rem;
+  }
   .card {
-    width: calc(50% - 20px); /* Adjust width to occupy 1/2 of the container */
+    width: calc(50% - 20px); 
   }
 }
 
 /* Adjust width and margins for even smaller screens */
 @media screen and (max-width: 480px) {
   .card {
-    width: calc(100% - 20px); /* Adjust width to occupy full width of the container */
+    width: calc(100% - 20px); 
   }
 }
 

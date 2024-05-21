@@ -132,7 +132,7 @@ const HotelGuestForm = () => {
       <Navbar />
       <div id='form-container' className={`themed-component ${theme}`}>
         <div className='form-seconfcontainer'>
-          <h2 >Hotel Guest Form</h2>
+          <h1 >Hotel Guest Form</h1>
           <div className='form-group'>
             <form onSubmit={handleSubmit}>
               <div className='input-div'>

@@ -1,9 +1,11 @@
-#main-container{
+#main-container {
     height: 100vh;
     width: 100vw;
     background-image: url(../Assets/maldives-island.jpg);
+    /* background-size: 100% 100%; */
     background-size: cover;
     background-repeat: no-repeat;
+    
 }
 
 .signup-form-containers {
@@ -15,10 +17,10 @@
     width: 45rem;
     height: auto;
     margin-right: 2rem;
-    background-color: #f2f2f2;  
+    background-color: #f2f2f2;
 }
 
-.foam-heading{
+.foam-heading {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,19 +29,19 @@
     /* font-family: "Noto Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 800; */
-  size: large;
+    size: large;
 }
 
-.signup-form-containers h2{
-    margin-top: 1rem ;
+.signup-form-containers h2 {
+    margin-top: 1rem;
     font-family: "Nunito", sans-serif;
     font-weight: 700;
     /* width: 500px; */
     /* font-family: "Baloo 2", sans-serif; */
-    
+
 }
 
-.signup-form-containers h3{
+.signup-form-containers h3 {
     /* text-decoration: underline; */
     font-size: larger;
     /* font-family: "Baloo 2", sans-serif; */
@@ -48,7 +50,7 @@
 }
 
 .form-groups {
-    margin-bottom: 10px;  
+    margin-bottom: 10px;
 }
 
 /* .row{
@@ -58,27 +60,27 @@
 } */
 
 
-.row-gap{
-display: flex;
-flex-direction: column;
-gap: 15px;
+.row-gap {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
- label {
+label {
     display: block;
     margin-bottom: 5px;
     /* font-size: small; */
     font-weight: 700;
     /* font-family: "Poppins", sans-serif; */
- 
-  /* font-style: normal; */
-   
-   
+
+    /* font-style: normal; */
+
+
 }
 
-.error{
-color: red;
-font-size: 14px;
+.error {
+    color: red;
+    font-size: 14px;
 }
 
 .form-groups input[type="text"],
@@ -115,7 +117,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-#footer-section{
+#footer-section {
     display: flex;
     margin-top: 2rem;
     gap: 1rem;
@@ -124,8 +126,16 @@ button:hover {
     justify-content: center;
 }
 
-/* Responsive styles */
+/* Respo\\nsive styles */
 @media (max-width: 768px) {
+
+/* #main-container{
+    background-size: cover;
+} */
+
+    .signup-form-containers{
+        margin-right: 0;
+    }
     .signup-form-container {
         float: none;
         margin: auto;

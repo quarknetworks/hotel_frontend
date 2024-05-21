@@ -10,20 +10,21 @@ const HotelDetailsSecond = ({totalRoom, settotalRoom, page, setpage ,token}) => 
 
 const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-    const fileType = getFileType(file);
+    // const fileType = getFileType(file);
 
     if (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf') {
-        try {
-            
-
-            
-            const response = await axios.post('http://192.168.1.5:800/signup/doc', { fileType });
+        try {    
+            const response = await axios.post('http://192.168.1.5:800/upload', { fileType},{
+                headers:{
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
             console.log(response.data);
         } catch (error) {
             console.error('Error uploading file:', error);
         }
     } else {
-        alert('Please upload a file of type JPG, PNG, or PDF.');
+        // alert('Please upload a file of type JPG, PNG, or PDF.');
     }
 };
 
@@ -35,16 +36,15 @@ const getFileType = (file) => {
 
 const apiCall = () => {
     const filesData = {
-        aadharFileType: 'fileTypeA', // You need to replace 'fileTypeA' with the actual file type for Aadhaar card
-        panPhotoFileType: 'fileTypeB', // You need to replace 'fileTypeB' with the actual file type for PAN card
-        gstCertificateFileType: 'fileTypeC', // You need to replace 'fileTypeC' with the actual file type for GST certificate
-        businessPanFileType: 'fileTypeD', // You need to replace 'fileTypeD' with the actual file type for business PAN
+        aadharFileType: 'fileTypeA',
+        panPhotoFileType: 'fileTypeB', 
+        gstCertificateFileType: 'fileTypeC',
+        businessPanFileType: 'fileTypeD', 
         HotelTotalRooms: formData.HotelTotalRooms,
     };
     console.log(filesData)
 
-    axios
-        .post(`${API_ENDPOINTS.API}/signup/documentsssss`, filesData, {
+    axios.post(`${API_ENDPOINTS.API}/doc`, filesData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -68,6 +68,8 @@ const apiCall = () => {
          <div className='Foam-groups form-groups'>
                 <div className='uplaodDocuments' style={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                     <div className='row'>
+
+
                         {/* <label>Hotel Landmark</label>
                         <input type="text" id="pan" name="pan"
                          onChange={(event) =>
@@ -102,7 +104,7 @@ const apiCall = () => {
                     </div>
                     <div className='row' style={{marginTop: '10px'}}>
                         <label>Hotel Total Rooms</label>
-                        <input type="number" id="" name="" 
+                        <input type="text" id="" name="" 
                         
                         value={formData.totalroom} onChange={(event) => {
                             const value = event.target.value;
@@ -115,7 +117,7 @@ const apiCall = () => {
                     </div>
                 </div>
                 <div className="form-groups">
-                        <button type="submit" onClick={apiCall} >Sign Up</button>
+                        <button type="submit" onClick={apiCall} >Next</button>
                     </div>
             </div> 
     </div>

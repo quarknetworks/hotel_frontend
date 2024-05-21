@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React,{useState} from 'react';
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom"
 import Foam from './Components/Foam';
 import MainDashbord from './Components/MainDashbord';
@@ -14,7 +14,15 @@ import Login from './Components/Login';
 
 function App() {
 
-  
+  const [page, setpage] = useState(0);
+  const [token,settoken]= useState('')
+
+
+  const handlePageChange = (pageNumber,token) => {
+    setpage(pageNumber);
+    settoken(token)
+  };
+
   return (
 
     <div className="App">
@@ -22,9 +30,9 @@ function App() {
     <Router>
     <ThemeProvider>
       <Routes>
-      <Route path="/" element={<SignupFoams/>}/>
-      <Route path="/dashbord" element={<MainDashbord />}/>
-      <Route path="/login" element={<Login />}/>
+      <Route path="/" element={<SignupFoams  page={page} setpage={setpage} tokens={token} />}/>
+      <Route path="/dashboard" element={<MainDashbord />}/>
+      <Route path="/login" element={<Login  handlePageChange={handlePageChange}/>}/>
       <Route path="/roomsdashboard" element={<Roomsdash />}/>
       <Route path="/guestfoam" element={<HotelGuestForm/>}/>
       <Route path="/guestTable" element={<GuestTable/>}/>
