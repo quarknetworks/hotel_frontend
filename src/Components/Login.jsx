@@ -40,7 +40,7 @@ const Login = ({ handlePageChange, handletoken }) => {
                     if (pageNumber === 5){
                         navigate('/dashboard')
                     }else{
-                    // handlePageChange(pageNumber)
+                    handlePageChange(pageNumber)
                     handletoken(tokenss)
                     navigate('/')
                     }
