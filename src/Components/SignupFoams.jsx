@@ -9,23 +9,14 @@ import OtpPass from './OtpPass';
 import { Link } from 'react-router-dom';
 
 
-const Signupfoams = ({ page, setpage, tokens }) => {
+const Signupfoams = ({ page, setpage, toke }) => {
 
-    // const [page, setpage] = useState(0);
-    // const [verification, setverification] = useState({
-    //     name: "",
-    //     email: "",
-    //     hotelName: "",
-    //     Mobilenumber: ""
-    // });
-console.log(tokens)
+ 
     const [news, setnews] = useState('')
-    // console.log(news)
+ 
     useEffect(() => {
-        setnews(tokens);
-    }, []);
-
-    console.log(news)
+        setnews(toke);
+    }, [toke]);
 
     const [totalRoom, settotalRoom] = useState({
         TotalRooms: ''
@@ -43,6 +34,7 @@ console.log(tokens)
         setnews(datas)
     };
 
+    console.log(news)
 
 
 

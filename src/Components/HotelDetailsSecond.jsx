@@ -8,17 +8,27 @@ const HotelDetailsSecond = ({totalRoom, settotalRoom, page, setpage ,token}) => 
     HotelTotalRooms: '',
 });
 
-const handleFileUpload = async (event) => {
+const handleFileUpload = async (event, fileNameKey) => {
     const file = event.target.files[0];
-    // const fileType = getFileType(file);
+    const fileType = getFileType(file);
+    console.log(typeof(fileType))
+    console.log(typeof(fileNameKey))
 
-    if (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf') {
-        try {    
-            const response = await axios.post('http://192.168.1.5:800/upload', { fileType},{
+    if (file && (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf' || fileType === 'jpeg')) {
+        try { 
+            console.log("Sending data to server: ", {
+                fileType,
+                fileName: fileNameKey,
+              });
+         
+            const response = await axios.post('http://192.168.1.4:8080/upload/Url', {fileType, fileName: fileNameKey
+            },{
                 headers:{
+                    'Content-Type': 'application/json',
                     'Content-Type': 'multipart/form-data',
                 }
             });
+            
             console.log(response.data);
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -69,8 +79,6 @@ const apiCall = () => {
          <div className='Foam-groups form-groups'>
                 <div className='uplaodDocuments' style={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                     <div className='row'>
-
-
                         {/* <label>Hotel Landmark</label>
                         <input type="text" id="pan" name="pan"
                          onChange={(event) =>
@@ -80,27 +88,27 @@ const apiCall = () => {
                     <div className='row'>
                         <label>Upload Owner Aadhaar card</label>
                         <input type="file" id="aadhar" name="aadhar" 
-                        onChange={handleFileUpload}
+                        onChange={(e)=> handleFileUpload(e, 'aadhar')}
                             />
                     </div>
                     <div className='row'>
                         <label>Upload Owner Pan card</label>
                         <input type="file" id="pan-photo" name="pan-photo"
-                       onChange={handleFileUpload}
+                      onChange={(e)=> handleFileUpload(e, 'panPhoto')}
                              />
                     </div>
 
                     <div className='row'>
                         <label>Upload Hotel Gst Certificate</label>
-                        <input type="file" id="pan-photo" name="pan-photo"
-                        onChange={handleFileUpload}
+                        <input type="file" id="gst" name="gst"
+                        onChange={(e)=> handleFileUpload(e, 'Gst')}
                              />
                     </div>
                     <div style={{display: 'flex'}}>
                     <div className='row' style={{marginTop: '10px'}}>
                         <label>Upload Hotel Business Pan</label>
-                        <input type="file" id="pan-photo" name="pan-photo" 
-                        onChange={handleFileUpload}
+                        <input type="file" id="bussines-pan" name="bussines-pan" 
+                        onChange={(e)=> handleFileUpload(e, 'bussiness_pan')}
                             />
                     </div>
                     <div className='row' style={{marginTop: '10px'}}>
