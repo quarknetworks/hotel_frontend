@@ -5,10 +5,10 @@ import axios from 'axios'
 import API_ENDPOINTS from '../confi.js';
 
 
-const Login = ({ handlePageChange }) => {
+const Login = ({ handlePageChange, handletoken }) => {
 
-    const [token, settoken] = useState('')
-    console.log(token)
+    const [tokens, settokens] = useState('')
+    console.log(tokens)
 
     const [error, seterror] = useState('')
     const [data, setdata] = useState({
@@ -32,13 +32,16 @@ const Login = ({ handlePageChange }) => {
 
         })
             .then(result => {
-                settoken(result.data.token);
+                settokens(result.data.token);
+                console.log(result)
                 if (result.data.success === true) {
-                    const pageNumber = result.data.checklistPage 
+                    const tokenss = result.data.token
+                    const pageNumber = result.data.checklistPage
                     if (pageNumber === 5){
                         navigate('/dashboard')
                     }else{
-                    // handlePageChange(pageNumber,token)
+                    // handlePageChange(pageNumber)
+                    handletoken(tokenss)
                     navigate('/')
                     }
                 } else {

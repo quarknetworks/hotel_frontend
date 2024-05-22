@@ -11,6 +11,8 @@ const HotelDetails = ({ page, setpage, token }) => {
     const [hotelPincodeError, setHotelPincodeError] = useState('');
     // const [error, setError] = useState('');
 
+    console.log("your login token ",token)
+
     const [HotelData, setHotelData] = useState({
         panNumber: '',
         aadharNo: '',
