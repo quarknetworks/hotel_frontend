@@ -6,30 +6,46 @@ const HotelDetailsSecond = ({totalRoom, settotalRoom, page, setpage ,token}) => 
 
   const [formData, setFormData] = useState({
     HotelTotalRooms: '',
+    aadharUrl: '',
+    panPhotoUrl: '',
+    gstCertificateUrl: '',
+    businessPanUrl: ''
 });
+
+
 
 const handleFileUpload = async (event, fileNameKey) => {
     const file = event.target.files[0];
     const fileType = getFileType(file);
-    console.log(typeof(fileType))
-    console.log(typeof(fileNameKey))
 
     if (file && (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf' || fileType === 'jpeg')) {
         try { 
-            console.log("Sending data to server: ", {
-                fileType,
-                fileName: fileNameKey,
-              });
          
-            const response = await axios.post('http://192.168.1.4:8080/upload/Url', {fileType, fileName: fileNameKey
-            },{
+            const response = await axios.post('http://192.168.1.4:8080/upload/Url',{fileType,fileName: fileNameKey },{
                 headers:{
                     'Content-Type': 'application/json',
-                    'Content-Type': 'multipart/form-data',
                 }
             });
             
-            console.log(response.data);
+            const uploadUrl = response.data[0].upload_url; 
+            const fileUrl = response.data[0].document_url;
+            
+            await axios.put(uploadUrl, formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                //   'Content-Type': file.type
+                }
+              });
+      
+              // Update the formData state with the uploaded file's URL
+              setFormData(prevState => ({
+                ...prevState,
+                [`${fileNameKey}Url`]: fileUrl
+              }));
+            
+            console.log(uploadUrl);
+            console.log(fileUrl);
+
         } catch (error) {
             console.error('Error uploading file:', error);
         }
@@ -46,12 +62,13 @@ const getFileType = (file) => {
 
 const apiCall = () => {
     const filesData = {
-        aadharFileType: 'fileTypeA',
-        panPhotoFileType: 'fileTypeB', 
-        gstCertificateFileType: 'fileTypeC',
-        businessPanFileType: 'fileTypeD', 
+        aadharUrl: formData.aadharUrl,
+        panPhotoUrl: formData.panPhotoUrl,
+        gstCertificateUrl: formData.gstCertificateUrl,
+        businessPanUrl: formData.businessPanUrl,
         HotelTotalRooms: formData.HotelTotalRooms,
-    };
+      };
+
     console.log(filesData)
 
     axios.post(`${API_ENDPOINTS.API}/doc`, filesData, {
@@ -99,15 +116,15 @@ const apiCall = () => {
 
                     <div className='row'>
                         <label>Upload Hotel Gst Certificate</label>
-                        <input type="file" id="gst" name="gst"
-                        onChange={(e)=> handleFileUpload(e, 'Gst')}
+                        <input type="file" id="gstCertificate" name="gstCertificate"
+                        onChange={(e)=> handleFileUpload(e, 'gstCertificate')}
                              />
                     </div>
                     <div style={{display: 'flex'}}>
                     <div className='row' style={{marginTop: '10px'}}>
                         <label>Upload Hotel Business Pan</label>
-                        <input type="file" id="bussines-pan" name="bussines-pan" 
-                        onChange={(e)=> handleFileUpload(e, 'bussiness_pan')}
+                        <input type="file" id="businessPan" name="businessPan" 
+                        onChange={(e)=> handleFileUpload(e, 'businessPan')}
                             />
                     </div>
                     <div className='row' style={{marginTop: '10px'}}>
