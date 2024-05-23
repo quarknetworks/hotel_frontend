@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../styles/MainDashbord.css"
 import Navbar from './Navbar';
 import Slidemenu from './Slidemenu';
-
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import Chart from 'react-apexcharts';
@@ -15,11 +15,13 @@ import { useTheme } from './ThemeContext';
 
 // import img6 from "../Assets/humburgericon.png"
 
-const MainDashbord = () => {
+const MainDashbord = ({token}) => {
 
   // Sample data for charts
   // const checkinData = [30, 40, 45, 50];
   // const checkoutData = [20, 25, 30, 35];
+  const [data, setData] = useState(null);
+  console.log(data)
   const availableRoomsData = [80, 70, 60, 50];
   const bookedRoomsTodayData = [10, 15, 20, 25];
   const reservationData = {
@@ -53,9 +55,37 @@ const MainDashbord = () => {
     setIsMenuOpen(false);
   };
 
-  const darkmode = () => {
 
-  }
+
+  console.log(token)
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://192.168.1.4:8080/dash',{
+          headers:{
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+        });
+        setData(response);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    // Cleanup function to cancel any ongoing requests or subscriptions
+    return () => {
+      // Cancel any pending requests if the component unmounts before the response is received
+      // This is important to avoid memory leaks and potential bugs
+      // For axios, you can cancel requests using CancelToken
+    };
+  }, []);
+
+  // console.log(data)
 
 
   return (

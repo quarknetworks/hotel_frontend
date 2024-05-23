@@ -7,54 +7,65 @@ import API_ENDPOINTS from '../confi.js';
 
 const Login = ({ handlePageChange, handletoken }) => {
 
+
+
     const [tokens, settokens] = useState('')
     console.log(tokens)
 
-    const [error, seterror] = useState('')
+
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [data, setdata] = useState({
         email: '',
         password: ''
     });
 
-    console.log(data)
+    // console.log(data)
 
 
     const navigate = useNavigate()
 
     const loginfun = async () => {
+        try {
+            const response = await axios.post(`${API_ENDPOINTS.API}/login`, { ...data }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': '*',
+                },
+            });
 
-      const response = await axios.post(`${API_ENDPOINTS.API}/login`, { ...data }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': '*',
-            },
+            console.log(response)
+            const tokenss = response.data.token; // Correct variable name
+            const pages = response.data.checklistPage
 
-        })
-            .then(result => {
-                settokens(result.data.token);
-                console.log(result)
-                if (result.data.success === true) {
-                    const tokenss = result.data.token
-                    const pageNumber = result.data.checklistPage
-                    if (pageNumber === 5){
-                        navigate('/dashboard')
-                    }else{
-                    // handlePageChange(pageNumber)
+            console.log(pages)
+            console.log(tokenss)
+            if (response.data.success === true) {
+                if (pages === 5) { // Corrected conditional check
                     handletoken(tokenss)
-                    navigate('/')
-                    }
+                    navigate('/dashboard');
                 } else {
-                    console.log('api failed')
-
-                    if (result.data.error) {
-                        setBackendError(result.data.error);
-                    }
+                    handlePageChange(pages);
+                    handletoken(tokenss)
+                    navigate('/');
                 }
-            }) 
+            } else {
+                if (response.data.message === 'Invalid email') {
+                    setEmailError('Please Enter Valid email');
+                } else if (response.data.message === 'Invalid password') {
+                    setPasswordError('Please Enter Valid password');
+                }
+                
 
-            .catch(err => err)
-    }
+
+            }
+
+        } catch (error) {
+            console.error('Error during login:', error);
+            // Handle error state if needed
+        }
+    };
 
 
 
@@ -65,7 +76,7 @@ const Login = ({ handlePageChange, handletoken }) => {
                 <div className='loginmaindiv'>
                     <div className='login-headers'>
                         <h1>Login</h1>
-                        <h2>Please fill your details as Per Ask</h2>
+                        <h2>Please fill your Details</h2>
                     </div>
                     <div className="form-groups">
                         <label htmlFor="email">Enter your Email Address</label>
@@ -73,7 +84,7 @@ const Login = ({ handlePageChange, handletoken }) => {
                             onChange={(event) =>
                                 setdata({ ...data, email: event.target.value })}
                         />
-
+                        {emailError && <p className="error">{emailError}</p>}
                     </div>
 
                     <div className="form-groups">
@@ -82,7 +93,7 @@ const Login = ({ handlePageChange, handletoken }) => {
                             onChange={(event) =>
                                 setdata({ ...data, password: event.target.value })}
                         />
-
+                        {passwordError && <p className="error">{passwordError}</p>}
                     </div>
 
                     <div className="form-groups">

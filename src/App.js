@@ -18,15 +18,18 @@ function App() {
   const [token,settoken]= useState('')
 
 
-  const handlePageChange = (pageNumber, tokens) => {
+  const handlePageChange = (pageNumber) => {
     setpage(pageNumber);
    
   };
+  // console.log(page)
 
   const handletoken= (tokens) =>{
     settoken(tokens)
   }
+
  console.log(token)
+
   return (
 
     <div className="App">
@@ -35,9 +38,9 @@ function App() {
     <ThemeProvider>
       <Routes>
       <Route path="/" element={<SignupFoams  page={page} setpage={setpage} toke={token} />}/>
-      <Route path="/dashboard" element={<MainDashbord />}/>
+      <Route path="/dashboard" element={<MainDashbord  token={token}/>}/>
       <Route path="/login" element={<Login  handlePageChange={handlePageChange}  handletoken={handletoken}  />}/>
-      <Route path="/roomsdashboard" element={<Roomsdash />}/>
+      <Route path="/roomsdashboard" element={<Roomsdash  />}/>
       <Route path="/guestfoam" element={<HotelGuestForm/>}/>
       <Route path="/guestTable" element={<GuestTable/>}/>
         
