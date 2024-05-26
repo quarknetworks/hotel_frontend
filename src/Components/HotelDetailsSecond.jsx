@@ -29,7 +29,7 @@ const HotelDetailsSecond = ({ totalRoom, settotalRoom, page, setpage, token }) =
         if (file && (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf' || fileType === 'jpeg')) {
             try {
 
-                const response = await axios.post('http://192.168.1.4:8080/upload/Url', { fileType, fileName: fileNameKey }, {
+                const response = await axios.post(`${API_ENDPOINTS.API}/upload/Url`, { fileType, fileName: fileNameKey }, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
