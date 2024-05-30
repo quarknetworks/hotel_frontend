@@ -1,5 +1,5 @@
 import './App.css';
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom"
 import Foam from './Components/Foam';
 import MainDashbord from './Components/MainDashbord';
@@ -9,6 +9,7 @@ import HotelGuestForm from './Components/HotelGuestForm';
 import GuestTable from './Components/GuestTable';
 import SignupFoams from './Components/SignupFoams';
 import Login from './Components/Login';
+import ThankYouPage from './Components/ThankYouPage';
 
 
 
@@ -22,13 +23,22 @@ function App() {
     setpage(pageNumber);
    
   };
+
+  
+  useEffect(() => {
+    const savedToken = localStorage.getItem('token');
+    if (savedToken) {
+        settoken(savedToken);
+    }
+}, []);
   // console.log(page)
 
   const handletoken= (tokens) =>{
     settoken(tokens)
+    localStorage.setItem('token', tokens);
   }
 
- console.log(token)
+//  console.log(token)
 
   return (
 
@@ -40,9 +50,10 @@ function App() {
       <Route path="/" element={<SignupFoams  page={page} setpage={setpage} toke={token} />}/>
       <Route path="/dashboard" element={<MainDashbord  token={token}/>}/>
       <Route path="/login" element={<Login  handlePageChange={handlePageChange}  handletoken={handletoken}  />}/>
-      <Route path="/roomsdashboard" element={<Roomsdash  />}/>
-      <Route path="/guestfoam" element={<HotelGuestForm/>}/>
-      <Route path="/guestTable" element={<GuestTable/>}/>
+      <Route path="/roomsdashboard" element={<Roomsdash token={token}  />}/>
+      <Route path="/guestfoam" element={<HotelGuestForm token={token}/>}/>
+      <Route path="/guestTable" element={<GuestTable token={token}/>}/>
+      <Route path="/thankyoupage" element={<ThankYouPage/>}/>
         
    </Routes>
    </ThemeProvider>

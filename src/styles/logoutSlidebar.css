@@ -1,0 +1,28 @@
+/* src/styles/Sidebar.css */
+.sidebar {
+    position: fixed;
+    /* right: -250px; */
+    top: 5rem;
+    width: 250px;
+    height: 100%;
+    background-color: #bd1f1f;
+    /* box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); */
+    /* transition: right 0.3s ease; */
+  }
+  
+  .sidebar.open {
+    /* right: 0; */
+  }
+  
+  .sidebar-content {
+    padding: 20px;
+  }
+  
+  .sidebar-content button {
+    /* background: none;
+    border: none; */
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  

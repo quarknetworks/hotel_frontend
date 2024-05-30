@@ -3,25 +3,42 @@ import "../styles/HotelGuestForm.css"
 import Navbar from './Navbar';
 import { useTheme } from './ThemeContext';
 import axios from 'axios';
+import API_ENDPOINTS from '../confi.js';
 
 
 const HotelGuestForm = () => {
 
   const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showNewForm, setShowNewForm] = useState(false);
+  const [selectedNumber, setSelectedNumber] = useState('');
+  const [selectedGuest, setSelectedGuest] = useState(null);
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [numOfGuests, setNumOfGuests] = useState();
+  const [RoomNumber, setRoomNumber] = useState();
   const [GuestDetails, setGuestDetails] = useState({
     GuestCount: '',
   });
   const [guestDetails, setguestDetails] = useState([
-    { aadharnumber: "", aadharphoto: null } // Initialize with one guest
+    { aadharnumber: "", aadharphoto: null, name: '' }
   ]);
   console.log(guestDetails)
-
+  const [Data, setData] = useState([
+    { id: 123456789, name: 'John' },
+    { id: 234568, name: 'Alice' },
+    { id: 3456789, name: 'Bob' },
+    { id: 4, name: 'Charlie' },
+    { id: 5, name: 'Emma' },
+    { id: 6, name: 'David' },
+    { id: 7, name: 'Eva' },
+    { id: 8, name: 'Frank' },
+    { id: 9, name: 'Grace' },
+    { id: 10, name: 'Henry' }
+  ]);
   const [Aadress, setAadress] = useState('');
   const [Adult, setAdult] = useState('');
   const [Child, setChild] = useState('');
@@ -32,20 +49,37 @@ const HotelGuestForm = () => {
 
 
 
+  console.log(phone)
+
+  const searchGuest = async (e) => {
+    const inputValue = e.target.value;
+    setPhone(inputValue);
+    setShowSuggestions(true);
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get(`${API_ENDPOINTS.API}/guests/search?phone=${inputValue}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+      setSuggestions(response.data);
+    } catch (error) {
+      console.error('Error fetching guest suggestions:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://f8fc-182-69-182-25.ngrok-free.app/guest', {
+      const response = await axios.post('https://f8fc-182-69-182-25./guest', {
         firstName,
-        lastName,
         email,
-        phone,
+
         checkInDate,
         checkOutDate,
         numOfGuests,
-
         Aadress,
         Adult,
         Child,
@@ -80,6 +114,9 @@ const HotelGuestForm = () => {
 
   };
 
+
+
+
   const handleAadharNumberChange = (event, index) => {
     const newGuestDetails = [...guestDetails];
     newGuestDetails[index].aadharnumber = event.target.value;
@@ -111,6 +148,11 @@ const HotelGuestForm = () => {
     });
   };
 
+  const handleSuggestionClick = (guest) => {
+    setSelectedGuest(guest);
+    setSuggestions([]);
+    setPhone(guest.phone); // Optionally set the phone input to the selected guest's phone
+  };
 
   const handleAadharPhotoChange = (index, file) => {
     setGuestDetails((prevGuests) => {
@@ -138,21 +180,32 @@ const HotelGuestForm = () => {
               <div className='input-div'>
                 <div>
                   <div className="input-field">
-                    <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' />
+                    <input type="text" value={phone} onChange={searchGuest} placeholder='Phone Number' />
+                    {suggestions.length > 0 && (
+                      <ul>
+                        {suggestions.map((guest) => (
+                          <li key={guest.id} onClick={() => handleSuggestionClick(guest)}>
+                            {guest.name} - {guest.phone}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {selectedGuest && (
+                      <div>
+                        <h3>Selected Guest</h3>
+                        <p>Name: {selectedGuest.name}</p>
+                        <p>Phone: {selectedGuest.phone}</p>
+                        {/* Additional guest details */}
+                      </div>
+                    )}
+                       <button onClick={() => setShowNewForm(true)}>Add New Guest</button>
                   </div>
-                  <br />
-                  <div className="input-field">
-                    <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' />
-                  </div>
+
                   <br />
                   <div className="input-field">
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                   </div>
 
-                  <br />
-                  <div className="input-field">
-                    <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder='Enter Number' />
-                  </div>
                   <br />
                   <div className="input-field">
                     <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} />
@@ -174,18 +227,17 @@ const HotelGuestForm = () => {
                   <div className="input-field">
                     <input type="Text" value={Adult} onChange={(e) => setAdult(parseInt(e.target.value))} placeholder='Price Given ' />
                   </div>
-                </div>
-                <div>
-                  {/* <br /> */}
+                  <br />
                   <div className="input-field">
-                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Room Number' />
+                    <input type="text" value={RoomNumber} onChange={(e) => setEmail(e.target.value)} placeholder='Room Number' />
                   </div>
                   <br />
                   <div className="input-field">
-
                     <input type="number" value={numOfGuests} onChange={(e) => setNumOfGuests(parseInt(e.target.value))} placeholder='number of guest' />
                   </div>
-                  <br />
+                </div>
+                <div>
+
                   {guestCount.map((guest, index) => (
                     <div key={guest}>
 
@@ -196,13 +248,27 @@ const HotelGuestForm = () => {
                         />
                       </div>
                       <br />
+                      <div className='input-field'>
+                        <input type="text" placeholder='Enter Name'
+                          value={guestDetails[index]?.name || ""}
+                          onChange={(event) => handleRoomChange(index, 'name', event.target.value)}
+                        />
+                      </div>
+                      <br />
+                      <div className='input-field'>
+                        <input type="text" placeholder='Enter gender' />
+                        {/* <select name="gender" id="gender">
+                        <option value="">male</option>
+                        <option value="">female</option>
+                        <option value="">Transgender</option>
+                      </select> */}
+                      </div>
+                      <br />
                       <div className="input-field">
-                        {/* <label htmlFor="">Upload Aadhar</label> */}
                         <input type="file" placeholder='upload Aadhar'
                           onChange={(event) => handleAadharPhotoChange(index, event.target.files)}
                         />
                       </div>
-
                     </div>
                   ))}
                   <br />

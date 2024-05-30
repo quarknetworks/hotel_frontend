@@ -39,10 +39,12 @@ const Login = ({ handlePageChange, handletoken }) => {
             const tokenss = response.data.token; // Correct variable name
             const pages = response.data.checklistPage
 
-            console.log(pages)
-            console.log(tokenss)
+            // console.log(pages)
+            // console.log(tokenss)
             if (response.data.success === true) {
+               
                 if (pages === 5) { // Corrected conditional check
+                    localStorage.setItem('token', tokenss);
                     handletoken(tokenss)
                     navigate('/dashboard');
                 } else {
@@ -68,7 +70,7 @@ const Login = ({ handlePageChange, handletoken }) => {
     };
 
 
-
+    console.log(localStorage);
     return (
 
         <>

@@ -1,12 +1,7 @@
 #form-container {
   width: 100vw;
   height: 100vh;
-  /* display: flex;
-  flex-direction: column; */
-
-  /* justify-content: center; */
-  /* align-items: center;
-  margin-right: 20rem; */
+ 
 }
 
 .form-seconfcontainer {
@@ -36,9 +31,6 @@
   border: 2px solid #ddd;
   padding: 1rem 1rem;
   margin-top: 1.5rem;
-  /* float: right; */
-  /* align-items: center;
-  justify-content: center; */
   margin-right: 3rem;
 }
 
@@ -124,6 +116,29 @@
 .input-field button:active {
   scale: 1;
 }
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-row {
+  display: none;
+  position: absolute;
+  background-color: #960707;
+  min-width: 100%;
+  z-index: 1;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+.dropdown-row:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown.active .dropdown-row {
+  display: block;
+}
+
 
 @media screen and (max-width: 768px) {
 
