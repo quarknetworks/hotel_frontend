@@ -4,6 +4,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faBell, faUser, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import Slidemenu from './Slidemenu';
+import logoutSlidebar from './logoutSlidebar';
 import "../styles/Navbar.css"
 import { useTheme } from './ThemeContext';
 
@@ -11,6 +12,7 @@ import { useTheme } from './ThemeContext';
 const Navbar = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   const toggleMenu = () => {
@@ -19,6 +21,14 @@ const Navbar = () => {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
   };
 
   const navigate = useNavigate();
@@ -40,7 +50,7 @@ const Navbar = () => {
             <Slidemenu isOpen={isMenuOpen} closeMenu={closeMenu} />
             <div className="navbar-icons">
               <div className='Link-tag'>
-                <Link to='/'>Sign-Up</Link>
+                {/* <Link to='/'>Sign-Up</Link> */}
               </div>
               <div className='icons' onClick={toggleTheme} >
                 {/* <input type="search"  /> */}
@@ -53,13 +63,14 @@ const Navbar = () => {
               <div className='icons'>
                 <FontAwesomeIcon icon={faBell} />
               </div>
-              <div className='icons'>
+              <div className='icons' onClick={toggleSidebar}>
                 <FontAwesomeIcon icon={faUser} />
               </div>
             </div>
           </div>
-
+         
         </div>
+        <logoutSlidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar}/>
       </nav>
 
 

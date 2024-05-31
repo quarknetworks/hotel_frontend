@@ -134,7 +134,7 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
                     </div>
                     <div className="form-groups">
                         <label htmlFor="password">Phone Number</label>
-                        <input type="Number" id="number" name="mobileNumber" placeholder='Enter Your Phone Number' value={verification.mobileNumber}
+                        <input type="text" id="number" name="mobileNumber" placeholder='Enter Your Phone Number' value={verification.mobileNumber}
                           onChange={handleChange}
                         // onChange={(event) =>
                         //     setverification({ ...verification, mobileNumber: event.target.value })}

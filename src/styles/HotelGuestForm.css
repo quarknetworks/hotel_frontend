@@ -1,12 +1,7 @@
 #form-container {
   width: 100vw;
   height: 100vh;
-  /* display: flex;
-  flex-direction: column; */
-
-  /* justify-content: center; */
-  /* align-items: center;
-  margin-right: 20rem; */
+ 
 }
 
 .form-seconfcontainer {
@@ -36,9 +31,6 @@
   border: 2px solid #ddd;
   padding: 1rem 1rem;
   margin-top: 1.5rem;
-  /* float: right; */
-  /* align-items: center;
-  justify-content: center; */
   margin-right: 3rem;
 }
 
@@ -82,7 +74,7 @@
    */
 .input-field button {
   /* float: right; */
-  margin: 2rem 0;
+  margin: 1rem 0;
   margin-left: 7rem;
   cursor: pointer;
   position: relative;
@@ -124,6 +116,128 @@
 .input-field button:active {
   scale: 1;
 }
+
+.input-field ul{
+  margin-top: 0;
+  /* padding-left: 0; */
+
+  width: 300px;
+  /* display: flex;
+  flex-direction: column; */
+  right: 5rem;
+ 
+  /* background-color: aqua; */
+  margin-left: 7rem;
+  /* border: 2px solid black; */
+
+}
+
+.input-field ul li{
+  border: 2px solid black;
+  background: #eee;
+}
+
+
+
+/* .dropdown {
+  position: relative;
+}
+
+.dropdown-row {
+  display: none;
+  position: absolute;
+  background-color: #960707;
+  min-width: 100%;
+  z-index: 1;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+.dropdown-row:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown.active .dropdown-row {
+  display: block;
+} */
+
+/* .sugesstion buttons {
+  margin-top: 0px;
+  margin-bottom: 0;
+  width: 1rem;
+  height: 1rem;
+  position: fixed;
+} */
+
+/* sugesstion button */
+
+/* registerd guest css */
+
+.modal {
+  position: fixed;
+  top: 2rem;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 700px;
+  max-width: 90%;
+  position: relative;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1rem ;
+  margin-left: 7rem;
+}
+
+.modal-content .input-field {
+  margin-bottom: 1rem;
+}
+
+.modal-content .input-field input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.modal-content .input-field button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.modal-content .input-field button:hover {
+  background: #0056b3;
+}
+
+.modal-content .input-field button[type="button"] {
+  background: #6c757d;
+}
+
+.modal-content .input-field button[type="button"]:hover {
+  background: #5a6268;
+}
+
+
 
 @media screen and (max-width: 768px) {
 

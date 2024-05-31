@@ -38,9 +38,12 @@ const HotelDetailsSecond = ({ totalRoom, settotalRoom, page, setpage, token }) =
 
                 const uploadUrl = response.data[0].upload_url;
                 const fileUrl = response.data[0].document_url;
+                console.log(uploadUrl)
+                console.log(fileUrl)
 
-                await axios.put(uploadUrl, formData, {
+                await axios.put(uploadUrl,  {
                     headers: {
+                        // 'Authorization': `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data',
                         //   'Content-Type': file.type
                     }

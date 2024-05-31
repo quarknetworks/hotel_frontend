@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import "../styles/MainDashbord.css"
 import Navbar from './Navbar';
 import Slidemenu from './Slidemenu';
@@ -12,33 +12,29 @@ import ima3 from "../Assets/hotalimg3.jpg"
 import ima4 from "../Assets/hotalimg4.jpg"
 import ima5 from "../Assets/hotalimg5.webp"
 import { useTheme } from './ThemeContext';
+import API_ENDPOINTS from '../confi.js';
+import { useNavigate } from 'react-router-dom';
 
 // import img6 from "../Assets/humburgericon.png"
 
-const MainDashbord = ({token}) => {
+const MainDashbord = ({}) => {
 
   // Sample data for charts
   // const checkinData = [30, 40, 45, 50];
   // const checkoutData = [20, 25, 30, 35];
   const [data, setData] = useState(null);
+  const lastSuccessfulData = useRef(null);
   console.log(data)
-  const availableRoomsData = [80, 70, 60, 50];
-  const bookedRoomsTodayData = [10, 15, 20, 25];
-  const reservationData = {
-    series: [70],
-    options: {
-      chart: {
-        type: 'donut',
-      },
-      labels: ['Reservations'],
-    },
-  };
+  // const availableRoomsData = [data.length >= 0 && data?.availableRooms, data?.availableRooms, data?.availableRooms, data?.availableRooms]
+  // const bookedRoomsTodayData = [20];
+  // const reservationData = [ data.length >= 0 && data?.availableRooms]
+  
 
   const { theme } = useTheme();
 
-  // const hamburger = () => {
+  const hamburger = () => {
 
-  // }
+  }
   const [darkmodes, setdarkmodes] = useState(false);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,37 +51,53 @@ const MainDashbord = ({token}) => {
     setIsMenuOpen(false);
   };
 
+  const navigate = useNavigate()
 
 
-  console.log(token)
+  // console.log(token)
 
 
   useEffect(() => {
+
+    const token = sessionStorage.getItem('token');
+    console.log(token)
+    // if (!token) {
+    //   console.error('No token found in localStorage');
+    //   return;
+    // }
     const fetchData = async () => {
-      try {
-        const response = await axios.get('http://192.168.1.4:8080/dash',{
-          headers:{
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
+        try {
+            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/dash`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+
+            if (response.data) {
+              setData(response.data);
+              lastSuccessfulData.current = response.data;
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
-        });
-        setData(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
     };
 
-    fetchData();
+  
+        fetchData();
+    
+}, []);
 
-    // Cleanup function to cancel any ongoing requests or subscriptions
-    return () => {
-      // Cancel any pending requests if the component unmounts before the response is received
-      // This is important to avoid memory leaks and potential bugs
-      // For axios, you can cancel requests using CancelToken
-    };
-  }, []);
+useEffect(() => {
+  if (!data && lastSuccessfulData.current) {
+    setData(lastSuccessfulData.current);
+  }
+}, [data]);
 
-  // console.log(data)
+
+  
+
 
 
   return (
@@ -111,25 +123,25 @@ const MainDashbord = ({token}) => {
               <p>Today check-in on</p>
               <h2>Total Check-In</h2>
               {/* Add appropriate value for check-in */}
-              <p>50</p>
+              <p>{data ? data.checkinToday : 'Loading...'}</p>
             </div>
             <div className="box" id='secondbox'>
               <p>Today check-out on</p>
               <h2>Total Check-Out</h2>
               {/* Add appropriate value for check-out */}
-              <p>30</p>
+              <p>{data ? data.checkoutToday : 'Loading...'}</p>
             </div>
             <div className="box" id='thirdbox'>
               <p>All Rooms Details</p>
               <h2>Total Rooms</h2>
               {/* Add appropriate value for total rooms */}
-              <p>100</p>
+              <p>{data ? data.totalRooms : 'Loading...'}</p>
             </div>
-            <div className="box" id='fourthbox'>
+            <div className="box" id='fourthbox' onClick={() => { navigate("/roomsdashboard") }}>
               <p>Today Available rooms</p>
               <h2>Available Rooms</h2>
               {/* Add appropriate value for available rooms */}
-              <p>70</p>
+              <p>{data ? data.roomsAvailableToday : 'Loading...'}</p>
             </div>
           </div>
 
@@ -159,57 +171,46 @@ const MainDashbord = ({token}) => {
           {/* Second Section */}
           <div className="second-section">
            
-              <div className="left-box">
-                <h2>Available Rooms</h2>
-                <Chart
-                  options={{
-                    labels: ['Floor 1', 'Floor 2', 'Floor 3', 'Floor 4'],
-                    colors: ['red', 'yellow', 'blue', 'green',],
-                    // fill: { colors: ['red', 'green', 'yellow'] },
-                    chart: {
-                      // background: '#000435',
-                      // height: "100%"
-                    }
+{data && (
+  <>
+    <div className="left-box">
+      <h2>Available Rooms</h2>
+      <Chart
+        options={{
+          labels: ['Floor 1', 'Floor 2', 'Floor 3', 'Floor 4'],
+          colors: ['red', 'yellow', 'blue', 'green'],
+        }}
+        series={[data?.availableRooms, data?.availableRooms, data?.availableRooms, data?.availableRooms]}
+        type="donut"
+      />
+    </div>
+    <div className="left-box">
+      <h2>Booked Rooms Today</h2>
+      <Chart
+        options={{
+          labels: ['Morning', 'Afternoon', 'Evening', 'Night'],
+        }}
+        series={[20]} // Example data, replace with actual data
+        type="bar"
+      />
+    </div>
+    <div className="left-box">
+      <h2>Available Statistics</h2>
+      <Chart
+        options={{
+          labels: ["Availability"],
+          colors: ['blue'],
+        }}
+        series={[data?.availableRooms]} // Example data, replace with actual data
+        type="donut"
+      />
+    </div>
+  </>
+)}
 
-                  }}
-                  series={availableRoomsData}
-                  type="donut"
-
-                // background: '#fff'
-                />
-              </div>
-              <div className="left-box">
-                <h2>Booked Rooms Today</h2>
-                <div></div>
-                <Chart
-                  options={{
-                    labels: ['Morning', 'Afternoon', 'Evening', 'Night'],
-
-                    chart: {
-                      // background: '#000435',
-                      // height: "100%"
-                    }
-                  }}
-                  series={bookedRoomsTodayData}
-                  type="bar"
-                />
+           
                 
-              </div>
-              <div className="left-box">
-                <h2>Reservation Statistics</h2>
-                <Chart
-                  options={{
-                    ...reservationData.options,
-                    colors: ['blue'],
-                    chart: {
-                      // background: '#000435',
-                      // height: "100%"
-                    }
-                  }}
-                  series={reservationData.series}
-                  type="donut"
-                />
-              </div>
+           
             </div>
        
         </div>
@@ -219,13 +220,13 @@ const MainDashbord = ({token}) => {
           <div className="footer-content">
             <div className="footer-section">
               <h3>Contact Us</h3>
-              <p>Email: info@yourhotel.com</p>
+              <p>Email: {data ? data.hotelEmail : 'Loading...'}</p>
               <p>Phone: +1 (123) 456-7890</p>
             </div>
 
             <div className="footer-section">
               <h3>Address</h3>
-              <p>Your Hotel, Street Address, City, Country</p>
+              <p>{data ? data.hotelAddress : 'Loading...'}</p>
             </div>
 
             <div className="footer-section">
