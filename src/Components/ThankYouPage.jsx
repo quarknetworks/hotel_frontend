@@ -8,12 +8,21 @@ const ThankYouPage = () => {
     const navigate = useNavigate();
 
     const Checkonbording = async () => {
+      const token = sessionStorage.getItem('token');
+    console.log(token)
       
-        const response = axios.get(`${API_ENDPOINTS.API}/onstatus`, {
+        const response = await axios.get(`${API_ENDPOINTS.API}/onstatus`, {
           headers:{
             'Authorization': `Bearer ${token}`,
           }
 
+        }).then(result => {
+          console.log(result)
+          if (result.data.success == true) {
+            navigate('/dashboard')
+          }else {
+            console.log("onboarding is pending")
+          }
         })
           
         

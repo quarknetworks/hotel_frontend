@@ -17,6 +17,8 @@ const RoomCollection = ({ totalRoom, settotalRoom, token, setpage }) => {
     // backgroundColor: '#757de8'
   };
 
+  sessionStorage.setItem('token', token);
+
 
   const navigate = useNavigate()
 

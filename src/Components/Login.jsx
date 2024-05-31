@@ -44,7 +44,7 @@ const Login = ({ handlePageChange, handletoken }) => {
             if (response.data.success === true) {
                
                 if (pages === 5) { // Corrected conditional check
-                    localStorage.setItem('token', tokenss);
+                    sessionStorage.setItem('token', tokenss);
                     handletoken(tokenss)
                     navigate('/dashboard');
                 } else {

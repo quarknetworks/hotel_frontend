@@ -5,6 +5,7 @@ import Slidemenu from './Slidemenu';
 import { useTheme } from './ThemeContext';
 import axios from 'axios';
 import API_ENDPOINTS from '../confi.js';
+import {  useNavigate } from 'react-router-dom';
 
 const Roomsdash = () => {
     // const [rooms, setRooms] = useState([]);
@@ -26,10 +27,12 @@ const Roomsdash = () => {
         fetchRooms();
     }, []);
 
+    const Navigate = useNavigate()
+
 
     const fetchRooms = async () => {
-        const token = localStorage.getItem('token');
-    console.log(token)
+        const token = sessionStorage.getItem('token');
+        console.log(token)
         try {
             const response = await axios.get(`${API_ENDPOINTS.API}/hotel/rooms`, {
                 headers: {
@@ -59,18 +62,21 @@ const Roomsdash = () => {
     // Function to toggle room availability and update backend via PUT API
     async function handleToggleStatus(roomNumber, currentAvailability) {
         const newAvailability = currentAvailability;
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
+        console.log(token)
         try {
 
-            const response = await axios.put(`${API_ENDPOINTS.API}/hotel/${roomNumber}`, { available: newAvailability },{
-                headers:{
+            const response = await axios.put(`${API_ENDPOINTS.API}/hotel/${roomNumber}`, { available: newAvailability }, {
+                headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             }
-        );
+            );
             if (response.status === 200) {
 
                 fetchRooms();
+                Navigate("/guestfoam", { state: { roomNumber: roomNumber } })
+
             } else {
                 console.error('Error updating room availability');
             }

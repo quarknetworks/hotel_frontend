@@ -59,7 +59,7 @@ const MainDashbord = ({}) => {
 
   useEffect(() => {
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     console.log(token)
     // if (!token) {
     //   console.error('No token found in localStorage');

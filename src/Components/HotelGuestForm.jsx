@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../styles/HotelGuestForm.css"
 import Navbar from './Navbar';
 import { useTheme } from './ThemeContext';
 import axios from 'axios';
 import API_ENDPOINTS from '../confi.js';
+import { useLocation } from 'react-router-dom';
 
 
 const HotelGuestForm = () => {
@@ -12,10 +13,7 @@ const HotelGuestForm = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [showNewForm, setShowNewForm] = useState(false);
-  const [selectedNumber, setSelectedNumber] = useState('');
-  const [selectedGuest, setSelectedGuest] = useState(null);
+  const [userNotFound, setUserNotFound] = useState('')
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [numOfGuests, setNumOfGuests] = useState();
@@ -27,44 +25,71 @@ const HotelGuestForm = () => {
     { aadharnumber: "", aadharphoto: null, name: '' }
   ]);
   console.log(guestDetails)
-  const [Data, setData] = useState([
-    { id: 123456789, name: 'John' },
-    { id: 234568, name: 'Alice' },
-    { id: 3456789, name: 'Bob' },
-    { id: 4, name: 'Charlie' },
-    { id: 5, name: 'Emma' },
-    { id: 6, name: 'David' },
-    { id: 7, name: 'Eva' },
-    { id: 8, name: 'Frank' },
-    { id: 9, name: 'Grace' },
-    { id: 10, name: 'Henry' }
-  ]);
+
   const [Aadress, setAadress] = useState('');
   const [Adult, setAdult] = useState('');
   const [Child, setChild] = useState('');
+  const [roomPrice , setroomPrice] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newGuest, setNewGuest] = useState({ name: '', phone: '', email: '', aadharnumber: '', gender: '', age:'' });
 
   const parseguest = parseInt(numOfGuests)
   const guestCount = Array.from({ length: parseguest }, (_, index) => index + 1)
 
 
-
+  const location = useLocation()
+  console.log(location.state)
 
   console.log(phone)
+
+  useEffect(() => {
+    if (location.state && location.state.roomNumber) {
+      setRoomNumber(location.state.roomNumber);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+
+    const fetchPrice = async () => {
+      try {
+        const response = await axios.get(`${API_ENDPOINTS.API}/hotel/rooms/${location.state.roomNumber}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
+        });
+        console.log(response.data);
+        setroomPrice(response.data.price)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    fetchPrice();
+  }, [location.state]);
 
   const searchGuest = async (e) => {
     const inputValue = e.target.value;
     setPhone(inputValue);
-    setShowSuggestions(true);
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     try {
       const response = await axios.get(`${API_ENDPOINTS.API}/guests/search?phone=${inputValue}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         }
       });
+      console.log(response)
       setSuggestions(response.data);
+      setUserNotFound('');
     } catch (error) {
       console.error('Error fetching guest suggestions:', error);
+      console.log(error.response.data.message)
+      if (error.response.data.message == 'Guest not found') {
+        setUserNotFound("user not availble")
+
+      }
+      setSuggestions([]);
+
     }
   };
 
@@ -144,14 +169,14 @@ const HotelGuestForm = () => {
 
       return updatedAadhar
 
-
     });
   };
 
   const handleSuggestionClick = (guest) => {
-    setSelectedGuest(guest);
+    // setSelectedGuest(guest);
     setSuggestions([]);
     setPhone(guest.phone); // Optionally set the phone input to the selected guest's phone
+
   };
 
   const handleAadharPhotoChange = (index, file) => {
@@ -166,7 +191,29 @@ const HotelGuestForm = () => {
     });
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleNewGuestSubmit = () => {
+    setGuestDetails([...guestDetails, newGuest]);
+    setIsModalOpen(false);
+    setNewGuest({ name: '', phone: '', email: '', aadharnumber: '', gender: '' , age: ''});
+  };
+
   const { theme } = useTheme();
+
+
+  //adding room number here dynamiclly
+  // useEffect(() => {
+  //   if (location.state && location.state.roomNumber) {
+  //     setRoomNumber(location.state.roomNumber);
+  //   }
+  // }, []);
 
 
   return (
@@ -182,7 +229,7 @@ const HotelGuestForm = () => {
                   <div className="input-field">
                     <input type="text" value={phone} onChange={searchGuest} placeholder='Phone Number' />
                     {suggestions.length > 0 && (
-                      <ul>
+                      <ul className="sugeestion-ul">
                         {suggestions.map((guest) => (
                           <li key={guest.id} onClick={() => handleSuggestionClick(guest)}>
                             {guest.name} - {guest.phone}
@@ -190,15 +237,10 @@ const HotelGuestForm = () => {
                         ))}
                       </ul>
                     )}
-                    {selectedGuest && (
-                      <div>
-                        <h3>Selected Guest</h3>
-                        <p>Name: {selectedGuest.name}</p>
-                        <p>Phone: {selectedGuest.phone}</p>
-                        {/* Additional guest details */}
-                      </div>
-                    )}
-                       <button onClick={() => setShowNewForm(true)}>Add New Guest</button>
+                    <div className='sugesstion buttons'>
+                      {userNotFound && (<button className='suggestionbutton' onClick={openModal}>Register Guest</button>)}
+                    </div>
+
                   </div>
 
                   <br />
@@ -221,7 +263,7 @@ const HotelGuestForm = () => {
                   <br />
                   <div className="input-field">
                     {/* <input type="text" value={Child} onChange={(e) => setChild(parseInt(e.target.value))} placeholder='How many Child' /> */}
-                    <div className='room-price'>Room Price: $100</div>
+                    <div className='room-price'>Room Price: {roomPrice}</div>
                   </div>
                   <br />
                   <div className="input-field">
@@ -229,7 +271,7 @@ const HotelGuestForm = () => {
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="text" value={RoomNumber} onChange={(e) => setEmail(e.target.value)} placeholder='Room Number' />
+                    <input type="text" value={RoomNumber} placeholder='Room Number' />
                   </div>
                   <br />
                   <div className="input-field">
@@ -276,13 +318,52 @@ const HotelGuestForm = () => {
               </div>
               <br />
               <div className="input-field">
-                <button type="submit" onClick={handleSubmit}>Submit</button>
+                <button id='btns' type="submit" onClick={handleSubmit}>Submit</button>
               </div>
 
             </form>
           </div>
         </div>
       </div >
+
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Register New Guest</h2>
+            <form onSubmit={handleNewGuestSubmit}>
+              <div className="input-field">
+                <input type="text" value={newGuest.name} onChange={(e) => setNewGuest({ ...newGuest, name: e.target.value })} placeholder='Name' />
+              </div>
+              <br />
+              <div className="input-field">
+                <input type="text" value={newGuest.phone} onChange={(e) => setNewGuest({ ...newGuest, phone: e.target.value })} placeholder='Phone Number' />
+              </div>
+              <br />
+              <div className="input-field">
+                <input type="email" value={newGuest.email} onChange={(e) => setNewGuest({ ...newGuest, email: e.target.value })} placeholder='Email' />
+              </div>
+              <br />
+              <div className="input-field">
+                <input type="text" value={newGuest.aadharnumber} onChange={(e) => setNewGuest({ ...newGuest, aadharnumber: e.target.value })} placeholder='Aadhar Number' />
+              </div>
+              <br />
+              <div className="input-field">
+                <input type="text" value={newGuest.gender} onChange={(e) => setNewGuest({ ...newGuest, gender: e.target.value })} placeholder='Gender' />
+              </div>
+              <br />
+              <div className="input-field">
+                <input type="text" value={newGuest.gender} onChange={(e) => setNewGuest({ ...age, age: e.target.value })} placeholder='Age' />
+              </div>
+              <div className="input-field">
+                <button type="submit">Save</button>
+                <button type="button" onClick={closeModal}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
     </div >
   );
 };
