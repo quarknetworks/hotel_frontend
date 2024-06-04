@@ -10,6 +10,7 @@ import GuestTable from './Components/GuestTable';
 import SignupFoams from './Components/SignupFoams';
 import Login from './Components/Login';
 import ThankYouPage from './Components/ThankYouPage';
+import CheckoutForm from './Components/CheckoutForm';
 
 
 
@@ -54,7 +55,7 @@ function App() {
       <Route path="/guestfoam" element={<HotelGuestForm token={token}/>}/>
       <Route path="/guestTable" element={<GuestTable token={token}/>}/>
       <Route path="/thankyoupage" element={<ThankYouPage/>}/>
-        
+      <Route path="/checkout" element={<CheckoutForm/>}/>
    </Routes>
    </ThemeProvider>
    </Router>

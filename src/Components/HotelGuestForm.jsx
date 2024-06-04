@@ -24,14 +24,16 @@ const HotelGuestForm = () => {
   const [guestDetails, setguestDetails] = useState([
     { aadharnumber: "", aadharphoto: null, name: '' }
   ]);
+
   console.log(guestDetails)
 
   const [Aadress, setAadress] = useState('');
   const [Adult, setAdult] = useState('');
   const [Child, setChild] = useState('');
-  const [roomPrice , setroomPrice] = useState('')
+  const [roomPrice, setroomPrice] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newGuest, setNewGuest] = useState({ name: '', phone: '', email: '', aadharnumber: '', gender: '', age:'' });
+  const [newGuest, setNewGuest] = useState({ name: '', phone: '', email: '', aadharNumber: '', gender: '', age: '' });
+  console.log(newGuest)
 
   const parseguest = parseInt(numOfGuests)
   const guestCount = Array.from({ length: parseguest }, (_, index) => index + 1)
@@ -64,7 +66,7 @@ const HotelGuestForm = () => {
         console.log(error);
       }
     };
-    
+
     fetchPrice();
   }, [location.state]);
 
@@ -98,7 +100,7 @@ const HotelGuestForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://f8fc-182-69-182-25./guest', {
+      const response = await axios.post('', {
         firstName,
         email,
 
@@ -199,10 +201,29 @@ const HotelGuestForm = () => {
     setIsModalOpen(false);
   };
 
-  const handleNewGuestSubmit = () => {
-    setGuestDetails([...guestDetails, newGuest]);
-    setIsModalOpen(false);
-    setNewGuest({ name: '', phone: '', email: '', aadharnumber: '', gender: '' , age: ''});
+  const handleNewGuestSubmit = async () => {
+  
+    const token = sessionStorage.getItem('token');
+    // setIsModalOpen(false);
+    // e.preventDefault();
+    // setNewGuest({ name: '', phone: '', email: '', aadharnumber: '', gender: '' , age: ''});
+    try {
+      const response =  await axios.post(`${API_ENDPOINTS.API}/guests/register`, { ...newGuest }, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+
+        }
+      })
+      if(response.data.success === true){
+      setGuestDetails([...guestDetails, newGuest]);
+      setNewGuest({ name: '', phone: '', email: '', aadharNumber: '', gender: '' , age: ''});
+      setIsModalOpen(false);
+    }
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   const { theme } = useTheme();
@@ -330,7 +351,7 @@ const HotelGuestForm = () => {
         <div className="modal">
           <div className="modal-content">
             <h2>Register New Guest</h2>
-            <form onSubmit={handleNewGuestSubmit}>
+            
               <div className="input-field">
                 <input type="text" value={newGuest.name} onChange={(e) => setNewGuest({ ...newGuest, name: e.target.value })} placeholder='Name' />
               </div>
@@ -344,21 +365,20 @@ const HotelGuestForm = () => {
               </div>
               <br />
               <div className="input-field">
-                <input type="text" value={newGuest.aadharnumber} onChange={(e) => setNewGuest({ ...newGuest, aadharnumber: e.target.value })} placeholder='Aadhar Number' />
+                <input type="text" value={newGuest.aadharNumber} onChange={(e) => setNewGuest({ ...newGuest, aadharNumber: e.target.value })} placeholder='Aadhar Number' />
               </div>
               <br />
               <div className="input-field">
-                <input type="text" value={newGuest.gender} onChange={(e) => setNewGuest({ ...newGuest, gender: e.target.value })} placeholder='Gender' />
+                <input type="text" value={newGuest.gender} onChange={(e) => setNewGuest({ ...newGuest, gender: e.target.value.toUpperCase() })} placeholder='Gender' />
               </div>
               <br />
               <div className="input-field">
-                <input type="text" value={newGuest.gender} onChange={(e) => setNewGuest({ ...age, age: e.target.value })} placeholder='Age' />
+                <input type="date" value={newGuest.age} onChange={(e) => setNewGuest({ ...newGuest, age: e.target.value })} placeholder='Date-of-birth' />
               </div>
               <div className="input-field">
-                <button type="submit">Save</button>
+                <button type="submit" onClick={handleNewGuestSubmit}>Save</button>
                 <button type="button" onClick={closeModal}>Cancel</button>
               </div>
-            </form>
           </div>
         </div>
       )}
