@@ -33,6 +33,7 @@ const HotelGuestForm = () => {
   const [roomPrice, setroomPrice] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newGuest, setNewGuest] = useState({ name: '', phone: '', email: '', aadharNumber: '', gender: '', age: '' });
+  const [errors, setErrors] = useState({});
   console.log(newGuest)
 
   const parseguest = parseInt(numOfGuests)
@@ -201,12 +202,42 @@ const HotelGuestForm = () => {
     setIsModalOpen(false);
   };
 
+  // throw error for new guest 
+
+  const validateNewGuest = () => {
+    const newErrors = {};
+
+    if (!newGuest.name || !/^[a-zA-Z\s]+$/.test(newGuest.name)) {
+      newErrors.name = "Name is required and should only contain letters.";
+    }
+    if (!newGuest.phone || !/^\d{10}$/.test(newGuest.phone)) {
+      newErrors.phone = "Phone number is required and should be a valid 10-digit number.";
+    }
+    if (newGuest.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newGuest.email)) {
+      newErrors.email = "Email should be valid.";
+    }
+    if (newGuest.aadharNumber && !/^\d{12}$/.test(newGuest.aadharNumber)) {
+      newErrors.aadharNumber = "Aadhar number should be a valid 12-digit number.";
+    }
+    if (!newGuest.gender || !["MALE", "FEMALE", "OTHER"].includes(newGuest.gender.toUpperCase())) {
+      newErrors.gender = "Gender is required and should be either 'MALE', 'FEMALE', or 'OTHER'.";
+    }
+    if (!newGuest.age) {
+      newErrors.age = "Age is required.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleNewGuestSubmit = async () => {
+
+    if (!validateNewGuest()) {
+      return;
+    }
   
     const token = sessionStorage.getItem('token');
-    // setIsModalOpen(false);
-    // e.preventDefault();
-    // setNewGuest({ name: '', phone: '', email: '', aadharnumber: '', gender: '' , age: ''});
+    
     try {
       const response =  await axios.post(`${API_ENDPOINTS.API}/guests/register`, { ...newGuest }, {
         headers: {
@@ -284,7 +315,8 @@ const HotelGuestForm = () => {
                   <br />
                   <div className="input-field">
                     {/* <input type="text" value={Child} onChange={(e) => setChild(parseInt(e.target.value))} placeholder='How many Child' /> */}
-                    <div className='room-price'>Room Price: {roomPrice}</div>
+                    {/* <div className='room-price'>Room Price: {roomPrice}</div> */}
+                    <input type="text" value={roomPrice} readOnly/>
                   </div>
                   <br />
                   <div className="input-field">
@@ -332,7 +364,9 @@ const HotelGuestForm = () => {
                           onChange={(event) => handleAadharPhotoChange(index, event.target.files)}
                         />
                       </div>
+                      
                     </div>
+                  
                   ))}
                   <br />
                 </div>
@@ -354,26 +388,32 @@ const HotelGuestForm = () => {
             
               <div className="input-field">
                 <input type="text" value={newGuest.name} onChange={(e) => setNewGuest({ ...newGuest, name: e.target.value })} placeholder='Name' />
+                {errors.name && <p className="newGuestError">{errors.name}</p>}
               </div>
               <br />
               <div className="input-field">
                 <input type="text" value={newGuest.phone} onChange={(e) => setNewGuest({ ...newGuest, phone: e.target.value })} placeholder='Phone Number' />
+                {errors.phone && <p className="newGuestError">{errors.phone}</p>}
               </div>
               <br />
               <div className="input-field">
                 <input type="email" value={newGuest.email} onChange={(e) => setNewGuest({ ...newGuest, email: e.target.value })} placeholder='Email' />
+                {errors.email && <p className="newGuestError">{errors.email}</p>}
               </div>
               <br />
               <div className="input-field">
                 <input type="text" value={newGuest.aadharNumber} onChange={(e) => setNewGuest({ ...newGuest, aadharNumber: e.target.value })} placeholder='Aadhar Number' />
+                {errors.aadharNumber && <p className="newGuestError">{errors.aadharNumber}</p>}
               </div>
               <br />
               <div className="input-field">
                 <input type="text" value={newGuest.gender} onChange={(e) => setNewGuest({ ...newGuest, gender: e.target.value.toUpperCase() })} placeholder='Gender' />
+                {errors.gender && <p className="newGuestError">{errors.gender}</p>}
               </div>
               <br />
               <div className="input-field">
                 <input type="date" value={newGuest.age} onChange={(e) => setNewGuest({ ...newGuest, age: e.target.value })} placeholder='Date-of-birth' />
+                {errors.age && <p className="newGuestError">{errors.age}</p>}
               </div>
               <div className="input-field">
                 <button type="submit" onClick={handleNewGuestSubmit}>Save</button>

@@ -80,7 +80,7 @@ const RoomCollection = ({ totalRoom, settotalRoom, token, setpage }) => {
 
   const apiCall = async () => {
 
-    await axios.post(`${API_ENDPOINTS.API}/room`, { ...amenity }, {
+    await axios.post(`${API_ENDPOINTS.API}/signup/room`, { ...amenity }, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',

@@ -34,7 +34,7 @@ const Roomsdash = () => {
         const token = sessionStorage.getItem('token');
         console.log(token)
         try {
-            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/rooms`, {
+            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/allrooms`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',

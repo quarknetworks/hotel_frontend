@@ -59,20 +59,21 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
         })
           .then(result => {
             handleApiResponse(result.data.token,);
-         console.log(result)
+            console.log(result)
 
             if (result.data.success === true) { 
                 setpage(prevPage => prevPage + 1);
             } else {
               console.log('api failed')
            
-              if (result.data.error) {
+              if (result.data.message) {
                 setBackendError(result.data.error);
             }
             }
           })
     
-          .catch(err =>  err)
+          .catch(err => console.log(err))
+
       }
 
       const handleChange = event => {
