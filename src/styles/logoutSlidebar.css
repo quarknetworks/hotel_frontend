@@ -1,28 +1,26 @@
-/* src/styles/Sidebar.css */
 .sidebar {
-    position: fixed;
-    /* right: -250px; */
-    top: 5rem;
-    width: 250px;
-    height: 100%;
-    background-color: #bd1f1f;
-    /* box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); */
-    /* transition: right 0.3s ease; */
-  }
-  
-  .sidebar.open {
-    /* right: 0; */
-  }
-  
-  .sidebar-content {
-    padding: 20px;
-  }
-  
-  .sidebar-content button {
-    /* background: none;
-    border: none; */
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
+  position: fixed;
+  right: -200px; /* Start off-screen */
+  top: 5rem;
+  width: 200px;
+  height: 20%;
+  /* background-color: #bd1f1f; */
+  transition: right 0.3s ease; /* Smooth transition */
+}
+
+.sidebar.opens {
+  right: 0; 
+}
+
+.sidebar-cont {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 20px;
+}
+
+.sidebar-cont button {
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}

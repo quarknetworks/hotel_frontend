@@ -4,7 +4,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faBell, faUser, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import Slidemenu from './Slidemenu';
-import logoutSlidebar from './logoutSlidebar';
+import LogoutSlidebar from './LogoutSlidebar';
 import "../styles/Navbar.css"
 import { useTheme } from './ThemeContext';
 
@@ -67,10 +67,9 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faUser} />
               </div>
             </div>
-          </div>
-         
+          </div>   
         </div>
-        <logoutSlidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar}/>
+        <LogoutSlidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar}/>
       </nav>
 
 

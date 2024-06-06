@@ -1,49 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import "../styles/HotelGuestForm.css"
+import React, { useState, useEffect } from 'react';
+import "../styles/HotelGuestForm.css";
 import Navbar from './Navbar';
 import { useTheme } from './ThemeContext';
 import axios from 'axios';
 import API_ENDPOINTS from '../confi.js';
 import { useLocation } from 'react-router-dom';
 
-
 const HotelGuestForm = () => {
-
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [userNotFound, setUserNotFound] = useState('')
+  const [userNotFound, setUserNotFound] = useState('');
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
-  const [numOfGuests, setNumOfGuests] = useState();
+  const [numOfGuests, setNumOfGuests] = useState(1);
   const [RoomNumber, setRoomNumber] = useState();
-  const [GuestDetails, setGuestDetails] = useState({
-    GuestCount: '',
-  });
-  const [guestDetails, setguestDetails] = useState([
-    { aadharnumber: "", aadharphoto: null, name: '' }
+  const [guestDetails, setGuestDetails] = useState([
+    { aadharnumber: "", aadharphoto: null, name: '', gender: '' }
   ]);
-
-  console.log(guestDetails)
-
   const [Aadress, setAadress] = useState('');
-  const [Adult, setAdult] = useState('');
-  const [Child, setChild] = useState('');
-  const [roomPrice, setroomPrice] = useState('')
+  const [PriceGiven, setPriceGiven] = useState('');
+  const [roomPrice, setRoomPrice] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newGuest, setNewGuest] = useState({ name: '', phone: '', email: '', aadharNumber: '', gender: '', age: '' });
+  const [newGuest, setNewGuest] = useState({ name: '', phone: '', email: '', aadharNumber: '', gender: '', DOB: '' });
   const [errors, setErrors] = useState({});
-  console.log(newGuest)
 
-  const parseguest = parseInt(numOfGuests)
-  const guestCount = Array.from({ length: parseguest }, (_, index) => index + 1)
-
-
-  const location = useLocation()
-  console.log(location.state)
-
-  console.log(phone)
+  const location = useLocation();
 
   useEffect(() => {
     if (location.state && location.state.roomNumber) {
@@ -61,8 +44,7 @@ const HotelGuestForm = () => {
             'Authorization': `Bearer ${token}`,
           }
         });
-        console.log(response.data);
-        setroomPrice(response.data.price)
+        setRoomPrice(response.data.price);
       } catch (error) {
         console.log(error);
       }
@@ -81,37 +63,29 @@ const HotelGuestForm = () => {
           'Authorization': `Bearer ${token}`,
         }
       });
-      console.log(response)
       setSuggestions(response.data);
       setUserNotFound('');
     } catch (error) {
-      console.error('Error fetching guest suggestions:', error);
-      console.log(error.response.data.message)
-      if (error.response.data.message == 'Guest not found') {
-        setUserNotFound("user not availble")
-
+      if (error.response.data.message === 'Guest not found') {
+        setUserNotFound("user not available");
       }
       setSuggestions([]);
-
     }
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     try {
       const response = await axios.post('', {
         firstName,
         email,
-
         checkInDate,
         checkOutDate,
         numOfGuests,
         Aadress,
         Adult,
         Child,
-
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -119,67 +93,47 @@ const HotelGuestForm = () => {
           'Access-Control-Allow-Headers': '*',
         },
       });
-      const userdata = response.data;
-      console.log(userdata);
-      console.log('form submited', Response.data);
-
-      // reset foam here 
-
+      
       setFirstName('');
-      setLastName('');
       setEmail('');
       setPhone('');
       setCheckInDate('');
       setCheckOutDate('');
-      setNumOfGuests('');
+      setNumOfGuests(1);
       setAadress('');
       setAdult('');
       setChild('');
-
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
     }
-
-  };
-
-
-
-
-  const handleAadharNumberChange = (event, index) => {
-    const newGuestDetails = [...guestDetails];
-    newGuestDetails[index].aadharnumber = event.target.value;
-    setGuestDetails(newGuestDetails);
-    // const { value } = event.target;
-    // const stringValue = value;
-
-    // setguestDetails(prevGuests => {
-    //   const updatedGuests = [...prevGuests];
-    //   updatedGuests[index] = {
-    //     ...updatedGuests[index],
-    //     aadharnumber: (value)
-    //   };
-    //   return updatedGuests;
-    // });
   };
 
   const handleRoomChange = (index, field, value) => {
-    setguestDetails((prevFormData) => {
-      const updatedAadhar = [...prevFormData];
-      updatedAadhar[index] = {
-        ...updatedAadhar[index],
-        aadharnumber: value,
+    setGuestDetails((prevDetails) => {
+      const updatedDetails = [...prevDetails];
+      updatedDetails[index] = {
+        ...updatedDetails[index],
+        [field]: value,
       };
-
-      return updatedAadhar
-
+      return updatedDetails;
     });
   };
 
   const handleSuggestionClick = (guest) => {
-    // setSelectedGuest(guest);
     setSuggestions([]);
-    setPhone(guest.phone); // Optionally set the phone input to the selected guest's phone
+    setPhone(guest.phone);
+    setEmail(guest.email);
 
+    // Update guestDetails for index 0 with fetched guest data
+    setGuestDetails(prevDetails => {
+      const updatedDetails = [...prevDetails];
+      updatedDetails[0] = {
+        aadharnumber: guest.aadharNumber || '',
+        name: guest.name || '',
+        gender: guest.gender || ''
+      };
+      return updatedDetails;
+    });
   };
 
   const handleAadharPhotoChange = (index, file) => {
@@ -189,7 +143,6 @@ const HotelGuestForm = () => {
         ...updatedGuests[index],
         aadharphoto: file,
       };
-
       return updatedGuests;
     });
   };
@@ -201,8 +154,6 @@ const HotelGuestForm = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  // throw error for new guest 
 
   const validateNewGuest = () => {
     const newErrors = {};
@@ -222,8 +173,8 @@ const HotelGuestForm = () => {
     if (!newGuest.gender || !["MALE", "FEMALE", "OTHER"].includes(newGuest.gender.toUpperCase())) {
       newErrors.gender = "Gender is required and should be either 'MALE', 'FEMALE', or 'OTHER'.";
     }
-    if (!newGuest.age) {
-      newErrors.age = "Age is required.";
+    if (!newGuest.DOB) {
+      newErrors.DOB = "Date of birth is required.";
     }
 
     setErrors(newErrors);
@@ -231,7 +182,6 @@ const HotelGuestForm = () => {
   };
 
   const handleNewGuestSubmit = async () => {
-
     if (!validateNewGuest()) {
       return;
     }
@@ -243,37 +193,51 @@ const HotelGuestForm = () => {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-
         }
-      })
-      if(response.data.success === true){
-      setGuestDetails([...guestDetails, newGuest]);
-      setNewGuest({ name: '', phone: '', email: '', aadharNumber: '', gender: '' , age: ''});
-      setIsModalOpen(false);
-    }
-    } catch (error) {
-      console.log(error)
-    }
+      });
 
+      if(response.data.success === true){
+        setGuestDetails(prevDetails => {
+          const updatedDetails = [...prevDetails];
+          updatedDetails[0] = {
+            aadharnumber: newGuest.aadharNumber,
+            name: newGuest.name,
+            gender: newGuest.gender,
+            aadharphoto: null // Ensure aadharphoto is reset or left as it was
+          };
+          return updatedDetails;
+        });
+        setNewGuest({ name: '', phone: '', email: '', aadharNumber: '', gender: '' , DOB: ''});
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleNumOfGuestsChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setNumOfGuests(value);
+    setGuestDetails((prevDetails) => {
+      const updatedDetails = [...prevDetails];
+      while (updatedDetails.length < value) {
+        updatedDetails.push({ aadharnumber: "", aadharphoto: null, name: '', gender: '' });
+      }
+      while (updatedDetails.length > value) {
+        updatedDetails.pop();
+      }
+      return updatedDetails;
+    });
   };
 
   const { theme } = useTheme();
-
-
-  //adding room number here dynamiclly
-  // useEffect(() => {
-  //   if (location.state && location.state.roomNumber) {
-  //     setRoomNumber(location.state.roomNumber);
-  //   }
-  // }, []);
-
 
   return (
     <div >
       <Navbar />
       <div id='form-container' className={`themed-component ${theme}`}>
         <div className='form-seconfcontainer'>
-          <h1 >Hotel Guest Form</h1>
+          <h1>Hotel Guest Form</h1>
           <div className='form-group'>
             <form onSubmit={handleSubmit}>
               <div className='input-div'>
@@ -281,7 +245,7 @@ const HotelGuestForm = () => {
                   <div className="input-field">
                     <input type="text" value={phone} onChange={searchGuest} placeholder='Phone Number' />
                     {suggestions.length > 0 && (
-                      <ul className="sugeestion-ul">
+                      <ul className="suggestion-ul">
                         {suggestions.map((guest) => (
                           <li key={guest.id} onClick={() => handleSuggestionClick(guest)}>
                             {guest.name} - {guest.phone}
@@ -289,145 +253,164 @@ const HotelGuestForm = () => {
                         ))}
                       </ul>
                     )}
-                    <div className='sugesstion buttons'>
-                      {userNotFound && (<button className='suggestionbutton' onClick={openModal}>Register Guest</button>)}
+                    <div className='suggestion-buttons'>
+                      {userNotFound && (<button className='suggestion-button' type='button' onClick={openModal}>Register Guest</button>)}
                     </div>
-
                   </div>
-
                   <br />
                   <div className="input-field">
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                   </div>
-
                   <br />
                   <div className="input-field">
-                    <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} />
+                    <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} placeholder='Check-in Date' />
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="date" value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} />
+                    <input type="date" value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} placeholder='Check-out Date' />
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="text" value={Aadress} onChange={(e) => setAadress(e.target.value)} placeholder='Enter Aadress' />
+                    <input type="number" value={numOfGuests} onChange={handleNumOfGuestsChange} placeholder='Number of Guests' />
                   </div>
                   <br />
                   <div className="input-field">
-                    {/* <input type="text" value={Child} onChange={(e) => setChild(parseInt(e.target.value))} placeholder='How many Child' /> */}
-                    {/* <div className='room-price'>Room Price: {roomPrice}</div> */}
-                    <input type="text" value={roomPrice} readOnly/>
+                    <input type="text" value={Aadress} onChange={(e) => setAadress(e.target.value)} placeholder='Address' />
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="Text" value={Adult} onChange={(e) => setAdult(parseInt(e.target.value))} placeholder='Price Given ' />
+                  {/* <input type="text" value={RoomNumber} placeholder='Room Number' /> */}
+                  <div className='room-price'>Room Number: {RoomNumber}</div>
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="text" value={RoomNumber} placeholder='Room Number' />
+                  <div className='room-price'>Room Price: {roomPrice}</div> 
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="number" value={numOfGuests} onChange={(e) => setNumOfGuests(parseInt(e.target.value))} placeholder='number of guest' />
+                  <input type="Text" value={PriceGiven} onChange={(e) => setPriceGiven(parseInt(e.target.value))} placeholder='Price Given ' />
+                  </div>
+                  <div className="input-field">
+                  <button  type="submit">Submit</button>
                   </div>
                 </div>
-                <div>
-
-                  {guestCount.map((guest, index) => (
-                    <div key={guest}>
-
-                      <div className="input-field">
-                        <input type="text" placeholder='Aadhar Number'
-                          value={guestDetails[index]?.aadharnumber || ""}
-                          onChange={(event) => handleRoomChange(index, 'aadharnumber', event.target.value)}
-                        />
-                      </div>
-                      <br />
-                      <div className='input-field'>
-                        <input type="text" placeholder='Enter Name'
-                          value={guestDetails[index]?.name || ""}
-                          onChange={(event) => handleRoomChange(index, 'name', event.target.value)}
-                        />
-                      </div>
-                      <br />
-                      <div className='input-field'>
-                        <input type="text" placeholder='Enter gender' />
-                        {/* <select name="gender" id="gender">
-                        <option value="">male</option>
-                        <option value="">female</option>
-                        <option value="">Transgender</option>
-                      </select> */}
-                      </div>
-                      <br />
-                      <div className="input-field">
-                        <input type="file" placeholder='upload Aadhar'
-                          onChange={(event) => handleAadharPhotoChange(index, event.target.files)}
-                        />
-                      </div>
-                      
-                    </div>
-                  
-                  ))}
-                  <br />
-                </div>
               </div>
-              <br />
-              <div className="input-field">
-                <button id='btns' type="submit" onClick={handleSubmit}>Submit</button>
-              </div>
-
             </form>
+            <div>
+            {guestDetails.map((guest, index) => (
+              <div key={index} >
+                <div className='input-field'>
+                  <input
+                    type='text'
+                    value={guest.name}
+                    onChange={(e) => handleRoomChange(index, 'name', e.target.value)}
+                    placeholder='Guest Name'
+                  />
+                </div>
+                <br />
+                <div className='input-field'>
+                  <input
+                    type='text'
+                    value={guest.aadharnumber}
+                    onChange={(e) => handleRoomChange(index, 'aadharnumber', e.target.value)}
+                    placeholder='Aadhar Number'
+                  />
+                </div>
+                <br />
+                <div className='input-field'>
+                  <input
+                    type='text'
+                    value={guest.gender}
+                    onChange={(e) => handleRoomChange(index, 'gender', e.target.value)}
+                    placeholder='Gender'
+                  />
+                </div>
+                <br />
+                <div className='input-field'>
+                  <input
+                    type='file'
+                    onChange={(e) => handleAadharPhotoChange(index, e.target.files[0])}
+                    placeholder='Aadhar Photo'
+                  />
+                </div>
+                <br />
+              </div>
+            ))}
+            </div>
           </div>
         </div>
-      </div >
-
+      </div>
       {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className='modal'>
+          <div className='modal-content'>
             <h2>Register New Guest</h2>
-            
-              <div className="input-field">
-                <input type="text" value={newGuest.name} onChange={(e) => setNewGuest({ ...newGuest, name: e.target.value })} placeholder='Name' />
-                {errors.name && <p className="newGuestError">{errors.name}</p>}
-              </div>
-              <br />
-              <div className="input-field">
-                <input type="text" value={newGuest.phone} onChange={(e) => setNewGuest({ ...newGuest, phone: e.target.value })} placeholder='Phone Number' />
-                {errors.phone && <p className="newGuestError">{errors.phone}</p>}
-              </div>
-              <br />
-              <div className="input-field">
-                <input type="email" value={newGuest.email} onChange={(e) => setNewGuest({ ...newGuest, email: e.target.value })} placeholder='Email' />
-                {errors.email && <p className="newGuestError">{errors.email}</p>}
-              </div>
-              <br />
-              <div className="input-field">
-                <input type="text" value={newGuest.aadharNumber} onChange={(e) => setNewGuest({ ...newGuest, aadharNumber: e.target.value })} placeholder='Aadhar Number' />
-                {errors.aadharNumber && <p className="newGuestError">{errors.aadharNumber}</p>}
-              </div>
-              <br />
-              <div className="input-field">
-                <input type="text" value={newGuest.gender} onChange={(e) => setNewGuest({ ...newGuest, gender: e.target.value.toUpperCase() })} placeholder='Gender' />
-                {errors.gender && <p className="newGuestError">{errors.gender}</p>}
-              </div>
-              <br />
-              <div className="input-field">
-                <input type="date" value={newGuest.age} onChange={(e) => setNewGuest({ ...newGuest, age: e.target.value })} placeholder='Date-of-birth' />
-                {errors.age && <p className="newGuestError">{errors.age}</p>}
-              </div>
-              <div className="input-field">
-                <button type="submit" onClick={handleNewGuestSubmit}>Save</button>
-                <button type="button" onClick={closeModal}>Cancel</button>
-              </div>
+            <div className='input-field'>
+              <input
+                type='text'
+                value={newGuest.name}
+                onChange={(e) => setNewGuest({ ...newGuest, name: e.target.value })}
+                placeholder='Name'
+              />
+              {errors.name && <p className='error'>{errors.name}</p>}
+            </div>
+            <br />
+            <div className='input-field'>
+              <input
+                type='text'
+                value={newGuest.phone}
+                onChange={(e) => setNewGuest({ ...newGuest, phone: e.target.value })}
+                placeholder='Phone'
+              />
+              {errors.phone && <p className='error'>{errors.phone}</p>}
+            </div>
+            <br />
+            <div className='input-field'>
+              <input
+                type='email'
+                value={newGuest.email}
+                onChange={(e) => setNewGuest({ ...newGuest, email: e.target.value })}
+                placeholder='Email'
+              />
+              {errors.email && <p className='error'>{errors.email}</p>}
+            </div>
+            <br />
+            <div className='input-field'>
+              <input
+                type='text'
+                value={newGuest.aadharNumber}
+                onChange={(e) => setNewGuest({ ...newGuest, aadharNumber: e.target.value })}
+                placeholder='Aadhar Number'
+              />
+              {errors.aadharNumber && <p className='error'>{errors.aadharNumber}</p>}
+            </div>
+            <br />
+            <div className='input-field'>
+              <input
+                type='text'
+                value={newGuest.gender}
+                onChange={(e) => setNewGuest({ ...newGuest, gender: e.target.value.toUpperCase() })}
+                placeholder='Gender'
+              />
+              {errors.gender && <p className='error'>{errors.gender}</p>}
+            </div>
+            <br />
+            <div className='input-field'>
+              <input
+                type='date'
+                value={newGuest.DOB}
+                onChange={(e) => setNewGuest({ ...newGuest, DOB: e.target.value })}
+               
+              />
+              {errors.DOB && <p className='error'>{errors.DOB}</p>}
+            </div>
+            <br />
+            <button onClick={handleNewGuestSubmit}>Register</button>
+            <button onClick={closeModal}>Close</button>
           </div>
         </div>
       )}
-
-
-    </div >
+    </div>
   );
 };
 
-
-
-export default HotelGuestForm
+export default HotelGuestForm;

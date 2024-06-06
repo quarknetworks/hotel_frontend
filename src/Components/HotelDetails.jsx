@@ -49,10 +49,10 @@ const HotelDetails = ({ page, setpage, token }) => {
             newErrors.aadharNo = 'Please check Aadhar Number';
             frontendErrors = true;
         }
-        if (!validatePincode(HotelData.hotelPincode)) {
-            newErrors.hotelPincode = 'Invalid Pincode';
-            frontendErrors = true;
-        }
+        // if (!validatePincode(HotelData.hotelPincode)) {
+        //     newErrors.hotelPincode = 'Invalid Pincode';
+        //     frontendErrors = true;
+        // }
         if (!HotelData.hotelWebsite.trim()) {
             newErrors.hotelWebsite = 'Please fill in this field';
             frontendErrors = true;
@@ -86,7 +86,7 @@ const HotelDetails = ({ page, setpage, token }) => {
 
         if (frontendErrors) return;
 
-        axios.post(`${API_ENDPOINTS.API}/owner`, { ...HotelData }, {
+        axios.post(`${API_ENDPOINTS.API}/signup/owner`, { ...HotelData }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const HotelDetails = ({ page, setpage, token }) => {
     const validateEmail = email => /\S+@\S+\.\S+/.test(email);
     const validatePanNumber = pan => /[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(pan);
     const validateAadharNumber = aadhar => /^\d{12}$/.test(aadhar);
-    const validatePincode = pincode => /^\d{6}$/.test(pincode);
+    // const validatePincode = pincode => /^\d{6}$/.test(pincode);
 
     return (
         <div>

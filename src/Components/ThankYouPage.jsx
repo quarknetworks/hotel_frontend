@@ -11,17 +11,20 @@ const ThankYouPage = () => {
       const token = sessionStorage.getItem('token');
     console.log(token)
       
-        const response = await axios.get(`${API_ENDPOINTS.API}/onstatus`, {
+        const response = await axios.get(`${API_ENDPOINTS.API}/signup/hotelchecklist/status`, {
           headers:{
             'Authorization': `Bearer ${token}`,
           }
 
         }).then(result => {
+          
           console.log(result)
           if (result.data.success == true) {
             navigate('/dashboard')
-          }else {
-            console.log("onboarding is pending")
+
+          }else if (result.data.success == false) {
+            alert('please be Patience your request is under process')
+            // console.log("onboarding is pending")
           }
         })
           
