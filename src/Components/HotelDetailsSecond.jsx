@@ -119,7 +119,7 @@ const HotelDetailsSecond = ({ totalRoom, settotalRoom, page, setpage, token }) =
 
         console.log(filesData)
 
-        axios.post(`${API_ENDPOINTS.API}/doc`, filesData, {
+        axios.post(`${API_ENDPOINTS.API}/signup/doc`, filesData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',

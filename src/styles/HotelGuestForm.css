@@ -14,7 +14,7 @@
 
 
 
-.form-seconfcontainer h2 {
+.form-seconfcontainer h1 {
   /* margin-right: 24.6rem; */
   display: flex;
   align-items: end;
@@ -26,6 +26,8 @@
 .form-group {
   display: flex;
   overflow-y: scroll;
+  /* margin: 2rem; */
+  /* justify-content: space-between; */
   width: 70vw;
   height: 70vh;
   border: 2px solid #ddd;
@@ -35,13 +37,25 @@
 }
 
 
-
 .input-field input,
 .room-price {
-  color: gray;
+  margin-left: 3rem;
+  width: 25rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+   color: gray;
   font-family: inherit;
-  width: 100%;
-  border: 0;
+  font-weight: 450;
+  border-bottom: 2px solid gray;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  font-family: "Fredoka";
+  /* background: transparent; */
+ 
+  
+  /* margin-left: 3rem; */
+ /* border: 0;
   border-bottom: 2px solid gray;
   outline: 0;
   font-size: 1.3rem;
@@ -50,7 +64,7 @@
   background: transparent;
   transition: border-color 0.2s;
   font-weight: 450;
-  font-family: "Fredoka";
+  font-family: "Fredoka"; */
 }
 
 .input-field ::placeholder {
@@ -73,9 +87,10 @@
   }
    */
 .input-field button {
-  /* float: right; */
-  margin: 1rem 0;
-  margin-left: 7rem;
+  /* margin: 1rem 0; */
+  margin-top: 10px;
+  margin-bottom: 1rem;
+  margin-left: 3rem;
   cursor: pointer;
   position: relative;
   padding: 10px 30px;
@@ -120,21 +135,26 @@
 .input-field ul{
   margin-top: 0;
   /* padding-left: 0; */
-
-  width: 300px;
+padding: 5px 5px;
+  width: 92%;
   /* display: flex;
   flex-direction: column; */
-  right: 5rem;
- 
+  /* right: 5rem; */
   /* background-color: aqua; */
-  margin-left: 7rem;
+  margin-left: 2.6rem;
+  overflow-y: scroll;
+  height: 5rem;
+
   /* border: 2px solid black; */
 
 }
 
 .input-field ul li{
-  border: 2px solid black;
-  background: #eee;
+  border-bottom: 2px solid black;
+  /* background: #eee; */
+  /* padding: 2px 0; */
+  margin-bottom: 2px;
+  border-radius: 2px;
 }
 
 
@@ -176,6 +196,7 @@
 .modal {
   position: fixed;
   top: 2rem;
+  /* bottom: 2rem; */
   left: 0;
   width: 100vw;
   height: 100vh;
@@ -188,27 +209,30 @@
 .modal-content {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  /* justify-content: center;
+  align-items: center; */
+  /* align-items: start; */
   background: #fff;
   padding: 2rem;
   border-radius: 10px;
   width: 700px;
-  max-width: 90%;
+  max-width: 80%;
   position: relative;
 }
 
 .modal-content h2 {
   margin-top: 0;
   margin-bottom: 1rem ;
-  margin-left: 7rem;
+  margin-left: 3rem;
 }
 
 .modal-content .input-field {
-  margin-bottom: 1rem;
+  margin-bottom: 0.2rem;
 }
 
 .modal-content .input-field input {
-  width: 100%;
+  /* width: 100%; */
+  width: 34rem;
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -235,6 +259,11 @@
 
 .modal-content .input-field button[type="button"]:hover {
   background: #5a6268;
+}
+
+.newGuestError{
+  color: red;
+  margin-left: 3rem;
 }
 
 

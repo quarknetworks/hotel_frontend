@@ -59,20 +59,23 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
         })
           .then(result => {
             handleApiResponse(result.data.token,);
-         console.log(result)
+            console.log(result)
 
             if (result.data.success === true) { 
                 setpage(prevPage => prevPage + 1);
+                
             } else {
               console.log('api failed')
+              setBackendError(result.data.message);
            
-              if (result.data.error) {
-                setBackendError(result.data.error);
+              if (result.data.message) {
+                setBackendError(result.data.message);
             }
             }
           })
     
-          .catch(err =>  err)
+          .catch(err => console.log(err))
+
       }
 
       const handleChange = event => {
@@ -110,7 +113,7 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
                         //     setverification({ ...verification, name: event.target.value })}
                         required />
                          <p className="error">{nameError}</p>
-                         {backendError && <p className="error">{backendError}</p>}
+                         {/* {backendError && <p className="error">{backendError}</p>} */}
                     </div>
                     <div className="form-groups">
                         <label htmlFor="email">Email</label>
@@ -120,7 +123,7 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
                         //     setverification({ ...verification, email: event.target.value })}
                         required/>
                          <p className="error">{emailError}</p>
-                         {backendError && <p className="error">{backendError}</p>}
+                         {backendError && <p className="error">Email is alredy exist please login</p>}
                     </div>
                     <div className="form-groups">
                         <label htmlFor="hotelName">Hotel Name</label>
@@ -130,7 +133,7 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
                         //     setverification({ ...verification, hotelName: event.target.value })}
                         required />
                          <p className="error">{hotelError}</p>
-                         {backendError && <p className="error">{backendError}</p>}
+                         {/* {backendError && <p className="error">{backendError}</p>} */}
                     </div>
                     <div className="form-groups">
                         <label htmlFor="password">Phone Number</label>
@@ -140,7 +143,7 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
                         //     setverification({ ...verification, mobileNumber: event.target.value })}
                             />
                              <p className="error">{mobileError}</p>
-                             {backendError && <p className="error">{backendError}</p>}
+                             {/* {backendError && <p className="error">{backendError}</p>} */}
 
                     </div>
                     <div className="form-groups">

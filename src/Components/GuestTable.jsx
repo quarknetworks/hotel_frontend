@@ -112,7 +112,7 @@ const GuestTable = ( {token}) => {
     useEffect(() => {
         const fetchGuests = async () => {
             try {
-                const response = await axios.get(`${API_ENDPOINTS.API}/guests/allguest`, {
+                const response = await axios.get(`${API_ENDPOINTS.API}/guests/allbooked`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Access-Control-Allow-Origin': '*',

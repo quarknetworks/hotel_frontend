@@ -34,7 +34,7 @@ const Roomsdash = () => {
         const token = sessionStorage.getItem('token');
         console.log(token)
         try {
-            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/rooms`, {
+            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/allrooms`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -66,20 +66,22 @@ const Roomsdash = () => {
         console.log(token)
         try {
 
-            const response = await axios.put(`${API_ENDPOINTS.API}/hotel/${roomNumber}`, { available: newAvailability }, {
+            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/rooms/${roomNumber}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,  
                 }
             }
             );
-            if (response.status === 200) {
+            console.log(response)
+            if (response.data.available === true) {
 
                 fetchRooms();
                 Navigate("/guestfoam", { state: { roomNumber: roomNumber } })
 
-            } else {
-                console.error('Error updating room availability');
-            }
+            } else if (response.data.available === false) {
+               Navigate("/checkout" , { state: { roomNumber: roomNumber } })
+            } 
+
         } catch (error) {
             console.error('Error updating room availability:', error);
         }

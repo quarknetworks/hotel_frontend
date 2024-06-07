@@ -67,7 +67,7 @@ const MainDashbord = ({}) => {
     // }
     const fetchData = async () => {
         try {
-            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/dash`, {
+            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/admin/dash`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
