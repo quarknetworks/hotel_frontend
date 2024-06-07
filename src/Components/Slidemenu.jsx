@@ -11,6 +11,7 @@ const Slidemenu = ({ isOpen, closeMenu, toggleTheme }) => {
   const navigate = useNavigate()
   return (
 
+    
     <div className={`sliding-menu ${isOpen ? 'open' : ''} themed-component ${theme}`}>
       <div className='menu-content'>
         <div id='cross-icon'>
