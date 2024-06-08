@@ -4,9 +4,9 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faBell, faUser, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import Slidemenu from './Slidemenu';
-import LogoutSlidebar from './LogoutSlidebar';
 import "../styles/Navbar.css"
 import { useTheme } from './ThemeContext';
+import Logout from './Logout';
 
 
 const Navbar = () => {
@@ -69,7 +69,7 @@ const Navbar = () => {
             </div>
           </div>   
         </div>
-        <LogoutSlidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar}/>
+        <Logout isOpen={isSidebarOpen} closeSidebar={closeSidebar} />
       </nav>
 
 
