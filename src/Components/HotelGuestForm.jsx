@@ -7,23 +7,27 @@ import API_ENDPOINTS from '../confi.js';
 import { useLocation } from 'react-router-dom';
 
 const HotelGuestForm = () => {
-  const [firstName, setFirstName] = useState('');
+  // const [firstName, setFirstName] = useState('');
+  // console.log(firstName)
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
-  const [userNotFound, setUserNotFound] = useState('');
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
   const [numOfGuests, setNumOfGuests] = useState(1);
   const [RoomNumber, setRoomNumber] = useState();
-  const [guestDetails, setGuestDetails] = useState([
-    { aadharnumber: "", aadharphoto: null, name: '', gender: '' }
-  ]);
   const [Aadress, setAadress] = useState('');
   const [PriceGiven, setPriceGiven] = useState('');
   const [roomPrice, setRoomPrice] = useState('');
+  const [guestDetails, setGuestDetails] = useState([
+    { aadharnumber: "", aadharphoto: null, name: '', gender: '' }
+  ]);
+  
+  console.log("guest", guestDetails)
+  const [suggestions, setSuggestions] = useState([]);
+  const [userNotFound, setUserNotFound] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newGuest, setNewGuest] = useState({ name: '', phone: '', email: '', aadharNumber: '', gender: '', DOB: '' });
+  console.log(newGuest)
   const [errors, setErrors] = useState({});
 
   const location = useLocation();
@@ -77,15 +81,13 @@ const HotelGuestForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('', {
-        firstName,
-        email,
-        checkInDate,
-        checkOutDate,
-        numOfGuests,
-        Aadress,
-        Adult,
-        Child,
+
+      const aadharPhoto = guestDetails[0].aadharphoto;
+      const isPdf = aadharPhoto && aadharPhoto.type === 'application/pdf';
+
+      const response = await axios.post(`${API_ENDPOINTS.API}/upload/url?guestid=${12345}`, {
+       fileType: isPdf ? 'pdf' : 'image'
+
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -93,16 +95,49 @@ const HotelGuestForm = () => {
           'Access-Control-Allow-Headers': '*',
         },
       });
+
+      const { uploadUrl, fileUrl } = uploadResponse.data;
+
+      const formData = new FormData();
+      formData.append('file', aadharPhoto);
+
+      await axios.put(uploadUrl, formData, {
+        headers: {
+          'Content-Type': isPdf ? 'application/pdf' : 'multipart/form-data',
+        }
+      });
+
+      const bookingData = {
+        email,
+        phone,
+        checkInDate,
+        checkOutDate,
+        numOfGuests,
+        RoomNumber,
+        Aadress,
+        PriceGiven,
+        guestDetails: guestDetails.map(guest => ({
+          ...guest,
+          aadharphoto: fileUrl // Include the URL of the uploaded Aadhaar photo
+        }))
+      };
+
+      await axios.post(`${API_ENDPOINTS.API}/guests/booking`, bookingData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
       
-      setFirstName('');
+      // setFirstName('');
       setEmail('');
       setPhone('');
       setCheckInDate('');
       setCheckOutDate('');
       setNumOfGuests(1);
       setAadress('');
-      setAdult('');
-      setChild('');
+      setPriceGiven('');
+      setGuestDetails([{ aadharnumber: "", aadharphoto: null, name: '', gender: '' }]);
     } catch (error) {
       console.log("error", error);
     }

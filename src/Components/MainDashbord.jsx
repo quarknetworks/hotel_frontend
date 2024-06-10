@@ -177,10 +177,10 @@ useEffect(() => {
       <h2>Available Rooms</h2>
       <Chart
         options={{
-          labels: ['Floor 1', 'Floor 2', 'Floor 3', 'Floor 4'],
-          colors: ['red', 'yellow', 'blue', 'green'],
+          labels: ['Total Rooms', "avaible Rooms" , "All check-in"],
+          // colors: ['yellow', 'green', 'red' ],
         }}
-        series={[data?.availableRooms, data?.availableRooms, data?.availableRooms, data?.availableRooms]}
+        series={[data.totalRooms, data.availableRooms, data.allcheckin]}
         type="donut"
       />
     </div>
@@ -189,8 +189,9 @@ useEffect(() => {
       <Chart
         options={{
           labels: ['Morning', 'Afternoon', 'Evening', 'Night'],
+          // colors: ['#00FF00', '#FFFF00', '#FF0000'],
         }}
-        series={[20]} // Example data, replace with actual data
+        series={[20, 25]} // Example data, replace with actual data
         type="bar"
       />
     </div>
@@ -199,7 +200,7 @@ useEffect(() => {
       <Chart
         options={{
           labels: ["Availability"],
-          colors: ['blue'],
+          // colors: ['blue'],
         }}
         series={[data?.availableRooms]} // Example data, replace with actual data
         type="donut"
