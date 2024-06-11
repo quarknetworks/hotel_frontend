@@ -389,7 +389,7 @@ const HotelGuestForm = () => {
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="Text" value={PriceGiven} onChange={(e) => setPriceGiven(parseInt(e.target.value))} placeholder='Price Given ' />
+                    <input type="Text" value={PriceGiven} onChange={(e) => setPriceGiven(e.target.value)} placeholder='Price Given ' />
                   </div>
                   <div className="input-field">
                     <button type="submit">Submit</button>
