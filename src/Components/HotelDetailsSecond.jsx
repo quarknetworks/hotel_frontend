@@ -41,13 +41,33 @@ const HotelDetailsSecond = ({ totalRoom, settotalRoom, page, setpage, token }) =
                 console.log(uploadUrl)
                 console.log(fileUrl)
 
-                await axios.put(uploadUrl,  {
-                    headers: {
-                        // 'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data',
-                        //   'Content-Type': file.type
-                    }
-                });
+                const formData = new FormData();
+                 formData.append('file', file);
+
+                const headers = {
+                    'Content-Type': file.type
+                  };
+
+                  if (fileType === 'pdf') {
+                    // Upload PDF file
+                    await axios.put(uploadUrl, file, { headers });
+                  } else {
+                    // Upload binary data for images
+                    const reader = new FileReader();
+                    reader.onloadend = async () => {
+                      const arrayBuffer = reader.result;
+                      await axios.put(uploadUrl, arrayBuffer, { headers });
+                    };
+                    reader.readAsArrayBuffer(file);
+                  }
+
+                // await axios.put(uploadUrl, {
+                //     headers: {
+                //         // 'Authorization': `Bearer ${token}`,
+                //         'Content-Type': 'multipart/form-data',
+                //         //   'Content-Type': file.type
+                //     }
+                // });
 
                 // Update the formData state with the uploaded file's URL
                 setFormData(prevState => ({
