@@ -130,8 +130,8 @@ const HotelDetailsSecond = ({ totalRoom, settotalRoom, page, setpage, token }) =
 
         const filesData = {
             aadharUrl: formData.aadharUrl,
-            panPhotoUrl: formData.panPhotoUrl,
-            gstCertificateUrl: formData.gstCertificateUrl,
+            panUrl: formData.panPhotoUrl,
+            gstinUrl: formData.gstCertificateUrl,
             businessPanUrl: formData.businessPanUrl,
             HotelTotalRooms: formData.HotelTotalRooms,
         };
