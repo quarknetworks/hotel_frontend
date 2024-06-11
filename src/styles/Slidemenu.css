@@ -1,25 +1,21 @@
 .sliding-menu {
     position: fixed;
     top: 0;
-    left: -300px; /* Start off-screen */
+    left: -300px; 
     width: 250px;
     height: 100%;
-    /* background-color: #000435; 
-     color: #fff; */
     transition: left 0.3s ease;
 }
 
 .open {
-    left: 0; /* Slide into view */
+    left: 0; 
 }
 
 .menu-content {
     padding: 20px;
 }
 
-ul {
-    /* display: flex; */
-    /* flex-direction: column; */
+.menu-content ul {
     list-style-type: none;
     padding: 0;
     margin-top: 5rem;
@@ -32,18 +28,14 @@ li {
 }
 
 #cross-icon {
-    /* background-color: transparent; */
-    border: none;
-    /* color: #fff; */
+    border: none; 
     cursor: pointer;
     margin-top: 1rem;
     padding: 10px 20px;
     float: right;
 }
 
-button:hover {
-    /* background-color: #555; */
-}
+
 
 .siderbarcontent{
     display: flex;
@@ -51,7 +43,6 @@ button:hover {
 }
 
 .siderbarcontent:hover{
-    /* background-color: #050b21; */
     border-radius: 5px;
 }
 
@@ -59,7 +50,6 @@ button:hover {
   .sidebartools{
     cursor: pointer;
     display: flex;
-    /* justify-content: center; */
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px ;

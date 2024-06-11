@@ -65,12 +65,12 @@ const RoomCollection = ({ totalRoom, settotalRoom, token, setpage }) => {
 
   const handleRoomChange = (index, field, value) => {
     setAmenity(prevState => {
-      const updatedRooms = [...prevState.rooms]; // Create a copy of the room array
+      const updatedRooms = [...prevState.rooms]; 
       updatedRooms[index] = {
         ...updatedRooms[index],
         [field]: value,
       };
-      return { ...prevState, rooms: updatedRooms }; // Update the state with the new room array
+      return { ...prevState, rooms: updatedRooms }; 
     });
   };
 

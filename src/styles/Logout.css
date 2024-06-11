@@ -2,9 +2,8 @@
   position: fixed;
   right: -200px; /* Start off-screen */
   top: 5rem;
-  width: 200px;
-  height: 20%;
-  /* background-color: #bd1f1f; */
+  width: 180px;
+  height: 15%;
   transition: right 0.3s ease; /* Smooth transition */
 }
 
@@ -15,12 +14,26 @@
 .sidebar-cont {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  padding: 20px;
+  gap: 1rem;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.sidebar-cont ul{
+  list-style-type: none;
+    padding: 0;
+    justify-content: space-between;
+}
+
+.siderbarconten{
+  display: flex;
+  padding: 10px 25px;
+  /*  */
+  /* justify-content: space-between; */
 }
 
 .sidebar-cont button {
   font-size: 16px;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
