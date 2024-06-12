@@ -111,7 +111,7 @@ useEffect(() => {
         </nav>
 
         <div className='heading-hotal-main'>
-          <h1 >Welcome to my Dashborad</h1>
+          <h1 >Welcome to dashboard</h1>
           <h2>Book Here...</h2>
         </div>
 
