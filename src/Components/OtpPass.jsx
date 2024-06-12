@@ -47,10 +47,10 @@ const OtpPass = ({ page, setpage, token , handleApiRespon}) => {
                     setpage(2);
                 } else {
                     console.log('api failed')
-                    if (result.data.error) {
-                        if (result.data.error === 'Email OTP does not match') {
+                    if (result.data) {
+                        if (result.data.message === 'Email OTP does not match') {
                             setEmailOtpError('Email OTP does not match');
-                        } else if (result.data.error === 'Mobile OTP does not match') {
+                        } else if (result.data.message === 'Mobile OTP does not match') {
                             setMobileOtpError('Mobile OTP does not match');
                         } else {
                             setBackendError(result.data.error);
