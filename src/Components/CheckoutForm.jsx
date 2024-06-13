@@ -20,7 +20,7 @@ const CheckoutForm = () => {
   const [roomNumber, setRoomNumber] = useState('');
   console.log(roomNumber)
   const [price, setPrice] = useState('');
-  const [paymentDone, setPaymentDone] = useState(false);
+  const [paymentDone, setPaymentDone] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   const location = useLocation();

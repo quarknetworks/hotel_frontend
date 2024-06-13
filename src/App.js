@@ -11,6 +11,7 @@ import SignupFoams from './Components/SignupFoams';
 import Login from './Components/Login';
 import ThankYouPage from './Components/ThankYouPage';
 import CheckoutForm from './Components/CheckoutForm';
+import WiFiLogin from './Components/WiFiLogin';
 
 
 
@@ -56,6 +57,7 @@ function App() {
       <Route path="/guestTable" element={<GuestTable token={token}/>}/>
       <Route path="/thankyoupage" element={<ThankYouPage/>}/>
       <Route path="/checkout" element={<CheckoutForm/>}/>
+      <Route path="/captiportal" element={<WiFiLogin/>}/> 
    </Routes>
    </ThemeProvider>
    </Router>
