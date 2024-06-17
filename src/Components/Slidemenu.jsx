@@ -55,8 +55,8 @@ const Slidemenu = ({ isOpen, closeMenu, toggleTheme }) => {
             </div>
           </div>
           <div className='sidebartools' >
-            <div className='siderbarcontent'>
-              <FontAwesomeIcon icon={faWifi} />
+            <div className='siderbarcontent' onClick={()=> { navigate('/captiportal')}}>
+              <FontAwesomeIcon icon={faWifi}  />
               <li>Wifi</li>
             </div>
             <div className='arrowdown'>

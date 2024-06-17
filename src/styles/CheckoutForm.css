@@ -4,11 +4,11 @@
 }
 
 #checkout-containe {
-
   width: 100vw;
   height: auto;
   padding-top: 2rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   /* align-items: center; */
 }
@@ -47,6 +47,18 @@ h1 {
   border-radius: 4px;
   box-sizing: border-box;
 }
+
+.payment-method select,
+.payment-status select {
+  margin: 0.8rem 0;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
 
 .input-fiel button {
   background-color: #4CAF50;
