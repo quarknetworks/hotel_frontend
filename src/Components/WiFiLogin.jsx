@@ -32,7 +32,7 @@ const WiFiLogin = () => {
                     />
                 </div>
                 <div className="forms-group">
-                    <label htmlFor="Room Number" className="form-label">Room Numbers</label>
+                    <label htmlFor="Room Number" className="form-label">Room Number</label>
                     <input
                         type="text"
                         id=""
