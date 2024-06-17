@@ -116,7 +116,7 @@ const Roomsdash = () => {
                             <input type="search" placeholder='Search by Room number' />
                         </div>
                         <div>
-                            <select name="" id="">
+                            <select name="" id="" className='floor-select'>
                                 <option value="Floor-1">Floor-1</option>
                                 <option value="Floor-2">Floor-2</option>
                                 <option value="Floor-3">Floor-3</option>

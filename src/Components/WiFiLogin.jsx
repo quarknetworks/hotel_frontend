@@ -3,7 +3,12 @@ import '../styles/WiFiLogin.css'
 
 const WiFiLogin = () => {
 
-    const [name, setName] = useState('');
+    const [name, setName] = useState({
+        lastName: '',
+        roomNumber: ''
+    });
+
+    console.log(name)
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -18,11 +23,22 @@ const WiFiLogin = () => {
                 <div className="forms-group">
                     <label htmlFor="name" className="form-label">Name:</label>
                     <input
-                        type="text"
-                        id="name"
+                        type="Last Name"
+                        id=""
                         className="form-input"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={name.lastName}
+                        onChange={(e) => setName({...name, lastName:e.target.value} )}
+                        required
+                    />
+                </div>
+                <div className="forms-group">
+                    <label htmlFor="name" className="form-label">Name:</label>
+                    <input
+                        type="Room Number"
+                        id=""
+                        className="form-input"
+                        value={name.roomNumber}
+                        onChange={(e) => setName({...name , roomNumber:e.target.value})}
                         required
                     />
                 </div>

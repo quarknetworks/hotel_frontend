@@ -1,30 +1,24 @@
-
 import React, { useState, useEffect } from 'react';
-import "../styles/CheckoutForm.css";
 import Navbar from './Navbar';
 import { useTheme } from './ThemeContext';
 import axios from 'axios';
-// import API_ENDPOINTS from '../config.js';
 import API_ENDPOINTS from '../confi';
-
 import { useLocation } from 'react-router-dom';
-
+import "../styles/CheckoutForm.css"
 
 const CheckoutForm = () => {
-
   const [guestName, setGuestName] = useState('');
-  
-  const [totalamount, settotalamount] = useState('');
-  const [paidAmount, setpaidAmount] = useState('');
-  const [balanceamount, setbalanceamount] = useState('');
+  const [totalAmount, setTotalAmount] = useState('');
+  const [paidAmount, setPaidAmount] = useState('');
+  const [balanceAmount, setBalanceAmount] = useState('');
   const [roomNumber, setRoomNumber] = useState('');
-  console.log(roomNumber)
-  const [price, setPrice] = useState('');
   const [paymentDone, setPaymentDone] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [paymentOption, setPaymentOption] = useState('');
+  const [paidAmountInput, setPaidAmountInput] = useState('');
 
   const location = useLocation();
-
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchCheckoutDetails = async () => {
@@ -35,16 +29,13 @@ const CheckoutForm = () => {
             'Authorization': `Bearer ${token}`,
           }
         });
-        console.log(response.data.booking)
         const data = response.data.booking;
-        console.log(data)
-        const guest = response.data.booking.guestDetails;
-        console.log(guest)
-        setGuestName(guest[0].name);
-        setpaidAmount(data.paidAmount)
-        setbalanceamount(data.balance);
+        const guest = response.data.booking.guestDetails[0];
+        setGuestName(guest.name);
+        setPaidAmount(data.paidAmount);
+        setBalanceAmount(data.balance);
         setRoomNumber(data.RoomNumber);
-        settotalamount(data.totelAmount);
+        setTotalAmount(data.totalAmount);
         setPaymentDone(data.payment);
       } catch (error) {
         console.error('Error fetching checkout details:', error);
@@ -57,40 +48,51 @@ const CheckoutForm = () => {
   }, []);
 
 
-  const submitData = async () => {
 
+  const submitData = async () => {
     const token = sessionStorage.getItem('token');
     try {
-      console.log(token)
       const response = await axios.post(`${API_ENDPOINTS.API}/guests/${roomNumber}/checkout`, {}, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
-      console.log(response)
-      // if (response.data.success) {
-      //   setPaymentDone(true);
-
-      // }
-      if (response.data.success == true) {
-        alert("checkout succesfull")
-        setRoomNumber('')
+      if (response.data.success) {
+        alert("Checkout successful");
+        setRoomNumber('');
       }
     } catch (error) {
-      console.error('Error processing payment:', error);
+      console.error('Error processing checkout:', error);
     }
   };
 
-  const handlePayment = async () => {
+  const handlePaymentMethodChange = (e) => {
+    setPaymentOption(e.target.value);
+  };
+
+  const handlePaymentAmountChange = (e) => {
+    setPaidAmountInput(e.target.value);
+  };
+
+  const handlePaymentStatusChange = (e) => {
+    setPaymentDone(e.target.value === 'Done');
+  };
+
+  const handlePaymentSubmission = async () => {
     const token = sessionStorage.getItem('token');
     try {
       const response = await axios.post(`${API_ENDPOINTS.API}/checkout/pay`, {
+        paymentMethod: paymentOption,
+        amount: paidAmountInput,
+      }, {
         headers: {
           'Authorization': `Bearer ${token}`,
         }
       });
       if (response.data.success) {
+        setPaidAmount(paidAmountInput);
+        setBalanceAmount(totalAmount - paidAmountInput);
         setPaymentDone(true);
       }
     } catch (error) {
@@ -98,30 +100,9 @@ const CheckoutForm = () => {
     }
   };
 
-  const handleCheckout = async () => {
-    const token = sessionStorage.getItem('token');
-    try {
-      const response = await axios.post(`${API_ENDPOINTS.API}/checkout/complete`, {
-        referenceNumber,
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        }
-      });
-      if (response.data.success) {
-        alert("Checkout completed successfully");
-      }
-    } catch (error) {
-      console.error('Error completing checkout:', error);
-    }
-  };
-
-  const { theme } = useTheme();
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
 
   return (
     <div>
@@ -135,58 +116,63 @@ const CheckoutForm = () => {
                 <label>Guest Name:</label>
                 <input type='text' value={guestName} readOnly />
               </div>
-              {/* <div className='input-fiel'>
-                <label>Room ID:</label>
-                <input type='text' readOnly />
-              </div> */}
-              {/* <div className='input-fiel'>
-                <label>Reference Number:</label>
-                <input type='text' readOnly />
-              </div> */}
               <div className='input-fiel'>
                 <label>Room Number:</label>
-                <input type='text' value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)} />
+                <input type='text' value={roomNumber} readOnly />
               </div>
               <div className='input-fiel'>
-                <label>Total Amount</label>
-                <input type='text' value={totalamount} />
+                <label>Total Amount:</label>
+                <input type='text' value={totalAmount} readOnly />
               </div>
               <div className='input-fiel'>
-                <label>Alredy paid</label>
-                <input type='text' value={paidAmount} />
+                <label>Already Paid:</label>
+                <input type='text' value={paidAmount} readOnly />
               </div>
               <div className='input-fiel'>
-                <label>Balance Amount</label>
-                <input type='text' value={balanceamount} />
+                <label>Balance Amount:</label>
+                <input type='text' value={balanceAmount} readOnly />
               </div>
-              <div className='payment-option'>
-                <div className='payment-status'>
-                  <label>Payment Status:</label>
-                  <input type='text'  value={paymentDone} readOnly />
+              <div className='payment-status'>
+                <label>Payment Status:</label>
+                <select value={paymentDone ? 'Done' : 'Pending'} onChange={handlePaymentStatusChange}>
+                  <option value='Pending'>Pending</option>
+                  <option value='Done'>Done</option>
+                </select>
+              </div>
+
+              {paymentDone && (
+                <div className='payment-method'>
+                  <label>Select Payment Method:</label>
+                  <select value={paymentOption} onChange={handlePaymentMethodChange}>
+                    <option value=''>Select</option>
+                    <option value='cash'>Cash Payment</option>
+                    <option value='upi'>UPI</option>
+                  </select>
                 </div>
-                <div className='Paid-button'>
-                  <button>Payment Done</button>
+              )}
+
+              {paymentOption && (
+                <div className='input-fiel'>
+                  <label>Enter Amount Paid:</label>
+                  <input type='text' value={paidAmountInput} onChange={handlePaymentAmountChange} />
                 </div>
-              </div>
-              {/* {!paymentDone ? (
-              <div className='input-fiel'>
-                <button onClick={handlePayment}>Make Payment</button>
-              </div>
-            ) : (
-              <div className='input-fiel'>
-                <button onClick={handleCheckout}>Complete Checkout</button>
-              </div>
-            )} */}
-              <div className='input-fiel' >
+              )}
+
+              {paymentOption && paidAmountInput && (
+                <div className='input-fiel'>
+                  <button onClick={handlePaymentSubmission}>Pay</button>
+                </div>
+              )}
+
+              <div className='input-field'>
                 <button onClick={submitData}>Submit</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div >
-
-  )
+    </div>
+  );
 }
 
-export default CheckoutForm
+export default CheckoutForm;
