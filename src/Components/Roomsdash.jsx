@@ -73,13 +73,15 @@ const Roomsdash = () => {
             }
             );
             console.log(response)
+            const {hotelId,bookingId } = response.data
+            console.log(hotelId,bookingId)
             if (response.data.available === true) {
 
                 fetchRooms();
-                Navigate("/guestfoam", { state: { roomNumber: roomNumber } })
+                Navigate("/guestfoam", { state: { roomNumber: roomNumber  } })
 
             } else if (response.data.available === false) {
-               Navigate("/checkout" , { state: { roomNumber: roomNumber } })
+               Navigate("/checkout" , { state: { hotelId: hotelId, bookingId:bookingId  } })
             } 
 
         } catch (error) {

@@ -62,7 +62,7 @@ function App() {
    </ThemeProvider>
    </Router>
      </div>
-  ); 
+  );   
 }
 
 export default App;

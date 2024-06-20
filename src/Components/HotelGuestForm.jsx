@@ -19,7 +19,7 @@ const HotelGuestForm = () => {
   const [PriceGiven, setPriceGiven] = useState('');
   const [roomPrice, setRoomPrice] = useState('');
   const [guestDetails, setGuestDetails] = useState([
-    { aadharnumber: "", aadharphoto: null, name: '', gender: '',documentUrl: '' }
+    { aadharnumber: "", aadharphoto: null, firstName: '', lastName:'', gender: '', documentUrl: '' }
   ]);
   console.log(guestDetails)
 
@@ -27,7 +27,7 @@ const HotelGuestForm = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [userNotFound, setUserNotFound] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newGuest, setNewGuest] = useState({ name: '', phone: '', email: '', aadharNumber: '', gender: '', DOB: '',  });
+  const [newGuest, setNewGuest] = useState({ firstName: '', lastName:'', phone: '', email: '', aadharNumber: '', gender: '', DOB: '', });
   console.log(newGuest)
   const [errors, setErrors] = useState({});
   const [userid, setuserid] = useState('')
@@ -71,6 +71,7 @@ const HotelGuestForm = () => {
       });
       console.log(response)
       setSuggestions(response.data);
+      console.log(suggestions)
       setUserNotFound('');
       // setuserid(response)
     } catch (error) {
@@ -81,88 +82,88 @@ const HotelGuestForm = () => {
     }
   };
 
-  const handleAadharPhotoChange = async (e , index) => {
+  const handleAadharPhotoChange = async (e, index) => {
     // e.preventDefault();
-     
-    const  file = e.target.files[0]
+
+    const file = e.target.files[0]
     const fileType = getFileType(file);
-    if (file && (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf' || fileType === 'jpeg')){
-    try {
-      const token = sessionStorage.getItem('token');
-      // const aadharPhoto = guestDetails[0].aadharphoto;
-      // const isPdf = aadharPhoto && aadharPhoto.type === 'application/pdf';
+    if (file && (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf' || fileType === 'jpeg')) {
+      try {
+        const token = sessionStorage.getItem('token');
+        // const aadharPhoto = guestDetails[0].aadharphoto;
+        // const isPdf = aadharPhoto && aadharPhoto.type === 'application/pdf';
 
-      const response = await axios.post(`${API_ENDPOINTS.API}/upload/url?guestId=${userid}`, {
-        // fileType: isPdf ? 'pdf' : 'image'
-        fileType , fileName : 'aadhar'
+        const response = await axios.post(`${API_ENDPOINTS.API}/upload/url?guestId=${userid}`, {
+          // fileType: isPdf ? 'pdf' : 'image'
+          fileType, fileName: 'aadhar'
 
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': '*',
-        },
-      });
+        }, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*',
+          },
+        });
 
-      console.log(response.data)
+        console.log(response.data)
 
-      const { upload_url, document_url } = response.data[0];
+        const { upload_url, document_url } = response.data[0];
 
-      console.log(upload_url)
-      console.log(document_url)
+        console.log(upload_url)
+        console.log(document_url)
 
-      const formData = new FormData();
-      formData.append('file', file);
+        const formData = new FormData();
+        formData.append('file', file);
 
-      if (!upload_url) {
-        throw new Error("Upload URL is undefined.");
-      }
+        if (!upload_url) {
+          throw new Error("Upload URL is undefined.");
+        }
 
-      const headers = {
-        'Content-Type': file.type
-      };
-      // const formData = new FormData();
-      // formData.append('file', aadharPhoto);
-
-      if (fileType === 'pdf') {
-        // Upload PDF file
-        await axios.put(upload_url, file, { headers });
-      } else {
-        // Upload binary data for images
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const arrayBuffer = reader.result;
-          await axios.put(upload_url, arrayBuffer, { headers });
+        const headers = {
+          'Content-Type': file.type
         };
-        reader.readAsArrayBuffer(file);
+        // const formData = new FormData();
+        // formData.append('file', aadharPhoto);
+
+        if (fileType === 'pdf') {
+          // Upload PDF file
+          await axios.put(upload_url, file, { headers });
+        } else {
+          // Upload binary data for images
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+            const arrayBuffer = reader.result;
+            await axios.put(upload_url, arrayBuffer, { headers });
+          };
+          reader.readAsArrayBuffer(file);
+        }
+
+        setGuestDetails(prevDetails => {
+          const updatedDetails = [...prevDetails];
+          updatedDetails[index].documentUrl = document_url;
+          return updatedDetails;
+        });
+
+        console.log("File uploaded successfully")
+
+
+
+      } catch (error) {
+        console.log("error", error);
       }
-
-      setGuestDetails(prevDetails => {
-        const updatedDetails = [...prevDetails];
-        updatedDetails[index].documentUrl = document_url;
-        return updatedDetails;
-      });
-
-      console.log("File uploaded successfully")
-    
-
-   
-    } catch (error) {
-      console.log("error", error);
+    } else {
+      console.log('db')
     }
-  } else {
-    console.log('db')
-  }
   };
 
   const getFileType = (file) => {
     const fileName = file.name.toLowerCase();
     const fileExtension = fileName.split('.').pop();
     return fileExtension;
-};
+  };
 
-  const handleSubmit =  async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const token = sessionStorage.getItem('token');
@@ -178,7 +179,8 @@ const HotelGuestForm = () => {
       PriceGiven,
       guestDetails: guestDetails.map(guest => ({
         aadharnumber: guest.aadharnumber,
-        name: guest.name,
+        firstName: guest.firstName,
+        lastName: guest.lastName,
         gender: guest.gender,
         documentUrl: guest.documentUrl
       }))
@@ -198,7 +200,7 @@ const HotelGuestForm = () => {
       setNumOfGuests(1);
       setAadress('');
       setPriceGiven('');
-      setGuestDetails([{ aadharnumber: "", aadharphoto: null, name: '', gender: '', documentUrl: '' }]);
+      setGuestDetails([{ aadharnumber: "", aadharphoto: null, firstName: '', lastName:'', gender: '', documentUrl: '' }]);
 
       console.log("Booking data submitted successfully");
     } catch (error) {
@@ -229,9 +231,11 @@ const HotelGuestForm = () => {
       const updatedDetails = [...prevDetails];
       updatedDetails[0] = {
         aadharnumber: guest.aadharNumber || '',
-        name: guest.name || '',
+        firstName: guest.firstName || '',
+        lastName: guest.lastName || '',
         gender: guest.gender || ''
       };
+      console.log(updatedDetails)
       return updatedDetails;
     });
   };
@@ -258,9 +262,9 @@ const HotelGuestForm = () => {
   const validateNewGuest = () => {
     const newErrors = {};
 
-    if (!newGuest.name || !/^[a-zA-Z\s]+$/.test(newGuest.name)) {
-      newErrors.name = "Name is required and should only contain letters.";
-    }
+    // if (!newGuest.name || !/^[a-zA-Z\s]+$/.test(newGuest.name)) {
+    //   newErrors.name = "Name is required and should only contain letters.";
+    // }
     if (!newGuest.phone || !/^\d{10}$/.test(newGuest.phone)) {
       newErrors.phone = "Phone number is required and should be a valid 10-digit number.";
     }
@@ -301,13 +305,14 @@ const HotelGuestForm = () => {
           const updatedDetails = [...prevDetails];
           updatedDetails[0] = {
             aadharnumber: newGuest.aadharNumber,
-            name: newGuest.name,
+            firstName: newGuest.firstName,
+            lastNameName: newGuest.lastName,
             gender: newGuest.gender,
             aadharphoto: null // Ensure aadharphoto is reset or left as it was
           };
           return updatedDetails;
         });
-        setNewGuest({ name: '', phone: '', email: '', aadharNumber: '', gender: '', DOB: '' });
+        setNewGuest({ firstName: '',lastName: '', phone: '', email: '', aadharNumber: '', gender: '', DOB: '' });
         setIsModalOpen(false);
       }
     } catch (error) {
@@ -321,7 +326,7 @@ const HotelGuestForm = () => {
     setGuestDetails((prevDetails) => {
       const updatedDetails = [...prevDetails];
       while (updatedDetails.length < value) {
-        updatedDetails.push({ aadharnumber: "", aadharphoto: null, name: '', gender: '' });
+        updatedDetails.push({ aadharnumber: "", aadharphoto: null, firstName: '', lastName: '',gender: '' });
       }
       while (updatedDetails.length > value) {
         updatedDetails.pop();
@@ -403,9 +408,18 @@ const HotelGuestForm = () => {
                   <div className='input-field'>
                     <input
                       type='text'
-                      value={guest.name}
-                      onChange={(e) => handleRoomChange(index, 'name', e.target.value)}
-                      placeholder='Guest Name'
+                      value={guest.firstName}
+                      onChange={(e) => handleRoomChange(index, 'firstName', e.target.value)}
+                      placeholder='First Name'
+                    />
+                  </div>
+                  <br />
+                  <div className='input-field'>
+                    <input
+                      type='text'
+                      value={guest.lastName}
+                      onChange={(e) => handleRoomChange(index, 'lastName', e.target.value)}
+                      placeholder='Last Name'
                     />
                   </div>
                   <br />
@@ -448,9 +462,19 @@ const HotelGuestForm = () => {
             <div className='input-field'>
               <input
                 type='text'
-                value={newGuest.name}
-                onChange={(e) => setNewGuest({ ...newGuest, name: e.target.value })}
-                placeholder='Name'
+                value={newGuest.firstName}
+                onChange={(e) => setNewGuest({ ...newGuest, firstName: e.target.value })}
+                placeholder='First Name'
+              />
+              {errors.name && <p className='error'>{errors.name}</p>}
+            </div>
+            <br />
+            <div className='input-field'>
+              <input
+                type='text'
+                value={newGuest.lastName}
+                onChange={(e) => setNewGuest({ ...newGuest, lastName: e.target.value })}
+                placeholder='Last Name'
               />
               {errors.name && <p className='error'>{errors.name}</p>}
             </div>

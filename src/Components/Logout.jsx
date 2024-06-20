@@ -16,7 +16,7 @@ const Logout = ({ isOpen, closeSidebar }) => {
 
   const handleLogout = () => {
 
-    // sessionStorage.clear();
+    sessionStorage.clear();
     navigate("/login");
   };
 
