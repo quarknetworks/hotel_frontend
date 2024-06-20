@@ -10,33 +10,54 @@ const CheckoutForm = () => {
   const [guestName, setGuestName] = useState('');
   const [totalAmount, setTotalAmount] = useState('');
   const [paidAmount, setPaidAmount] = useState('');
+  console.log(paidAmount)
   const [balanceAmount, setBalanceAmount] = useState('');
   const [roomNumber, setRoomNumber] = useState('');
+  console.log(roomNumber)
   const [paymentDone, setPaymentDone] = useState('');
+  
+
   const [isLoading, setIsLoading] = useState(true);
   const [paymentOption, setPaymentOption] = useState('');
+  console.log(paymentDone)
+  console.log(paymentOption)
   const [paidAmountInput, setPaidAmountInput] = useState('');
 
   const location = useLocation();
   const { theme } = useTheme();
 
+  const hotelid = location.state.hotelId;
+  const bookingid = location.state.bookingId;
+ 
+
   useEffect(() => {
     const fetchCheckoutDetails = async () => {
       const token = sessionStorage.getItem('token');
       try {
-        const response = await axios.get(`${API_ENDPOINTS.API}/guests/${location.state.roomNumber}`, {
+        const response = await axios.get(`${API_ENDPOINTS.API}/guests/${hotelid}/bookingbyid/${bookingid}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           }
         });
-        const data = response.data.booking;
-        const guest = response.data.booking.guestDetails[0];
-        setGuestName(guest.name);
+        console.log(response)
+        // const data = response.data;
+        // console.log(data)
+        // const guest = response.data.booking.guestDetails[0];
+        if (response.data.success == true) {
+          const guest = response.data?.booking.guestDetails[0];
+          console.log(guest)
+          const data = response.data.booking          ;
+          console.log(data)
+          // const guest = response.data.guestDetails[0];
+          // console.log(guest)
+        setGuestName(guest.firstName);
         setPaidAmount(data.paidAmount);
         setBalanceAmount(data.balance);
         setRoomNumber(data.RoomNumber);
-        setTotalAmount(data.totalAmount);
-        setPaymentDone(data.payment);
+        setTotalAmount(data.totelAmount);
+        setPaymentOption(data.payment);
+        setPaymentDone(data.payment === 'paid' ? 'Done' : 'Pending');
+      }
       } catch (error) {
         console.error('Error fetching checkout details:', error);
       } finally {
@@ -52,15 +73,23 @@ const CheckoutForm = () => {
   const submitData = async () => {
     const token = sessionStorage.getItem('token');
     try {
-      const response = await axios.post(`${API_ENDPOINTS.API}/guests/${roomNumber}/checkout`, {}, {
+
+      const payload = {};
+
+      if (paymentDone) {
+        payload.payment = "paid"; // Include Payment: "paid" only if paymentDone is true
+      }
+
+      const response = await axios.put(`${API_ENDPOINTS.API}/guests/${bookingid}/bookingUpdate`,payload, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
-      if (response.data.success) {
-        alert("Checkout successful");
-        setRoomNumber('');
+      if (response.data.payment == "paid") {
+        fetchCheckoutDetails()
+        // alert("Checkout successful");
+        // setRoomNumber('');
       }
     } catch (error) {
       console.error('Error processing checkout:', error);
@@ -75,25 +104,27 @@ const CheckoutForm = () => {
     setPaidAmountInput(e.target.value);
   };
 
-  const handlePaymentStatusChange = (e) => {
-    setPaymentDone(e.target.value === 'Done');
-  };
+  // const handlePaymentStatusChange = (e) => {
+  //   setPaymentDone(e.target.value === 'Done');
+  // };
 
   const handlePaymentSubmission = async () => {
     const token = sessionStorage.getItem('token');
     try {
-      const response = await axios.post(`${API_ENDPOINTS.API}/checkout/pay`, {
-        paymentMethod: paymentOption,
-        amount: paidAmountInput,
+      const response = await axios.post(`${API_ENDPOINTS.API}/guests/${roomNumber}/checkout`, {
+        // paymentMethod: paymentOption,
+        // amount: paidAmountInput,
+        // roomNumber:roomNumber
       }, {
         headers: {
           'Authorization': `Bearer ${token}`,
         }
       });
-      if (response.data.success) {
-        setPaidAmount(paidAmountInput);
-        setBalanceAmount(totalAmount - paidAmountInput);
-        setPaymentDone(true);
+      if (response.data.payment == "paid")  {
+        // useEffect()
+        // setPaidAmount(paidAmountInput);
+        // setBalanceAmount(totalAmount - paidAmountInput);
+        // setPaymentDone(true);
       }
     } catch (error) {
       console.error('Error processing payment:', error);
@@ -134,7 +165,7 @@ const CheckoutForm = () => {
               </div>
               <div className='payment-status'>
                 <label>Payment Status:</label>
-                <select value={paymentDone ? 'Done' : 'Pending'} onChange={handlePaymentStatusChange}>
+                <select value={paymentDone} >
                   <option value='Pending'>Pending</option>
                   <option value='Done'>Done</option>
                 </select>
@@ -160,12 +191,12 @@ const CheckoutForm = () => {
 
               {paymentOption && paidAmountInput && (
                 <div className='input-fiel'>
-                  <button onClick={handlePaymentSubmission}>Pay</button>
+                  <button onClick={submitData}>Pay</button>
                 </div>
               )}
 
               <div className='input-field'>
-                <button onClick={submitData}>Submit</button>
+                <button onClick={handlePaymentSubmission}>Submit</button>
               </div>
             </div>
           </div>

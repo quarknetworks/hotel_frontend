@@ -85,9 +85,7 @@ const Slidemenu = ({ isOpen, closeMenu, toggleTheme }) => {
             <li>More...</li>
           </div>
           <div>
-
           </div>
-
         </ul>
 
       </div>

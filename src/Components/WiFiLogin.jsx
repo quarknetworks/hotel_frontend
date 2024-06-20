@@ -21,7 +21,7 @@ const WiFiLogin = () => {
             <form className="wifi-login-form" onSubmit={handleSubmit}>
                 <h2 className="wifi-login-title">WiFi Login</h2>
                 <div className="forms-group">
-                    <label htmlFor="name" className="form-label">Name:</label>
+                    <label htmlFor="name" className="form-label">Last Name</label>
                     <input
                         type="Last Name"
                         id=""
@@ -32,7 +32,7 @@ const WiFiLogin = () => {
                     />
                 </div>
                 <div className="forms-group">
-                    <label htmlFor="name" className="form-label">Name:</label>
+                    <label htmlFor="name" className="form-label">Room Number</label>
                     <input
                         type="Room Number"
                         id=""
