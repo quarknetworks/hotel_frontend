@@ -1,12 +1,21 @@
 import React, { useState } from 'react'
 import '../styles/WiFiLogin.css'
+import { useSearchParams } from 'react-router-dom';
 
 const WiFiLogin = () => {
 
+    const [searchParms, setsearchParms] = useSearchParams
     const [name, setName] = useState({
         lastName: '',
         roomNumber: ''
     });
+
+    const wlanId = searchParms.get('wlan_id')
+    const client_mac = searchParms.get('client_mac')
+    const ap_mac  = searchParms.get('ap_mac')
+    const authorize_url = searchParms.get('authorize_url')
+    const ap_name = searchParms.get('ap_name')
+    const site_name = searchParms.get('site_name')
 
     console.log(name)
 

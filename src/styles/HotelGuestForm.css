@@ -37,7 +37,9 @@
 
 
 .input-field input,
-.room-price {
+.room-price ,
+select
+{
   margin-left: 3rem;
   width: 25rem;
   padding: 0.5rem;
@@ -50,20 +52,6 @@
   font-size: 1rem;
   transition: border-color 0.2s;
   font-family: "Fredoka";
-  /* background: transparent; */
- 
-  
-  /* margin-left: 3rem; */
- /* border: 0;
-  border-bottom: 2px solid gray;
-  outline: 0;
-  font-size: 1.3rem;
-  margin-left: 7rem;
-  padding: 7px 0;
-  background: transparent;
-  transition: border-color 0.2s;
-  font-weight: 450;
-  font-family: "Fredoka"; */
 }
 
 .input-field ::placeholder {

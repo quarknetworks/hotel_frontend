@@ -19,18 +19,20 @@ const HotelGuestForm = () => {
   const [PriceGiven, setPriceGiven] = useState('');
   const [roomPrice, setRoomPrice] = useState('');
   const [guestDetails, setGuestDetails] = useState([
-    { aadharnumber: "", aadharphoto: null, firstName: '', lastName:'', gender: '', documentUrl: '' }
+    { aadharnumber: "", aadharphoto: null, firstName: '', lastName: '', gender: '', documentUrl: '',selectedOption: '' }
   ]);
   console.log(guestDetails)
 
   console.log("guest", guestDetails)
+
   const [suggestions, setSuggestions] = useState([]);
   const [userNotFound, setUserNotFound] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newGuest, setNewGuest] = useState({ firstName: '', lastName:'', phone: '', email: '', aadharNumber: '', gender: '', DOB: '', });
+  const [newGuest, setNewGuest] = useState({ firstName: '', lastName: '', phone: '', email: '', aadharNumber: '', gender: '', DOB: '', });
   console.log(newGuest)
   const [errors, setErrors] = useState({});
   const [userid, setuserid] = useState('')
+  const [selectedOption, setSelectedOption] = useState('');
   console.log(userid)
   const location = useLocation();
 
@@ -87,15 +89,17 @@ const HotelGuestForm = () => {
 
     const file = e.target.files[0]
     const fileType = getFileType(file);
+    const selectedOption = guestDetails[index].selectedOption;
     if (file && (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf' || fileType === 'jpeg')) {
       try {
         const token = sessionStorage.getItem('token');
-        // const aadharPhoto = guestDetails[0].aadharphoto;
-        // const isPdf = aadharPhoto && aadharPhoto.type === 'application/pdf';
+
 
         const response = await axios.post(`${API_ENDPOINTS.API}/upload/url?guestId=${userid}`, {
-          // fileType: isPdf ? 'pdf' : 'image'
-          fileType, fileName: 'aadhar'
+
+          fileType,
+          //  fileName: 'aadhar'
+          selectedOption
 
         }, {
           headers: {
@@ -200,7 +204,7 @@ const HotelGuestForm = () => {
       setNumOfGuests(1);
       setAadress('');
       setPriceGiven('');
-      setGuestDetails([{ aadharnumber: "", aadharphoto: null, firstName: '', lastName:'', gender: '', documentUrl: '' }]);
+      setGuestDetails([{ aadharnumber: "", aadharphoto: null, firstName: '', lastName: '', gender: '', documentUrl: '' }]);
 
       console.log("Booking data submitted successfully");
     } catch (error) {
@@ -233,7 +237,8 @@ const HotelGuestForm = () => {
         aadharnumber: guest.aadharNumber || '',
         firstName: guest.firstName || '',
         lastName: guest.lastName || '',
-        gender: guest.gender || ''
+        gender: guest.gender || '',
+         selectedOption: ''
       };
       console.log(updatedDetails)
       return updatedDetails;
@@ -312,7 +317,7 @@ const HotelGuestForm = () => {
           };
           return updatedDetails;
         });
-        setNewGuest({ firstName: '',lastName: '', phone: '', email: '', aadharNumber: '', gender: '', DOB: '' });
+        setNewGuest({ firstName: '', lastName: '', phone: '', email: '', aadharNumber: '', gender: '', DOB: '' });
         setIsModalOpen(false);
       }
     } catch (error) {
@@ -326,7 +331,7 @@ const HotelGuestForm = () => {
     setGuestDetails((prevDetails) => {
       const updatedDetails = [...prevDetails];
       while (updatedDetails.length < value) {
-        updatedDetails.push({ aadharnumber: "", aadharphoto: null, firstName: '', lastName: '',gender: '' });
+        updatedDetails.push({ aadharnumber: "", aadharphoto: null, firstName: '', lastName: '', gender: '' });
       }
       while (updatedDetails.length > value) {
         updatedDetails.pop();
@@ -440,6 +445,21 @@ const HotelGuestForm = () => {
                       placeholder='Gender'
                     />
                   </div>
+                  <br />
+                  <div className='input-field'>
+
+                    <select
+                    id={`documentType-${index}`}
+                    value={guest.selectedOption}
+                    onChange={(e) => handleRoomChange(index, 'selectedOption', e.target.value)}>
+                      <option value="">Select ID Type</option>
+                      <option value="aadhar">Aadhar</option>
+                      <option value="pan">Pan</option>
+                      <option value="driving_license">Driving License</option>
+                      <option value="passport">Passport</option>
+                    </select>
+                  </div>
+
                   <br />
                   <div className='input-field'>
                     <input
