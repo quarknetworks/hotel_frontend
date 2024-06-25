@@ -17,6 +17,13 @@ const WiFiLogin = () => {
     const ap_name = searchParms.get('ap_name')
     const site_name = searchParms.get('site_name')
 
+     console.log(wlanId)
+    console.log(client_mac)
+    console.log(ap_mac)
+    console.log(authorize_url)
+    console.log(ap_name)
+    console.log(site_name)
+
     console.log(name)
 
     const handleSubmit = (event) => {
