@@ -6,11 +6,11 @@
   
 }
 
+
 .Roommaincontainer{
   margin-top: 2rem;
   width: 70vw;
   height: auto;
-  /* display: flex */
   margin-left: 20rem;
   
 }
@@ -47,7 +47,6 @@
 
 
 .floor-select{
-  /* margin: 0.8rem 0; */
   width: 100%;
   padding: 5px;
   font-size: 16px;
@@ -60,10 +59,6 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  /* margin-bottom: 10px ; */
- 
-  /* margin-top: 2rem;
-  margin-right: 5rem; */
 }
 
 .Roomleftside{
@@ -79,21 +74,11 @@ height: 70vh;
 border: 1px solid #dddddd;
 padding: 1rem 1rem;
 margin-top: 1.5rem;
-
-/* float: right; */
-/* margin-right: 5rem;  */
 }
 
 
 @import url("https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;500&display=swap");
 
-/* #maindiv-child {
-  background-color: #f5f5f5 ;
-  height: 100vh;
-  width: 100vw;
-  background-color: #000435;
-
-} */
 
 .container {
  display: flex;
@@ -102,7 +87,6 @@ margin-top: 1.5rem;
  justify-content: center;
  border-radius: 5px solid green;
 overflow: hidden;
-/* background-color: #000435; */
 font-family: 'Baloo Paaji 2', cursive;
 }
 
@@ -119,6 +103,14 @@ font-family: 'Baloo Paaji 2', cursive;
   /* box-shadow: rgba(0, 0, 0, 0.7); */
   color: white;
   
+}
+
+.available {
+  /* background-color: #4caf50;  */
+}
+
+.occupied {
+  background-color: red; 
 }
 
 .card__name {
@@ -204,7 +196,7 @@ font-family: 'Baloo Paaji 2', cursive;
   font-size: 1.2em;
 }
 
-.available {
+/* .available {
   background-color: green;
   margin-top: 12px;
  width: 10px;
@@ -218,7 +210,7 @@ font-family: 'Baloo Paaji 2', cursive;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-}
+} */
 
 
 .dots{

@@ -11,15 +11,7 @@ const Roomsdash = () => {
     // const [rooms, setRooms] = useState([]);
     const [currentDate, setCurrentDate] = useState(getDate());
     const { theme } = useTheme();
-    const [rooms, setRooms] = useState([
-        // { id: 1, RoomNo: '101', Available: true },
-        // { id: 2, RoomNo: '102', Available: false },
-        // { id: 3, RoomNo: '103', Available: true },
-        // { id: 4, RoomNo: '104', Available: true },
-        // { id: 5, RoomNo: '105', Available: true },
-        // { id: 6, RoomNo: '106', Available: true },
-        // { id: 7, RoomNo: '107', Available: true },
-    ]);
+    const [rooms, setRooms] = useState([]);
     console.log(rooms)
 
 
@@ -38,8 +30,7 @@ const Roomsdash = () => {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
-                    // 'Access-Control-Allow-Origin': '*',
-                    // 'Access-Control-Allow-Headers': '*',
+                 
                 },
             });
             setRooms(response.data.rooms);
@@ -89,19 +80,7 @@ const Roomsdash = () => {
         }
     }
 
-    // const handleToggleStatus = (roomId, currentAvailability) => {
-    //     const roomIndex = rooms.findIndex(room => room.id === roomId);
-
-    //     if (roomIndex !== -1) {
-    //         const updatedRooms = [...rooms];
-    //         updatedRooms[roomIndex].Available = !currentAvailability ? true : false;
-    //         setRooms(updatedRooms);
-    //     } else {
-    //         console.error('Room not found');
-    //     }
-    // };
-
-
+   
 
     return (
         <div className={`themed-component ${theme}`} id='RoomsdahContainer'>
@@ -131,7 +110,7 @@ const Roomsdash = () => {
                     <div id='maindiv-child'>
                         <div className="container">
                             {rooms.map(room => (
-                                <div className="card" key={room.id}>
+                                <div className={`card ${room.available ? 'available' : 'occupied'}`} key={room.id}>
                                     <p className="card__name">{room.available ? 'Available' : 'Occupied'}</p>
                                     <div className="grid-container">
                                         <div className="grid-child-posts">
