@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const WiFiLogin = () => {
 
-    const [searchParms, setsearchParms] = useSearchParams
+    const [searchParms, setsearchParms] = useSearchParams();
     const [name, setName] = useState({
         lastName: '',
         roomNumber: ''
