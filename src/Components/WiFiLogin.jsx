@@ -62,6 +62,11 @@ const WiFiLogin = () => {
                         required
                     />
                 </div>
+                <h1>wlanId {wlanId} </h1>
+                <h1>client_mac {client_mac} </h1>
+                <h1>ap_mac {ap_mac} </h1>
+                <h1>authorize_url {authorize_url} </h1>
+                <h1>ap_name {ap_name} </h1>
                 <p className='instructions'>Please use your last name with your room number as a username for Login</p>
                 <button type="submit" className="login-button">Login</button>
             </form>
