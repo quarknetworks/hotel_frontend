@@ -18,14 +18,9 @@ const WiFiLogin = () => {
     const url = searchParms.get('authorize_url')
     const ap_name = searchParms.get('ap_name')
     const site_name = searchParms.get('site_name')
-    // console.log(wlanId)
-    // console.log(client_mac)
-    // console.log(ap_mac)
-    // console.log(authorize_url)
-    // console.log(ap_name)
-    // console.log(site_name)
+  
 
-    // console.log(name)
+ 
 
     const handleSubmit = async (event) => {
 
@@ -58,9 +53,11 @@ const WiFiLogin = () => {
             <form className="wifi-login-form" onSubmit={handleSubmit}>
                 <h2 className="wifi-login-title">WiFi Login</h2>
                 <div className="forms-group">
+
                     <label htmlFor="name" className="form-label">Last Name</label>
+
                     <input
-                        type="Last Name"
+                        type="text"
                         id=""
                         className="form-input"
                         value={name.lastName}
@@ -69,9 +66,11 @@ const WiFiLogin = () => {
                     />
                 </div>
                 <div className="forms-group">
+
                     <label htmlFor="name" className="form-label">Room Number</label>
+
                     <input
-                        type="Room Number"
+                        type="text"
                         id=""
                         className="form-input"
                         value={name.roomNumber}
@@ -79,7 +78,6 @@ const WiFiLogin = () => {
                         required
                     />
                 </div>
-               
                 <p className='instructions'>Please use your last name with your room number as a username for Login</p>
                 <button type="submit" className="login-button">Login</button>
             </form>
