@@ -11,7 +11,7 @@ const ThankYouPage = () => {
       const token = sessionStorage.getItem('token');
     console.log(token)
 
-      
+  
         const response = await axios.get(`${API_ENDPOINTS.API}/signup/hotelchecklist/status`, {
           headers:{
             'Authorization': `Bearer ${token}`,
