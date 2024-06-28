@@ -58,6 +58,7 @@ function App() {
       <Route path="/thankyoupage" element={<ThankYouPage/>}/>
       <Route path="/checkout" element={<CheckoutForm/>}/>
       <Route path="/captiportal" element={<WiFiLogin/>}/> 
+      <Route path="/foams" element={<Foam/>}/> 
    </Routes>
    </ThemeProvider>
    </Router>
