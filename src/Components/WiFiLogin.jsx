@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import API_ENDPOINTS from '../confi';
+// import API_ENDPOINTS from '../confi';
 
 const WiFiLogin = () => {
     const [searchParms, setsearchParms] = useSearchParams();
@@ -20,7 +20,7 @@ const WiFiLogin = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`${API_ENDPOINTS.API}/mist/data`, 
+            const response = await axios.post('http://hotelbe.quarknetworks.net:8080/mist/data', 
             { ...name, wlan_id, ap_mac, client_mac, url, ap_name, site_name }, 
             {
                 Headers: {
