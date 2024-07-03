@@ -15,20 +15,21 @@ const CheckoutForm = () => {
   const [roomNumber, setRoomNumber] = useState('');
   console.log(roomNumber)
   const [paymentDone, setPaymentDone] = useState('');
-  
+
 
   const [isLoading, setIsLoading] = useState(true);
   const [paymentOption, setPaymentOption] = useState('');
   console.log(paymentDone)
   console.log(paymentOption)
   const [paidAmountInput, setPaidAmountInput] = useState('');
+  console.log(paidAmountInput)
 
   const location = useLocation();
   const { theme } = useTheme();
 
   const hotelid = location.state.hotelId;
   const bookingid = location.state.bookingId;
- 
+
 
   useEffect(() => {
     const fetchCheckoutDetails = async () => {
@@ -46,18 +47,18 @@ const CheckoutForm = () => {
         if (response.data.success == true) {
           const guest = response.data?.booking.guestDetails[0];
           console.log(guest)
-          const data = response.data.booking          ;
+          const data = response.data.booking;
           console.log(data)
           // const guest = response.data.guestDetails[0];
           // console.log(guest)
-        setGuestName(guest.firstName);
-        setPaidAmount(data.paidAmount);
-        setBalanceAmount(data.balance);
-        setRoomNumber(data.RoomNumber);
-        setTotalAmount(data.totelAmount);
-        setPaymentOption(data.payment);
-        setPaymentDone(data.payment === 'paid' ? 'Done' : 'Pending');
-      }
+          setGuestName(guest.firstName);
+          setPaidAmount(data.deposit);
+          setBalanceAmount(data.balance);
+          setRoomNumber(data.RoomNumber);
+          setTotalAmount(data.totelAmount);
+          setPaymentOption(data.payment);
+          setPaymentDone(data.payment === 'paid' ? 'Done' : 'Pending');
+        }
       } catch (error) {
         console.error('Error fetching checkout details:', error);
       } finally {
@@ -74,13 +75,17 @@ const CheckoutForm = () => {
     const token = sessionStorage.getItem('token');
     try {
 
-      const payload = {};
+      const paidAmount = parseFloat(paidAmountInput);
+
+      const payload = {
+        paidAmount: paidAmount
+      };
 
       if (paymentDone) {
         payload.payment = "paid"; // Include Payment: "paid" only if paymentDone is true
       }
 
-      const response = await axios.put(`${API_ENDPOINTS.API}/guests/${bookingid}/bookingUpdate`,payload, {
+      const response = await axios.put(`${API_ENDPOINTS.API}/guests/${bookingid}/bookingUpdate`, payload, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -104,9 +109,15 @@ const CheckoutForm = () => {
     setPaidAmountInput(e.target.value);
   };
 
-  // const handlePaymentStatusChange = (e) => {
-  //   setPaymentDone(e.target.value === 'Done');
-  // };
+  const handlePaymentStatusChange = (e) => {
+    const newStatus = e.target.value;
+    if (newStatus === 'Done') {
+      setPaymentDone(newStatus);
+      submitData();
+    } else {
+      setPaymentDone(newStatus);
+    }
+  };
 
   const handlePaymentSubmission = async () => {
     const token = sessionStorage.getItem('token');
@@ -120,7 +131,7 @@ const CheckoutForm = () => {
           'Authorization': `Bearer ${token}`,
         }
       });
-      if (response.data.payment == "paid")  {
+      if (response.data.payment == "paid") {
         // useEffect()
         // setPaidAmount(paidAmountInput);
         // setBalanceAmount(totalAmount - paidAmountInput);
@@ -163,9 +174,19 @@ const CheckoutForm = () => {
                 <label>Balance Amount:</label>
                 <input type='text' value={balanceAmount} readOnly />
               </div>
+
+             
+
+            
+                <div className='input-fiel'>
+                  <label>Enter Amount Paid:</label>
+                  <input type='text' value={paidAmountInput} onChange={handlePaymentAmountChange} />
+                </div>
+           
+
               <div className='payment-status'>
                 <label>Payment Status:</label>
-                <select value={paymentDone} >
+                <select value={paymentDone} onChange={handlePaymentStatusChange}>
                   <option value='Pending'>Pending</option>
                   <option value='Done'>Done</option>
                 </select>
@@ -182,21 +203,14 @@ const CheckoutForm = () => {
                 </div>
               )}
 
-              {paymentOption && (
-                <div className='input-fiel'>
-                  <label>Enter Amount Paid:</label>
-                  <input type='text' value={paidAmountInput} onChange={handlePaymentAmountChange} />
-                </div>
-              )}
-
-              {paymentOption && paidAmountInput && (
+              {/* {paymentOption && paidAmountInput && (
                 <div className='input-fiel'>
                   <button onClick={submitData}>Pay</button>
                 </div>
-              )}
+              )} */}
 
-              <div className='input-field'>
-                <button onClick={handlePaymentSubmission}>Submit</button>
+              <div className='input-fie'>
+                <button onClick={handlePaymentSubmission} disabled={!paymentOption || !paidAmountInput}>Submit</button>
               </div>
             </div>
           </div>

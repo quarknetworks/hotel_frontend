@@ -359,7 +359,7 @@ const HotelGuestForm = () => {
                       <ul className="suggestion-ul">
                         {suggestions.map((guest) => (
                           <li key={guest.id} onClick={() => handleSuggestionClick(guest)}>
-                            {guest.name} - {guest.phone}
+                            {guest.firstName} - {guest.phone}
                           </li>
                         ))}
                       </ul>
@@ -399,7 +399,7 @@ const HotelGuestForm = () => {
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="Text" value={PriceGiven} onChange={(e) => setPriceGiven(e.target.value)} placeholder='Price Given ' />
+                    <input type="text" value={PriceGiven} onChange={(e) => setPriceGiven(e.target.value)} placeholder='Price Given ' />
                   </div>
                   <div className="input-field">
                     <button type="submit">Submit</button>
@@ -549,8 +549,10 @@ const HotelGuestForm = () => {
               {errors.DOB && <p className='error'>{errors.DOB}</p>}
             </div>
             <br />
+            <div className ='input-field'>
             <button onClick={handleNewGuestSubmit}>Register</button>
             <button onClick={closeModal}>Close</button>
+            </div>
           </div>
         </div>
       )}

@@ -53,6 +53,7 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   box-sizing: border-box;
+  margin: auto;
 }
 
 .Roomrightside{
@@ -95,7 +96,7 @@ font-family: 'Baloo Paaji 2', cursive;
   background-color: #050b21;
   border-radius: 5px;
   display: flex;
-  width: calc(48.33% - 20px);
+  width: calc(31.33% - 20px);
   height: 12rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   flex-direction: column;
