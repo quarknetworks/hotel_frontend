@@ -141,7 +141,7 @@ useEffect(() => {
               <p>Today Available rooms</p>
               <h2>Available Rooms</h2>
               {/* Add appropriate value for available rooms */}
-              <p>{data ? data.roomsAvailableToday : 'Loading...'}</p>
+              <p>{data ? data.availableRooms : 'Loading...'}</p>
             </div>
           </div>
 
