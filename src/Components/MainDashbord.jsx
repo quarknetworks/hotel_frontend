@@ -128,13 +128,13 @@ useEffect(() => {
             <div className="box" id='secondbox'>
               <p>Today check-out on</p>
               <h2>Total Check-Out</h2>
-              {/* Add appropriate value for check-out */}
+            
               <p>{data ? data.checkoutToday : 'Loading...'}</p>
             </div>
             <div className="box" id='thirdbox'>
               <p>All Rooms Details</p>
               <h2>Total Rooms</h2>
-              {/* Add appropriate value for total rooms */}
+             
               <p>{data ? data.totalRooms : 'Loading...'}</p>
             </div>
             <div className="box" id='fourthbox' onClick={() => { navigate("/roomsdashboard") }}>
