@@ -12,6 +12,8 @@ const Roomsdash = () => {
     const [currentDate, setCurrentDate] = useState(getDate());
     const { theme } = useTheme();
     const [rooms, setRooms] = useState([]);
+    const [floor , setfloor] = useState([])
+    console.log(floor)
     console.log(rooms)
 
 
@@ -33,7 +35,9 @@ const Roomsdash = () => {
                  
                 },
             });
+            console.log(response)
             setRooms(response.data.rooms);
+            setfloor(response.data.floors)
         } catch (error) {
             console.log('Error fetching room data:', error);
         }
@@ -98,7 +102,7 @@ const Roomsdash = () => {
                         </div>
                         <div>
                             <select name="" id="" className='floor-select'>
-                                <option value="Floor-1">Floor-1</option>
+                                <option value="Floor$">Floor-1</option>
                                 <option value="Floor-2">Floor-2</option>
                                 <option value="Floor-3">Floor-3</option>
                                 <option value="Floor-4">Floor-4</option>
