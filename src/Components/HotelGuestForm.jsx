@@ -204,7 +204,10 @@ const HotelGuestForm = () => {
       setNumOfGuests(1);
       setAadress('');
       setPriceGiven('');
+      setRoomNumber('')
+      setRoomPrice('')
       setGuestDetails([{ aadharnumber: "", aadharphoto: null, firstName: '', lastName: '', gender: '', documentUrl: '' }]);
+      alert('Guest Details Submitted successfully')
 
       console.log("Booking data submitted successfully");
     } catch (error) {

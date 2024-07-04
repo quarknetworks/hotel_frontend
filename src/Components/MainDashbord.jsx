@@ -141,7 +141,7 @@ useEffect(() => {
               <p>Today Available rooms</p>
               <h2>Available Rooms</h2>
               {/* Add appropriate value for available rooms */}
-              <p>{data ? data.roomsAvailableToday : 'Loading...'}</p>
+              <p>{data ? data.availableRooms : 'Loading...'}</p>
             </div>
           </div>
 
@@ -222,7 +222,7 @@ useEffect(() => {
             <div className="footer-section">
               <h3>Contact Us</h3>
               <p>Email: {data ? data.hotelEmail : 'Loading...'}</p>
-              <p>Phone: +1 (123) 456-7890</p>
+              <p>Phone: {data ? data.user.mobileNumber : 'Loading...'}</p>
             </div>
 
             <div className="footer-section">
