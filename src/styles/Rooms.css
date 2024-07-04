@@ -98,6 +98,7 @@ font-family: 'Baloo Paaji 2', cursive;
   display: flex;
   width: calc(31.33% - 20px);
   height: 12rem;
+  width: 16rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   flex-direction: column;
   align-items: center;

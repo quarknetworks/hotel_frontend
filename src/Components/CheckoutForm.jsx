@@ -131,11 +131,20 @@ const CheckoutForm = () => {
           'Authorization': `Bearer ${token}`,
         }
       });
-      if (response.data.payment == "paid") {
-        // useEffect()
-        // setPaidAmount(paidAmountInput);
-        // setBalanceAmount(totalAmount - paidAmountInput);
-        // setPaymentDone(true);
+
+      console.log(response)
+    
+      if (response.data.success) {
+        setGuestName('');
+        setPaidAmount('');
+        setBalanceAmount('');
+        setRoomNumber('');
+        setTotalAmount('');
+        setPaidAmountInput('')
+        // setPaymentOption();
+        // setPaymentDone(data.payment === 'paid' ? 'Done' : 'Pending');
+
+        alert('checkout sucessfull')
       }
     } catch (error) {
       console.error('Error processing payment:', error);

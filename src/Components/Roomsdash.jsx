@@ -13,13 +13,16 @@ const Roomsdash = () => {
     const { theme } = useTheme();
     const [rooms, setRooms] = useState([]);
     const [floor , setfloor] = useState([])
-    console.log(floor)
+    const [selectedFloor, setSelectedFloor] = useState("");
+    const [selectedRoom, setselectedRoom] = useState('')
+    console.log(selectedRoom)
+    console.log(selectedFloor)
     console.log(rooms)
 
 
     useEffect(() => {
         fetchRooms();
-    }, []);
+    }, [selectedFloor,selectedRoom]);
 
     const Navigate = useNavigate()
 
@@ -28,7 +31,7 @@ const Roomsdash = () => {
         const token = sessionStorage.getItem('token');
         console.log(token)
         try {
-            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/allrooms`, {
+            const response = await axios.get(`${API_ENDPOINTS.API}/hotel/allrooms?roomNumber=${selectedRoom}&floor=${selectedFloor}&`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -53,6 +56,13 @@ const Roomsdash = () => {
     }
 
     console.log(rooms)
+
+
+    const handleFloorChange = (event) => {
+        setSelectedFloor(event.target.value); // Update selectedFloor state
+    };
+
+   
 
     // Function to toggle room availability and update backend via PUT API
     async function handleToggleStatus(roomNumber, currentAvailability) {
@@ -84,6 +94,8 @@ const Roomsdash = () => {
         }
     }
 
+ 
+
    
 
     return (
@@ -98,14 +110,14 @@ const Roomsdash = () => {
                     </div>
                     <div className='Roomrightside'>
                         <div>
-                            <input type="search" placeholder='Search by Room number' />
+                            <input type="search" placeholder='Search by Room number' onChange={((e)=> setselectedRoom(e.target.value))} />
                         </div>
                         <div>
-                            <select name="" id="" className='floor-select'>
-                                <option value="Floor$">Floor-1</option>
-                                <option value="Floor-2">Floor-2</option>
-                                <option value="Floor-3">Floor-3</option>
-                                <option value="Floor-4">Floor-4</option>
+                            <select name="" id="" className='floor-select' onChange={handleFloorChange} >
+                                <option value="Floor$">All Floors</option>
+                                {floor.map((floor, index) => (
+                            <option key={index} value={floor}>{`Floor ${floor}`}</option>
+                        ))}
                             </select>
                         </div>
                     </div>

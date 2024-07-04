@@ -46,6 +46,7 @@ select
   border: 1px solid #ddd;
   border-radius: 5px;
    color: gray;
+   background-color: white;
   font-family: inherit;
   font-weight: 450;
   border-bottom: 2px solid gray;
