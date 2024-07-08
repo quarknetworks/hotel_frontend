@@ -55,6 +55,11 @@ select
   font-family: "Fredoka";
 }
 
+.input-field p {
+  margin-left: 3rem;
+  margin-top: 5px;
+  color: rgb(23, 203, 23);
+}
 .input-field ::placeholder {
   /* font-weight: 450;
     font-family: "Fredoka"; */
