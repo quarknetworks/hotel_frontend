@@ -20,7 +20,7 @@ const WiFiLogin = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://hotelbe.quarknetworks.net:8080/mist/data', 
+            const response = await axios.post('https://hotelbe.quarknetworks.net/mist/data', 
             { ...name, wlan_id, ap_mac, client_mac, url, ap_name, site_name }, 
             {
                 Headers: {
