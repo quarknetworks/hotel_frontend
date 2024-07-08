@@ -15,7 +15,7 @@ const WiFiLogin = () => {
     const wlan_id = searchParms.get('wlan_id')
     const client_mac = searchParms.get('client_mac')
     const ap_mac = searchParms.get('ap_mac')
-    // const url = searchParms.get('authorize_url')
+    const url = searchParms.get('authorize_url')
     const ap_name = searchParms.get('ap_name')
     const site_name = searchParms.get('site_name')
     // console.log(wlanId)
@@ -34,7 +34,7 @@ const WiFiLogin = () => {
         
 
         try {
-            const response = await axios.post(`${API_ENDPOINTS.API}/mist/data`, { ...name, wlan_id, ap_mac, client_mac,ap_name, site_name }, {
+            const response = await axios.post(`${API_ENDPOINTS.API}/mist/data`, { ...name, wlan_id, ap_mac, client_mac,ap_name,url, site_name }, {
                 Headers: {
                     // 'Content-Type': 'application/json',
                     // 'Access-Control-Allow-Origin': '*',
