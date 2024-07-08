@@ -40,7 +40,7 @@ const WiFiLogin = () => {
                     // 'Access-Control-Allow-Origin': '*',
                     // 'Access-Control-Allow-Headers': '*',
                 }
-                // console.log(response)
+                
             }).then(result => {
                 console.log(result)
             }).catch(err => {

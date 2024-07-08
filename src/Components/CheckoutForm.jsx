@@ -49,8 +49,7 @@ const CheckoutForm = () => {
           console.log(guest)
           const data = response.data.booking;
           console.log(data)
-          // const guest = response.data.guestDetails[0];
-          // console.log(guest)
+         
           setGuestName(guest.firstName);
           setPaidAmount(data.deposit);
           setBalanceAmount(data.balance);
