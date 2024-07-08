@@ -46,7 +46,6 @@ const FirstPages = ({ page, setpage, handleApiResponse}) => {
             frontendErrors = true;
         }
 
-        // If there are frontend errors, stop processing
         if (frontendErrors) return;
 
 

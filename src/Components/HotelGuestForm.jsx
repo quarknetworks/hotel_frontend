@@ -52,6 +52,7 @@ const HotelGuestForm = () => {
             'Authorization': `Bearer ${token}`,
           }
         });
+        console.log(response)
         setRoomPrice(response.data.price);
       } catch (error) {
         console.log(error);
@@ -403,6 +404,7 @@ const HotelGuestForm = () => {
                   <br />
                   <div className="input-field">
                     <input type="text" value={PriceGiven} onChange={(e) => setPriceGiven(e.target.value)} placeholder='Price Given ' />
+                    <p >+12% gst will be included</p>
                   </div>
                   <div className="input-field">
                     <button type="submit">Submit</button>

@@ -67,12 +67,12 @@ const columns = [
     },
     {
         field: 'email',
-        headerName: 'email',
+        headerName: 'Email',
         width: 150,
         editable: true,
     },
     {
-        field: 'Room Number',
+        field: 'roomNumber',
         headerName: 'Room Number',
         width: 150,
         editable: true,
@@ -101,7 +101,7 @@ const columns = [
 
 
 
-const GuestTable = ( {token}) => {
+const GuestTable = () => {
 
 
 
@@ -111,6 +111,8 @@ const GuestTable = ( {token}) => {
 
     useEffect(() => {
         const fetchGuests = async () => {
+
+            const token = sessionStorage.getItem('token')
             try {
                 const response = await axios.get(`${API_ENDPOINTS.API}/guests/current/bookings`, {
                     headers: {
@@ -120,12 +122,37 @@ const GuestTable = ( {token}) => {
                     },
 
                 });
-                const guestArray = Object.values(response.data).map((guest, index) =>({
-                    ...guest,
-                    id: index + 1,
-                }));
+
+                const guestArray = response.data.map((booking, index) => (
+                    booking.guestDetails.map((guest, guestIndex) => ({
+                        id: `${guestIndex+1}`,
+                        firstName: guest.firstName,
+                        lastName: guest.lastName,
+                        Aadhar: guest.aadharnumber,
+                        email: booking.email,
+                        roomNumber: booking.RoomNumber,
+                        phone: booking.phone,
+                        gender: guest.gender,
+                    }))
+                )).flat();
 
                 setrows(guestArray);
+                console.log(response)
+                
+
+
+                 
+                 
+                // const guestArray = Object.values(response.data).map((guest, index) =>({
+                   
+                //     ...guest,
+                    
+                //     id: index + 1,
+                    
+                    
+                // }));
+
+                
 
 
             } catch (error) {
