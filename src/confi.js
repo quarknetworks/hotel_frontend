@@ -1,6 +1,6 @@
 const API_ENDPOINTS = {
 
- API:'http://hotelbe.quarknetworks.net:8080'
+ API:'https://hotelbe.quarknetworks.net'
     
 }
 
