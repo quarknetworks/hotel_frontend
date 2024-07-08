@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../styles/WiFiLogin.css'
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import API_ENDPOINTS from '../confi';
+// import API_ENDPOINTS from '../confi';
 
 const WiFiLogin = () => {
 
@@ -34,14 +34,16 @@ const WiFiLogin = () => {
         
 
         try {
-            const response = await axios.post(`${API_ENDPOINTS.API}/mist/data`, { ...name, wlan_id, ap_mac, client_mac,ap_name,url, site_name }, {
+            const response = await axios.post('https://hotelbe.quarknetworks.net/mist/data', { ...name, wlan_id, ap_mac, client_mac,ap_name,url, site_name }, {
                 Headers: {
                     // 'Content-Type': 'application/json',
                     // 'Access-Control-Allow-Origin': '*',
                     // 'Access-Control-Allow-Headers': '*',
                 }
                 
-            }).then(result => {
+            })
+                console.log(response)
+                .then(result => {
                 console.log(result)
             }).catch(err => {
                 console.log(err)
