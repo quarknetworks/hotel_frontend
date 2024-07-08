@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../styles/WiFiLogin.css'
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-// import API_ENDPOINTS from '../confi';
+import API_ENDPOINTS from '../confi';
 
 const WiFiLogin = () => {
 
@@ -18,6 +18,10 @@ const WiFiLogin = () => {
     const url = searchParms.get('authorize_url')
     const ap_name = searchParms.get('ap_name')
     const site_name = searchParms.get('site_name')
+
+
+
+
     // console.log(wlanId)
     // console.log(client_mac)
     // console.log(ap_mac)
@@ -27,27 +31,39 @@ const WiFiLogin = () => {
 
     // console.log(name)
 
+
+    // const ap_mac = "d420b080a5f5"
+    // const ap_name = "d420b080a5f5"
+    // const client_mac = "f40669a66a6c"
+    // const site_name = "moonstar"
+    // const wlan_id = "b583bae3-5003-4758-957d-8f40d7f4ac74"
+
+
     const handleSubmit = async (event) => {
 
-      
+
         event.preventDefault();
-        
+
 
         try {
-            const response = await axios.post('https://hotelbe.quarknetworks.net/mist/data', { ...name, wlan_id, ap_mac, client_mac,ap_name,url, site_name }, {
+            const response = await axios.post(`${API_ENDPOINTS.API}/mist/data`, { ...name, wlan_id, ap_mac, client_mac, ap_name, site_name }, {
                 Headers: {
                     // 'Content-Type': 'application/json',
                     // 'Access-Control-Allow-Origin': '*',
                     // 'Access-Control-Allow-Headers': '*',
                 }
-                
+
             })
-                console.log(response)
-                .then(result => {
-                console.log(result)
-            }).catch(err => {
-                console.log(err)
-            })
+            console.log(response)
+            const { authUrl } = response.data
+            console.log(authUrl)
+
+            if (authUrl) {
+                // Redirect to the authUrl
+                window.location.href = authUrl;
+            } else {
+                console.error("authUrl not found in the response");
+            }
         } catch (error) {
             console.log(error)
         }
