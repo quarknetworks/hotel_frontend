@@ -1,75 +1,8 @@
-import React, { useState } from 'react'
-import '../styles/WiFiLogin.css'
-import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
-import API_ENDPOINTS from '../confi';
+import React from 'react'
+
+
 
 const WiFiLogin = () => {
-
-    const [searchParms, setsearchParms] = useSearchParams();
-    const [name, setName] = useState({
-        lastName: '',
-        roomNumber: ''
-    });
-
-    const wlan_id = searchParms.get('wlan_id')
-    const client_mac = searchParms.get('client_mac')
-    const ap_mac = searchParms.get('ap_mac')
-    const url = searchParms.get('authorize_url')
-    const ap_name = searchParms.get('ap_name')
-    const site_name = searchParms.get('site_name')
-
-
-
-
-    // console.log(wlanId)
-    // console.log(client_mac)
-    // console.log(ap_mac)
-    // console.log(authorize_url)
-    // console.log(ap_name)
-    // console.log(site_name)
-
-    // console.log(name)
-
-
-    // const ap_mac = "d420b080a5f5"
-    // const ap_name = "d420b080a5f5"
-    // const client_mac = "f40669a66a6c"
-    // const site_name = "moonstar"
-    // const wlan_id = "b583bae3-5003-4758-957d-8f40d7f4ac74"
-
-
-    const handleSubmit = async (event) => {
-
-
-        event.preventDefault();
-
-
-        try {
-            const response = await axios.post(`${API_ENDPOINTS.API}/mist/data`, { ...name, wlan_id, ap_mac, client_mac, ap_name, site_name }, {
-                Headers: {
-                    // 'Content-Type': 'application/json',
-                    // 'Access-Control-Allow-Origin': '*',
-                    // 'Access-Control-Allow-Headers': '*',
-                }
-
-            })
-            console.log(response)
-            const { authUrl } = response.data
-            console.log(authUrl)
-
-            if (authUrl) {
-                // Redirect to the authUrl
-                window.location.href = authUrl;
-            } else {
-                console.error("authUrl not found in the response");
-            }
-        } catch (error) {
-            console.log(error)
-        }
-        // Handle the login logic here
-        // console.log(`User name submitted: ${name}`);
-    }
 
     return (
         <div className="wifi-login-container">
@@ -86,24 +19,8 @@ const WiFiLogin = () => {
                         required
                     />
                 </div>
-                <div className="forms-group">
-                    <label htmlFor="name" className="form-label">Room Number</label>
-                    <input
-                        type="Room Number"
-                        id=""
-                        className="form-input"
-                        value={name.roomNumber}
-                        onChange={(e) => setName({ ...name, roomNumber: e.target.value })}
-                        required
-                    />
-                </div>
-                {/* <h1>wlanId {wlanId} </h1>
-                <h1>client_mac {client_mac} </h1>
-                <h1>ap_mac {ap_mac} </h1>
-                <h1>authorize_url {authorize_url} </h1>
-                <h1>ap_name {ap_name} </h1> */}
-                <p className='instructions'>Please use your last name with your room number as a username for Login</p>
-                <button type="submit" className="login-button">Login</button>
+         
+              
             </form>
         </div>
     )
