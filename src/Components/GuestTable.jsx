@@ -125,7 +125,7 @@ const GuestTable = () => {
 
                 const guestArray = response.data.map((booking, index) => (
                     booking.guestDetails.map((guest, guestIndex) => ({
-                        id: `${guestIndex+1}`,
+                        id: `${guestIndex + 1}`,
                         firstName: guest.firstName,
                         lastName: guest.lastName,
                         Aadhar: guest.aadharnumber,
@@ -138,21 +138,21 @@ const GuestTable = () => {
 
                 setrows(guestArray);
                 console.log(response)
-                
 
 
-                 
-                 
+
+
+
                 // const guestArray = Object.values(response.data).map((guest, index) =>({
-                   
+
                 //     ...guest,
-                    
+
                 //     id: index + 1,
-                    
-                    
+
+
                 // }));
 
-                
+
 
 
             } catch (error) {
@@ -173,30 +173,31 @@ const GuestTable = () => {
 
             <Navbar />
             <div className='Maincontai'>
-                <div className='mainguest-table' >
+                <div className='mainguest-table'  >
                     <h1>Guest Details</h1>
                 </div >
-                <div className={`themed-component ${theme}`} >
-
-                    <div style={style} className={`themed-component ${theme}`} >
-
-                        <DataGrid className={`themed-component ${theme}`}
-                            rows={rows}
-                            columns={columns}
-                            pageSize={10}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: {
-                                        pageSize: 10,
+                <div >
+                    <div style={style}  >
+                        <div className={`themed-component ${theme}`}>
+                            <DataGrid 
+                                rows={rows} 
+                                columns={columns}
+                                pageSize={10}
+                                initialState={{
+                                    pagination: {
+                                        paginationModel: {
+                                            pageSize: 10,
+                                        },
                                     },
-                                },
-                            }}
-                            pageSizeOptions={[10]}
-                            checkboxSelection
-                            disableRowSelectionOnClick
-                            disableSelectionOnClick
-                        />
-
+                                }}
+                                pageSizeOptions={[10]}
+                                checkboxSelection
+                                disableRowSelectionOnClick
+                                disableSelectionOnClick
+                                getRowClassName={() => `themed-component ${theme}`}   
+                             
+                            />
+                        </div>
                     </div>
                 </div>
 

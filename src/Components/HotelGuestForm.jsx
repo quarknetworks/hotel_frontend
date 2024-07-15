@@ -5,6 +5,8 @@ import { useTheme } from './ThemeContext';
 import axios from 'axios';
 import API_ENDPOINTS from '../confi.js';
 import { useLocation } from 'react-router-dom';
+import imageCompression from 'browser-image-compression';
+import { PDFDocument } from 'pdf-lib';
 
 const HotelGuestForm = () => {
   // const [firstName, setFirstName] = useState('');
@@ -85,22 +87,58 @@ const HotelGuestForm = () => {
     }
   };
 
+  const compressImage = async (file) => {
+    const options = {
+      maxSizeMB: 2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
+    };
+    try {
+      const compressedFile = await imageCompression(file, options);
+      return compressedFile;
+    } catch (error) {
+      console.log(error);
+      return file;
+    }
+  };
+
+  const compressPdf = async (file) => {
+    try {
+      const pdfDoc = await PDFDocument.load(await file.arrayBuffer());
+      const pdfBytes = await pdfDoc.save({ useObjectStreams: false });
+      const compressedFile = new File([pdfBytes], file.name, { type: 'application/pdf' });
+      return compressedFile.size / (1024 * 1024) <= 2 ? compressedFile : file;
+    } catch (error) {
+      console.log(error);
+      return file;
+    }
+  };
+
   const handleAadharPhotoChange = async (e, index) => {
     // e.preventDefault();
 
     const file = e.target.files[0]
     const fileType = getFileType(file);
-    const selectedOption = guestDetails[index].selectedOption;
+    const fileName = guestDetails[index].selectedOption;
+    console.log(selectedOption)
+    let compressedFile = file;
+
     if (file && (fileType === 'jpg' || fileType === 'png' || fileType === 'pdf' || fileType === 'jpeg')) {
+      console.log(file)
+
+      if (fileType === 'pdf') {
+        compressedFile = await compressPdf(file);
+      } else {
+        compressedFile = await compressImage(file);
+      }
+
       try {
         const token = sessionStorage.getItem('token');
-
-
         const response = await axios.post(`${API_ENDPOINTS.API}/upload/url?guestId=${userid}`, {
 
           fileType,
           //  fileName: 'aadhar'
-          selectedOption
+          fileName
 
         }, {
           headers: {
@@ -119,7 +157,7 @@ const HotelGuestForm = () => {
         console.log(document_url)
 
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', compressedFile);
 
         if (!upload_url) {
           throw new Error("Upload URL is undefined.");
@@ -133,7 +171,7 @@ const HotelGuestForm = () => {
 
         if (fileType === 'pdf') {
           // Upload PDF file
-          await axios.put(upload_url, file, { headers });
+          await axios.put(upload_url, compressedFile, { headers });
         } else {
           // Upload binary data for images
           const reader = new FileReader();
@@ -141,7 +179,7 @@ const HotelGuestForm = () => {
             const arrayBuffer = reader.result;
             await axios.put(upload_url, arrayBuffer, { headers });
           };
-          reader.readAsArrayBuffer(file);
+          reader.readAsArrayBuffer(compressedFile);
         }
 
         setGuestDetails(prevDetails => {

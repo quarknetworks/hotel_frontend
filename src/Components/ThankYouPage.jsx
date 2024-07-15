@@ -36,7 +36,7 @@ const ThankYouPage = () => {
     <div className="thank-you-page">
     <h1>Thank You!</h1>
     <p>Your details are going under verification.</p>
-    <p>In case of any need, please contact us at <a href="mailto:support@example.com">support@example.com</a>.</p>
+    <p>In case of any need, please contact us at <a href="mailto:support@example.com">support@quarknetworks.net</a>.</p>
     <button onClick={Checkonbording}>Go to Dashboard</button>
   </div>
   )
