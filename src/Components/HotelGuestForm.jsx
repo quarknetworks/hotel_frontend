@@ -137,7 +137,6 @@ const HotelGuestForm = () => {
         const response = await axios.post(`${API_ENDPOINTS.API}/upload/url?guestId=${userid}`, {
 
           fileType,
-          //  fileName: 'aadhar'
           fileName
 
         }, {
