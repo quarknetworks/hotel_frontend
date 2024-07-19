@@ -115,7 +115,7 @@ const HotelGuestForm = () => {
   };
 
   const handleAadharPhotoChange = async (e, index) => {
-    // e.preventDefault();
+  
 
     const file = e.target.files[0]
     const fileType = getFileType(file);
@@ -137,7 +137,6 @@ const HotelGuestForm = () => {
         const response = await axios.post(`${API_ENDPOINTS.API}/upload/url?guestId=${userid}`, {
 
           fileType,
-          //  fileName: 'aadhar'
           fileName
 
         }, {
