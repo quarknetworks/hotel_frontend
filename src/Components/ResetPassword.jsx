@@ -1,10 +1,18 @@
 import React, {useState} from 'react'
 import API_ENDPOINTS from '../confi';
+import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ResetPassword = () => {
 
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [searchParms, setsearchParms] = useSearchParams();
+
+   
+    const token = searchParms.get('token');
+    console.log(token)
+
 
     const handleNewPasswordChange = (e) => {
         setNewPassword(e.target.value);
@@ -22,7 +30,7 @@ const ResetPassword = () => {
         }
 
         try{
-            const response = await axios.post(`${API_ENDPOINTS.API}/reset-password`, {email}, {
+            const response = await axios.post(`${API_ENDPOINTS.API}/reset-password`, {newPassword: newPassword,token: token}, {
                 headers:{
                    'Content-Type': 'application/json',
                    'Access-Control-Allow-Origin': '*',
