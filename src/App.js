@@ -1,7 +1,6 @@
 import './App.css';
 import React,{useState, useEffect} from 'react';
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom"
-import Foam from './Components/Foam';
 import MainDashbord from './Components/MainDashbord';
 import { ThemeProvider } from './Components/ThemeContext';
 import Roomsdash from './Components/Roomsdash';
@@ -11,7 +10,9 @@ import SignupFoams from './Components/SignupFoams';
 import Login from './Components/Login';
 import ThankYouPage from './Components/ThankYouPage';
 import CheckoutForm from './Components/CheckoutForm';
-import WiFiLogin from './Components/WiFiLogin';
+import ForgetPassword from './Components/ForgetPassword';
+import ResetPassword from './Components/ResetPassword';
+
 
 
 
@@ -57,6 +58,10 @@ function App() {
       <Route path="/guestTable" element={<GuestTable token={token}/>}/>
       <Route path="/thankyoupage" element={<ThankYouPage/>}/>
       <Route path="/checkout" element={<CheckoutForm/>}/>
+
+      <Route path="/forgetpassword" element={<ForgetPassword/>}/>
+      <Route path='/resetpassword' element={<ResetPassword/>}/> 
+   
       <Route path="/captiportal" element={<WiFiLogin/>}/> 
       <Route path="/foams" element={<Foam/>}/> 
    </Routes>
