@@ -115,7 +115,7 @@ const HotelGuestForm = () => {
   };
 
   const handleAadharPhotoChange = async (e, index) => {
-    // e.preventDefault();
+  
 
     const file = e.target.files[0]
     const fileType = getFileType(file);
