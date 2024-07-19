@@ -14,8 +14,6 @@ import ForgetPassword from './Components/ForgetPassword';
 import ResetPassword from './Components/ResetPassword';
 
 
-
-
 function App() {
 
   const [page, setpage] = useState(0);
