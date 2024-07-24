@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import axios from 'axios';
 import '../styles/EmployeeAdd.css';
 import Settings from './Settings';
+import API_ENDPOINTS from '../confi';
 
 const EmployeeAdd = () => {
 
@@ -21,7 +22,7 @@ const EmployeeAdd = () => {
       const token = sessionStorage.getItem('token');
   
       try {
-        const response = await axios.post('http://192.168.1.4:8080/invite-Employee', userData,{
+        const response = await axios.post(`${API_ENDPOINTS.API}/invite-Employee`, userData,{
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',

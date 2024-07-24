@@ -2,43 +2,49 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/UserVerificationForm.css';
 
+import API_ENDPOINTS from '../confi';
+
 const UserVerificationForm = () => {
   const [mobileNumber, setmobileNumber] = useState('');
   const [aadharNo, setaadharNo] = useState('');
   const [Password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
-  const validate = () => {
-    const errors = {};
-    if (mobile.length !== 10) {
-      errors.mobile = 'Mobile number must be 10 digits long.';
-    }
-    if (aadhar.length !== 12) {
-      errors.aadhar = 'Aadhaar number must be 12 digits long.';
-    }
-    return errors;
-  };
+//   const validate = () => {
+//     const errors = {};
+//     if (mobile.length !== 10) {
+//       errors.mobile = 'Mobile number must be 10 digits long.';
+//     }
+//     if (aadhar.length !== 12) {
+//       errors.aadhar = 'Aadhaar number must be 12 digits long.';
+//     }
+//     return errors;
+//   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+    // const validationErrors = validate();
+    // if (Object.keys(validationErrors).length > 0) {
+    //   setErrors(validationErrors);
+    //   return;
+    // }
 
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
 
-    const userData = {
-      mobile,
-      aadhar,
-      password,
+    // const userData = {
+    //     mobileNumber,
+    //     aadharNo,
+    //     Password,
     
-    };
+    // };
 
     try {
-      const response = await axios.post(`http://localhost:8080/onboarding-Employee?token=${token}`, userData);
+      const response = await axios.post(`${API_ENDPOINTS.API}/onboarding-Employee?token=${token}`, {mobileNumber,aadharNo,Password}, {
+        headers: {
+           'Content-Type': 'application/json',
+        }
+      });
       console.log('User data submitted:', response.data);
     } catch (error) {
       console.error('Error submitting user data:', error);
