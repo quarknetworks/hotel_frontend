@@ -8,24 +8,24 @@ const UserVerificationForm = () => {
   const [Password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
-  const validate = () => {
-    const errors = {};
-    if (mobile.length !== 10) {
-      errors.mobile = 'Mobile number must be 10 digits long.';
-    }
-    if (aadhar.length !== 12) {
-      errors.aadhar = 'Aadhaar number must be 12 digits long.';
-    }
-    return errors;
-  };
+  // const validate = () => {
+  //   const errors = {};
+  //   if (mobile.length !== 10) {
+  //     errors.mobile = 'Mobile number must be 10 digits long.';
+  //   }
+  //   if (aadhar.length !== 12) {
+  //     errors.aadhar = 'Aadhaar number must be 12 digits long.';
+  //   }
+  //   return errors;
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+    // const validationErrors = validate();
+    // if (Object.keys(validationErrors).length > 0) {
+    //   setErrors(validationErrors);
+    //   return;
+    // }
 
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
