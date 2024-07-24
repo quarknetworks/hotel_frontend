@@ -30,15 +30,15 @@ const UserVerificationForm = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
 
-    const userData = {
-      mobile,
-      aadhar,
-      password,
+    // const userData = {
+    //   mobile,
+    //   aadhar,
+    //   password,
     
-    };
+    // };
 
     try {
-      const response = await axios.post(`http://localhost:8080/onboarding-Employee?token=${token}`, userData, {
+      const response = await axios.post(`http://localhost:8080/onboarding-Employee?token=${token}`, {mobileNumber,aadharNo,Password}, {
        headers: {
            'Content-Type': 'application/json',
         }
