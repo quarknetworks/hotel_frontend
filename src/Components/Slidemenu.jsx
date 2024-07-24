@@ -64,9 +64,9 @@ const Slidemenu = ({ isOpen, closeMenu, toggleTheme }) => {
             </div>
           </div>
           <div className='sidebartools' >
-            <div className='siderbarcontent'>
+            <div className='siderbarcontent' onClick={()=> {navigate('/Settings')}}>
               <FontAwesomeIcon icon={faTriangleExclamation} />
-              <li>Complains</li>
+              <li>Setting</li>
             </div>
             <div className='arrowdown'>
               <FontAwesomeIcon icon={faCaretDown} />

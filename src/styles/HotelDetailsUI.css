@@ -1,0 +1,36 @@
+.Main-hotelContainer{
+    float: right;
+    /* background-color: green; */
+    height: 80vh;
+    width: 80vw;
+    margin-top: 3rem;
+}
+
+.hoteinputs{
+    display: flex;
+    margin-top: 2rem;
+    justify-content: space-around;
+}
+
+.inputs{
+display: flex;
+flex-direction: column;
+gap: 1rem;
+}
+
+.hoteinputs input{
+    margin-top: 1rem;
+    /* margin-left: 2rem; */
+    width: 25rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+     color: gray;
+     background-color: white;
+    font-family: inherit;
+    font-weight: 450;
+    border-bottom: 2px solid gray;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    font-family: "Fredoka";
+}
