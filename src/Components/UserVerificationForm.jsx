@@ -38,7 +38,11 @@ const UserVerificationForm = () => {
     };
 
     try {
-      const response = await axios.post(`http://localhost:8080/onboarding-Employee?token=${token}`, userData);
+      const response = await axios.post(`http://localhost:8080/onboarding-Employee?token=${token}`, userData, {
+       headers: {
+           'Content-Type': 'application/json',
+        }
+      });
       console.log('User data submitted:', response.data);
     } catch (error) {
       console.error('Error submitting user data:', error);
