@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/UserVerificationForm.css';
+import API_ENDPOINTS from '../confi';
 
 const UserVerificationForm = () => {
   const [mobileNumber, setmobileNumber] = useState('');
@@ -38,7 +39,7 @@ const UserVerificationForm = () => {
     // };
 
     try {
-      const response = await axios.post(`http://192.168.1.4:8080/onboarding-Employee?token=${token}`, {mobileNumber,aadharNo,Password}, {
+      const response = await axios.post(`${API_ENDPOINTS.API}/onboarding-Employee?token=${token}`, {mobileNumber,aadharNo,Password}, {
        headers: {
            'Content-Type': 'application/json',
         }
