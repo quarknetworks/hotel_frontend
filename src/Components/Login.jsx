@@ -104,6 +104,7 @@ const Login = ({ handlePageChange, handletoken }) => {
                     <div className='login-bottom'>
                         <div>
                             if you are new please click on <Link to='/'>Signup</Link>
+                            <p>forget Password please Click <Link to='/forgetpassword'>forget-password</Link></p>
                         </div>
                         <div>
                             By proceeding i agree to T&C & privacy policy
