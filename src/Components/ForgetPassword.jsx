@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState('');
-    const [response, setresponse] = useState([]);
-    console.log(response)
+    
 
 
     // const navigate = useNavigate()
@@ -28,11 +27,8 @@ const ForgetPassword = () => {
 
             })
 
-            //   if (response.data.success) {
-            //     alert("Otp has been sent on email")
-            //     navigate('/resetpassword')
-            //   }
-            //   setresponse(response)
+            console.log(response)
+           
         }
         catch (err) {
             console.log(err);
