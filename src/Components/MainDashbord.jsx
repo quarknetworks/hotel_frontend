@@ -72,7 +72,10 @@ const MainDashbord = ({}) => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
+  
             });
+
+            console.log(response)
 
 
             if (response.data) {
