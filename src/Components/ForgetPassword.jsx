@@ -1,9 +1,14 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import API_ENDPOINTS from '../confi';
+import { useNavigate } from 'react-router-dom';
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState('');
+    
+
+
+    // const navigate = useNavigate()
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -11,17 +16,21 @@ const ForgetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const response = await axios.post(`${API_ENDPOINTS.API}/forgot-password`, {email}, {
-                headers:{
-                   'Content-Type': 'application/json',
-                   'Access-Control-Allow-Origin': '*',
-                   'Access-Control-Allow-Headers': '*',
+
+        try {
+            const response = await axios.post(`${API_ENDPOINTS.API}/forgot-password`, { email }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': '*',
                 }
+
             })
+
             console.log(response)
+           
         }
-        catch(err) {
+        catch (err) {
             console.log(err);
         }
         console.log('Email submitted:', email);
@@ -61,7 +70,7 @@ const styles = {
         backgroundColor: '#fff',
         padding: '20px',
         borderRadius: '10px',
-        width:'30vw',
+        width: '30vw',
         height: 'auto',
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
         // display: 'absolute'

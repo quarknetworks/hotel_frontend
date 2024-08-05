@@ -1,7 +1,6 @@
 const API_ENDPOINTS = {
 
 
-
  API:'https://hotelbe.quarknetworks.net'
 
 

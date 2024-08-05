@@ -17,6 +17,8 @@ import HotelDetailsUI from './Components/HotelDetailsUI';
 import RoomsData from './Components/RoomsData';
 import EmployeeAdd from './Components/EmployeeAdd';
 import UserVerificationForm from './Components/UserVerificationForm';
+import HotelList from './Components/HotelList';
+import HotelOnbording from './Components/HotelOnbording';
 
 
 function App() {
@@ -64,12 +66,15 @@ function App() {
       <Route path="/thankyoupage" element={<ThankYouPage/>}/>
       <Route path="/checkout" element={<CheckoutForm/>}/>
       <Route path="/forgetpassword" element={<ForgetPassword/>}/>
-      <Route path='/login/resetpassword' element={<ResetPassword/>}/>
+      <Route path='/resetpassword' element={<ResetPassword/>}/>
       <Route path="/Settings" element={<Settings/>}/> 
       <Route path="/hotel-Details" element={<HotelDetailsUI/>}/> 
       <Route path="/roomdata" element={<RoomsData/>}/>
       <Route path="/addEmployee" element={<EmployeeAdd/>}/>
       <Route path="/userverification" element={<UserVerificationForm/>}/>
+      <Route path="/hotellist" element={<HotelList/>}/>
+      <Route path="/onbording" element={<HotelOnbording/>}/>
+
 
     
    </Routes>
