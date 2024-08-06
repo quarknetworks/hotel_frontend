@@ -15,7 +15,7 @@ const HotelOnbording = ({hotel}) => {
     useEffect(() => {
       const fetchHotelDetails = async () => {
         try {
-          const response = await axios.get(`http://192.168.1.5:8080/signup/combined?hotelId=${location.state.hotel}`);
+          const response = await axios.get(`http://192.168.1.4:8080/signup/combined?hotelId=${location.state.hotel}`);
           setDetails(response.data.hotel);
         } catch (error) {
           console.error('Error fetching hotel details:', error);

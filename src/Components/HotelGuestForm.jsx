@@ -21,7 +21,7 @@ const HotelGuestForm = () => {
   const [PriceGiven, setPriceGiven] = useState('');
   const [roomPrice, setRoomPrice] = useState('');
   const [guestDetails, setGuestDetails] = useState([
-    { aadharnumber: "", aadharphoto: null, firstName: '', lastName: '', gender: '', documentUrl: '',selectedOption: '' }
+    { aadharnumber: "", aadharphoto: null, firstName: '', lastName: '', gender: '', documentUrl: '', selectedOption: '' }
   ]);
   console.log(guestDetails)
 
@@ -115,7 +115,7 @@ const HotelGuestForm = () => {
   };
 
   const handleAadharPhotoChange = async (e, index) => {
-  
+
 
     const file = e.target.files[0]
     const fileType = getFileType(file);
@@ -279,7 +279,7 @@ const HotelGuestForm = () => {
         firstName: guest.firstName || '',
         lastName: guest.lastName || '',
         gender: guest.gender || '',
-         selectedOption: ''
+        selectedOption: ''
       };
       console.log(updatedDetails)
       return updatedDetails;
@@ -491,9 +491,9 @@ const HotelGuestForm = () => {
                   <div className='input-field'>
 
                     <select
-                    id={`documentType-${index}`}
-                    value={guest.selectedOption}
-                    onChange={(e) => handleRoomChange(index, 'selectedOption', e.target.value)}>
+                      id={`documentType-${index}`}
+                      value={guest.selectedOption}
+                      onChange={(e) => handleRoomChange(index, 'selectedOption', e.target.value)}>
                       <option value="">Select ID Type</option>
                       <option value="aadhar">Aadhar</option>
                       <option value="pan">Pan</option>
@@ -591,9 +591,9 @@ const HotelGuestForm = () => {
               {errors.DOB && <p className='error'>{errors.DOB}</p>}
             </div>
             <br />
-            <div className ='input-field'>
-            <button onClick={handleNewGuestSubmit}>Register</button>
-            <button onClick={closeModal}>Close</button>
+            <div className='input-field'>
+              <button onClick={handleNewGuestSubmit}>Register</button>
+              <button onClick={closeModal}>Close</button>
             </div>
           </div>
         </div>

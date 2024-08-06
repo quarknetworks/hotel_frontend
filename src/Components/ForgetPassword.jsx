@@ -32,6 +32,10 @@ const ForgetPassword = () => {
         }
         catch (err) {
             console.log(err);
+            if(err.response.data.message == 'User not found.') {
+                alert('user does not exist')
+            }
+
         }
         console.log('Email submitted:', email);
     };

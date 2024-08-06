@@ -38,7 +38,7 @@ const EmployeeAdd = () => {
   return (
     <>
     <Settings/>
-    <form className="user-form" onSubmit={handleSubmit}>
+    <form className="user-formss" onSubmit={handleSubmit}>
       <div className="form-groupss">
         <label htmlFor="nameOrEmail">Name</label>
         <input
@@ -75,7 +75,7 @@ const EmployeeAdd = () => {
           <option value="owner">Owner</option>
         </select>
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit" id='addemployeebutton'>Submit</button>
     </form>
     </>
   )

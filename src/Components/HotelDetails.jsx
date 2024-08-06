@@ -18,6 +18,8 @@ const HotelDetails = ({ page, setpage, token }) => {
         city: ''
     });
 
+    console.log(errors)
+
     const [HotelData, setHotelData] = useState({
         panNumber: '',
         aadharNo: '',
@@ -94,18 +96,29 @@ const HotelDetails = ({ page, setpage, token }) => {
                 'Access-Control-Allow-Headers': '*',
             },
         })
-        .then(result => {
+        .then(result => { 
             if (result.data.success === true) {
                 setpage(page => page + 1);
             } else {
                 if (result.data && result.data.error) {
                     const errorMessage = result.data.error;
-                    const field = errorMessage.split(':')[0]; // Assuming error message format: field:message
+                    const field = errorMessage.split(':')[0, 3]; // Assuming error message format: field:message
+                    console.log(field)
                     setErrors({ ...errors, [field]: errorMessage });
                 }
             }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err)
+            if (err.response && err.response.data && err.response.data.error) {
+                const errorMessage = err.response.data.error;
+                const field = errorMessage.split(':')[0]; // Assuming error message format: field:message
+                setErrors({ ...errors, [field]: errorMessage });
+            } else {
+                console.error(err);
+            }
+
+        });
     };
 
     const handleInputChange = (event) => {
@@ -133,6 +146,8 @@ const HotelDetails = ({ page, setpage, token }) => {
                             name="panNumber"
                             value={HotelData.panNumber}
                             onChange={handleInputChange}
+                            maxLength={'10'}
+                            
                         />
                         {errors.panNumber && <p className="error">{errors.panNumber}</p>}
                     </div>
@@ -143,6 +158,7 @@ const HotelDetails = ({ page, setpage, token }) => {
                             name="aadharNo"
                             value={HotelData.aadharNo}
                             onChange={handleInputChange}
+                            maxLength={'12'}
                         />
                         {errors.aadharNo && <p className="error">{errors.aadharNo}</p>}
                     </div>
