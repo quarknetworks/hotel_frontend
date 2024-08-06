@@ -76,7 +76,6 @@ function App() {
       <Route path="/onbording" element={<HotelOnbording/>}/>
 
 
-    
    </Routes>
    </ThemeProvider>
    </Router>

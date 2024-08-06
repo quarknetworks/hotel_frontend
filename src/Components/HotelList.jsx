@@ -19,7 +19,7 @@ const HotelList = () => {
         const fetchHotelList = async () => {
             // Fetch the hotel data from the server
             try {
-                const response = await axios.get('http://192.168.1.5:8080/signup/all/checklist',)
+                const response = await axios.get('http://192.168.1.4:8080/signup/all/checklist',)
 
                 setHotels(response.data)
                 console.log(response)

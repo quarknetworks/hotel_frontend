@@ -85,7 +85,7 @@ const UserVerificationForm = () => {
           required
         />
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit" id='verication-button'>Submit</button>
     </form>
   );
 };
