@@ -19,6 +19,8 @@ import EmployeeAdd from './Components/EmployeeAdd';
 import UserVerificationForm from './Components/UserVerificationForm';
 import HotelList from './Components/HotelList';
 import HotelOnbording from './Components/HotelOnbording';
+import WifiassignPage from './Components/WifiassignPage';
+// import WifiassignPage from './Components/HotelOnbording';
 
 
 function App() {
@@ -74,6 +76,8 @@ function App() {
       <Route path="/userverification" element={<UserVerificationForm/>}/>
       <Route path="/hotellist" element={<HotelList/>}/>
       <Route path="/onbording" element={<HotelOnbording/>}/>
+      {/* <Route path="/wifiassignpage" element={<WifiassignPage/>}/> */}
+      <Route path='/wifiassign' element={<WifiassignPage/>}/>
 
 
    </Routes>

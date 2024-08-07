@@ -3,6 +3,7 @@ import '../styles/HotelList.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import HotelOnbording from './HotelOnbording';
+import API_ENDPOINTS from '../confi';
 
 
 const HotelList = () => {
@@ -19,7 +20,7 @@ const HotelList = () => {
         const fetchHotelList = async () => {
             // Fetch the hotel data from the server
             try {
-                const response = await axios.get('http://192.168.1.4:8080/signup/all/checklist',)
+                const response = await axios.get(`${API_ENDPOINTS.API}/signup/all/checklist`,)
 
                 setHotels(response.data)
                 console.log(response)
