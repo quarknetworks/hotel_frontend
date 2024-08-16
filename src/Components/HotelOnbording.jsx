@@ -37,7 +37,7 @@ const HotelOnbording = ({hotel}) => {
       const newStatus = status ? 'pending' : 'completed';
       
       try {
-          const response = await axios.patch(`http://192.168.1.3:8080/signup/onboard?hotelId=${location.state.hotel}`, 
+          const response = await axios.patch(`${API_ENDPOINTS.API}/signup/onboard?hotelId=${location.state.hotel}`, 
               {
                   status: newStatus
               }
