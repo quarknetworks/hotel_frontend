@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom';
 
 const HotelOnbording = ({hotel}) => {
     const [details, setDetails] = useState(null);
+    const [status, setStatus] = useState();
+    console.log(status)
     console.log(details)
 
     const location = useLocation();
@@ -15,8 +17,14 @@ const HotelOnbording = ({hotel}) => {
     useEffect(() => {
       const fetchHotelDetails = async () => {
         try {
-          const response = await axios.get(`http://192.168.1.4:8080/signup/combined?hotelId=${location.state.hotel}`);
-          setDetails(response.data.hotel);
+          const response = await axios.get(`http://192.168.1.3:8080/signup/combined?hotelId=${location.state.hotel}`);
+          setDetails(response.data);
+          if (response.data.hotel.is_Onboard == true) {
+            setStatus(true); 
+            // else {
+            //   setStatus(false)
+            // }
+        }
         } catch (error) {
           console.error('Error fetching hotel details:', error);
         }
@@ -24,6 +32,24 @@ const HotelOnbording = ({hotel}) => {
   
       fetchHotelDetails();
     }, [hotel]);
+
+    const updateStatus = async () => {
+      const newStatus = status ? 'pending' : 'completed';
+      
+      try {
+          const response = await axios.patch(`http://192.168.1.3:8080/signup/onboard?hotelId=${location.state.hotel}`, 
+              {
+                  status: newStatus
+              }
+          );
+
+          if (response.data.success) {
+              setStatus(newStatus === 'completed'); // Update status based on the new value
+          }
+      } catch (error) {
+          console.error('Error updating status:', error);
+      }
+  };
   
     if (!details) {
       return <div>Loading...</div>;
@@ -31,28 +57,25 @@ const HotelOnbording = ({hotel}) => {
 
   return (
      <div className="hotel-details">
+      
       <h2>Hotel Details</h2>
-      <p>ID: {details._id}</p>
-      <p>Hotel Name: {details.hotelName}</p>
-      <p>Email: {details.email}</p>
-      <p>Mobile Number: {details.mobileNumber}</p>
-      <p>Aadhar No: {details.aadharNo}</p>
-      <p>Pan No: {details.panNumber}</p>
-      <p>Aadhar Url: {details.aadharUrl}</p>
-      <p>Pan Url: {details.panUrl}</p>
-      <p>Business Pan Url: {details.hotelName}</p>
-      <p>Business Gst Url: {details.hotelName}</p>
-      <p>Hotel Website: {details.hotelName}</p>
-      <p>City: {details.hotelName}</p>
-      <p>State: {details.hotelName}</p>
-      <p>Hotel Adress: {details.hotelName}</p>
-      <p>Hotel Pincode: {details.hotelName}</p>
-      {/* <p>Hotel Pincode: {details.hotelName}</p> */}
-      <p>Hotel TotalRooms: {details.hotelName}</p>
-      <p>Room Number: {details.hotelName}</p>
-      {/* <p>Registration Number: {details}</p> */}
-      <p>Status: {details.is_Onboard}</p>
-    </div>
+      <p>ID: {details.hotel._id}</p>
+      <p>Hotel Name: {details.hotel.hotelName}</p>
+      <p>Email: {details.hotel.hotelEmail}</p>
+      <p>Mobile Number: {details.user.mobileNumber}</p>
+      <p>Aadhar No: {details.user.aadharNo}</p>
+      <p>Pan No: {details.user.panNumber}</p>
+      <p>Aadhar Url: <a href={details.user.aadharUrl} target="_blank" rel="noopener noreferrer">View</a></p>
+      <p>Pan Url: <a href={details.user.panUrl} target="_blank" rel="noopener noreferrer">View</a></p>
+      <p>Business Pan Url: <a href={details.hotel.businessPanUrl} target="_blank" rel="noopener noreferrer">View</a></p>
+      <p>Business Gst Url: <a href={details.hotel.gstinUrl} target="_blank" rel="noopener noreferrer">View</a>     </p>
+      <p>Hotel Website: {details.hotel.hotelWebsite}</p>
+      <p>Hotel Adress: {details.hotel.hotelName} {details.hotel.city} {details.hotel.state} {details.hotel.hotelPincode} </p>
+     <div style={{display:'flex'}}>
+      <p>Onbording : </p>   
+        <button onClick={updateStatus}> {status ? 'Done' : 'Pending'}     </button> 
+        </div> 
+       </div>
   )
 }
 

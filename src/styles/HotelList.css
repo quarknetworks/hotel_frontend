@@ -1,6 +1,6 @@
 .hotelist-container{
     /* float: left; */
-    background-color: rgb(240, 243, 229);
+    /* background-color: rgb(240, 243, 229); */
     height: 100%;
     /* width: 100%; */
 }
@@ -11,7 +11,9 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding-top: 5rem;
+  padding-top: 3rem;
+  float: right;
+  margin-right: 5rem;
   /* position: relative */
 }
 
@@ -25,7 +27,7 @@
     margin-bottom: 20px;
     font-size: 16px;
     align-self:flex-start;
-    margin-left: 14.4rem;
+    /* margin-left: 14.4rem; */
     border-radius: 12px;
   }
   

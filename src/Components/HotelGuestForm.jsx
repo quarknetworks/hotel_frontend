@@ -7,6 +7,7 @@ import API_ENDPOINTS from '../confi.js';
 import { useLocation } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
 import { PDFDocument } from 'pdf-lib';
+import { Alert } from '@mui/material';
 
 const HotelGuestForm = () => {
   // const [firstName, setFirstName] = useState('');
@@ -45,6 +46,11 @@ const HotelGuestForm = () => {
   }, [location.state]);
 
   useEffect(() => {
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    setCheckInDate(today); // Set today's date as the default check-in date
+  }, []);
+
+  useEffect(() => {
     const token = sessionStorage.getItem('token');
 
     const fetchPrice = async () => {
@@ -80,8 +86,9 @@ const HotelGuestForm = () => {
       setUserNotFound('');
       // setuserid(response)
     } catch (error) {
-      if (error.response.data.message === 'Guest not found') {
+      if (error.response.data.message == 'Guest not found') {
         setUserNotFound("user not available");
+        // alert('Please Registerd the guest at First')
       }
       setSuggestions([]);
     }
@@ -249,6 +256,10 @@ const HotelGuestForm = () => {
 
       console.log("Booking data submitted successfully");
     } catch (error) {
+      if (error.response.data.message == 'Guest not found') {
+        // setUserNotFound("user not available");
+        alert('Please Registerd the guest at First')
+      }
       console.log("Error submitting booking data:", error);
     }
   }
@@ -415,7 +426,9 @@ const HotelGuestForm = () => {
                   </div>
                   <br />
                   <div className="input-field">
-                    <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} placeholder='Check-in Date' />
+                    <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} 
+                      min={new Date().toISOString().split('T')[0]}
+                      max={new Date().toISOString().split('T')[0]} placeholder='Check-in Date' />
                   </div>
                   <br />
                   <div className="input-field">

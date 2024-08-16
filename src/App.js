@@ -20,7 +20,8 @@ import UserVerificationForm from './Components/UserVerificationForm';
 import HotelList from './Components/HotelList';
 import HotelOnbording from './Components/HotelOnbording';
 import WifiassignPage from './Components/WifiassignPage';
-// import WifiassignPage from './Components/HotelOnbording';
+import AllguestTable from './Components/AllguestTable';
+
 
 
 function App() {
@@ -78,7 +79,7 @@ function App() {
       <Route path="/onbording" element={<HotelOnbording/>}/>
       {/* <Route path="/wifiassignpage" element={<WifiassignPage/>}/> */}
       <Route path='/wifiassign' element={<WifiassignPage/>}/>
-
+      <Route path='/allguesttable' element={<AllguestTable/>}/>
 
    </Routes>
    </ThemeProvider>

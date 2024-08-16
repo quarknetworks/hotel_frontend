@@ -27,10 +27,10 @@ const Slidemenu = ({ isOpen, closeMenu, toggleTheme }) => {
               <FontAwesomeIcon icon={faCaretDown} />
             </div>
           </div>
-          <div className='sidebartools' onClick={() => { navigate("/Guestfoam") }}>
+          <div className='sidebartools' onClick={() => { navigate("/allguesttable") }}>
             <div className='siderbarcontent'>
               <FontAwesomeIcon icon={faUserPlus} />
-              <li>Client</li>
+              <li>All Guest</li>
             </div>
             <div className='arrowdown'>
               <FontAwesomeIcon icon={faCaretDown} />
@@ -39,13 +39,13 @@ const Slidemenu = ({ isOpen, closeMenu, toggleTheme }) => {
           <div className='sidebartools' onClick={() => { navigate('/GuestTable') }} >
             <div className='siderbarcontent'>
               <FontAwesomeIcon icon={faHouse} />
-              <li>Client Data</li>
+              <li>Today Guest</li>
             </div>
             <div className='arrowdown'>
               <FontAwesomeIcon icon={faCaretDown} />
             </div>
           </div>
-          <div className='sidebartools' >
+          {/* <div className='sidebartools' >
             <div className='siderbarcontent'>
               <FontAwesomeIcon icon={faMoneyBill} />
               <li>Payment</li>
@@ -53,7 +53,7 @@ const Slidemenu = ({ isOpen, closeMenu, toggleTheme }) => {
             <div className='arrowdown'>
               <FontAwesomeIcon icon={faCaretDown} />
             </div>
-          </div>
+          </div> */}
           <div className='sidebartools' >
             <div className='siderbarcontent' onClick={() => { navigate('/captiportal') }}>
               <FontAwesomeIcon icon={faWifi} />
