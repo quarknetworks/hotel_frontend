@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import API_ENDPOINTS from '../confi';
 
 const HotelOnbording = ({hotel}) => {
     const [details, setDetails] = useState(null);
@@ -57,7 +58,7 @@ const HotelOnbording = ({hotel}) => {
 
   return (
      <div className="hotel-details">
-      
+
       <h2>Hotel Details</h2>
       <p>ID: {details.hotel._id}</p>
       <p>Hotel Name: {details.hotel.hotelName}</p>

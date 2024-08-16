@@ -24,9 +24,11 @@ const AllguestTable = () => {
                         'Authorization': `Bearer ${token}`
                     }
                 })
-
-                setGuests(response.data.bookings);
-                console.log(response.data)
+                if (response.data && Array.isArray(response.data.bookings)) {
+                    setGuests(response.data.bookings);
+                } else {
+                    setGuests([]); // Fallback in case of unexpected response structure
+                }
 
             } catch (e) {
                 console.log(e)
