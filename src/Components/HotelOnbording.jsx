@@ -17,7 +17,7 @@ const HotelOnbording = ({hotel}) => {
     useEffect(() => {
       const fetchHotelDetails = async () => {
         try {
-          const response = await axios.get(`http://192.168.1.3:8080/signup/combined?hotelId=${location.state.hotel}`);
+          const response = await axios.get(`${API_ENDPOINTS.API}/signup/combined?hotelId=${location.state.hotel}`);
           setDetails(response.data);
           if (response.data.hotel.is_Onboard == true) {
             setStatus(true); 
