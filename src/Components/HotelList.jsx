@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import HotelOnbording from './HotelOnbording';
 import API_ENDPOINTS from '../confi';
+import Navbar from './Navbar';
 
 
 const HotelList = () => {
@@ -26,8 +27,6 @@ const HotelList = () => {
                 console.log(response)
                 // const hotelid = response.data
                 // console.log(hotelid)
-
-
             }
 
             catch (error) { console.log(error) }
@@ -54,9 +53,11 @@ const HotelList = () => {
     //     hotel.name.toLowerCase().includes(search.toLowerCase())
     // );
     return (
+        <>
+       <Navbar/>
         <div className='hotelist-container'>
             <div className='hotellistbox'>
-                
+
                 <input
                     type="text"
                     placeholder="Search hotels"
@@ -93,6 +94,7 @@ const HotelList = () => {
                 <HotelOnbording hotel={selectedHotel} />
             )}
         </div>
+        </>
     )
 }
 
