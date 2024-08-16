@@ -213,6 +213,22 @@ const HotelGuestForm = () => {
   };
 
   const handleSubmit = async (e) => {
+
+    if (!email || !phone || !checkInDate || !checkOutDate || !numOfGuests || !RoomNumber || !Aadress || !PriceGiven) {
+      alert('Please fill in all required fields.');
+      return;
+  }
+
+  const incompleteGuestDetails = guestDetails.some(guest => 
+      !guest.aadharnumber || !guest.firstName || !guest.lastName || !guest.gender || !guest.documentUrl
+  );
+
+  if (incompleteGuestDetails) {
+      alert('Please complete all guest details.');
+      return;
+  }
+
+
     e.preventDefault();
 
     const token = sessionStorage.getItem('token');

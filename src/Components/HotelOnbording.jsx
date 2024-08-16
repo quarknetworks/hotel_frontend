@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import API_ENDPOINTS from '../confi';
 
 const HotelOnbording = ({hotel}) => {
     const [details, setDetails] = useState(null);
@@ -17,7 +18,7 @@ const HotelOnbording = ({hotel}) => {
     useEffect(() => {
       const fetchHotelDetails = async () => {
         try {
-          const response = await axios.get(`http://192.168.1.3:8080/signup/combined?hotelId=${location.state.hotel}`);
+          const response = await axios.get(`${API_ENDPOINTS.API}/signup/combined?hotelId=${location.state.hotel}`);
           setDetails(response.data);
           if (response.data.hotel.is_Onboard == true) {
             setStatus(true); 
@@ -37,7 +38,7 @@ const HotelOnbording = ({hotel}) => {
       const newStatus = status ? 'pending' : 'completed';
       
       try {
-          const response = await axios.patch(`http://192.168.1.3:8080/signup/onboard?hotelId=${location.state.hotel}`, 
+          const response = await axios.patch(`${API_ENDPOINTS.API}/signup/onboard?hotelId=${location.state.hotel}`, 
               {
                   status: newStatus
               }
@@ -57,7 +58,7 @@ const HotelOnbording = ({hotel}) => {
 
   return (
      <div className="hotel-details">
-      
+
       <h2>Hotel Details</h2>
       <p>ID: {details.hotel._id}</p>
       <p>Hotel Name: {details.hotel.hotelName}</p>
