@@ -225,13 +225,13 @@ const HotelDetailsSecond = ({ totalRoom, settotalRoom, page, setpage, token }) =
                             {errors.businessPanUrl && <p className="error">{errors.businessPanUrl}</p>}
                         </div>
                         <div className='row' style={{ marginTop: '10px' }}>
-                            <label>Hotel Total Rooms</label>
+                            <label>Gst Number</label>
                             <input type="text" id="" name=""
 
                                 value={formData.totalroom} onChange={(event) => {
                                     const value = event.target.value;
                                     setFormData({ ...formData, HotelTotalRooms: event.target.value })
-                                    settotalRoom({ ...totalRoom, TotalRooms: value === '' ? '' : parseInt(value) || 0, })
+                                    // settotalRoom({ ...totalRoom, TotalRooms: value === '' ? '' : parseInt(value) || 0, })
                                 }
                                 }
                             />
