@@ -1,115 +1,95 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import API_ENDPOINTS from '../confi.js';
 
-
-const RoomCollection = ({ totalRoom, settotalRoom, token, setpage }) => {
-
+const RoomCollection = ({ token, setpage }) => {
   const style = {
     marginTop: '40px',
     overflow: 'scroll',
     width: '100vw',
     height: '40vh',
-    // margin: '10px'
-    // backgroundColor: '#757de8'
   };
 
   sessionStorage.setItem('token', token);
 
-
-  const navigate = useNavigate()
-
-  const Room = parseInt(totalRoom.TotalRooms, 10);
-  const myarray = Array.from({ length: Room }, (_, index) => index + 1);
-
+  const navigate = useNavigate();
+  const [totalRoom, setTotalRoom] = useState(0); // Initialize as 0
+  const [amenity, setAmenity] = useState({
+    rooms: Array.from({ length: totalRoom }, () => ({
+      roomNumber: '',
+      roomType: '',
+      amenities: [],
+    })),
+  });
 
   const options = [
     { value: 'Standard', label: 'Standard' },
     { value: 'Economy', label: 'Economy' },
-    { value: 'Excutive', label: 'Excutive' },
+    { value: 'Executive', label: 'Executive' },
     { value: 'Double', label: 'Double' },
     { value: 'Suite', label: 'Suite' },
     { value: 'Villa', label: 'Villa' },
   ];
+
   const Amenity = [
     { value: 'A/C', label: 'A/C' },
     { value: 'Non A/C', label: 'Non A/C' },
     { value: 'Wifi', label: 'Wifi' },
-    { value: 'parking', label: 'parking' },
+    { value: 'Parking', label: 'Parking' },
     { value: 'Pool', label: 'Pool' },
-    { value: 'Jacuzi', label: 'Jacuzi' },
+    { value: 'Jacuzzi', label: 'Jacuzzi' },
     { value: 'Balcony', label: 'Balcony' },
-    { value: 'Moutain View', label: 'Mountain view' },
+    { value: 'Mountain View', label: 'Mountain View' },
   ];
+
   const Multidropdown = makeAnimated();
-
-  const [amenity, setAmenity] = useState({
-    rooms: [
-      {
-        roomNumber: '',
-        roomType: '',
-        amenities: []
-      }
-    ]
-  });
-
-
-  const [roomtoken, setroomtoken] = useState('')
-
-  console.log(roomtoken)
-
-
 
   const handleRoomChange = (index, field, value) => {
     setAmenity(prevState => {
-      const updatedRooms = [...prevState.rooms]; 
+      const updatedRooms = [...prevState.rooms];
       updatedRooms[index] = {
         ...updatedRooms[index],
         [field]: value,
       };
-      return { ...prevState, rooms: updatedRooms }; 
+      return { ...prevState, rooms: updatedRooms };
     });
   };
 
-  const checlistHotelApi = () => {
-    axios.post('http://localhost:8080/hotelonboard'), { ...roomtoken }
-  }
+  const handleTotalRoomChange = (e) => {
+    const roomCount = parseInt(e.target.value, 10);
+    setTotalRoom(roomCount);
+    setAmenity({
+      rooms: Array.from({ length: roomCount }, () => ({
+        roomNumber: '',
+        roomType: '',
+        amenities: [],
+      })),
+    });
+  };
 
   const apiCall = async () => {
+    try {
+      const result = await axios.post(`${API_ENDPOINTS.API}/signup/room`, amenity, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-    await axios.post(`${API_ENDPOINTS.API}/signup/room`, { ...amenity }, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*',
-      },
-    })
-      .then(result => {
-
-        if (result.data.success == true) {
-          setroomtoken(result.data.newToken)
-          navigate('/thankyoupage');
-          return
-          // checlistHotelApi();
-
-        } else {
-          console.log('api failed')
-          return Promise.reject('API call failed')
-        }
-      })
-      .then(() => {
-
-        alert("Signup Added Succesfully")
-
-        setpage(0)
-      })
-
-      .catch(err => console.log(err))
-  }
+      if (result.data.success) {
+        setpage(0);
+        navigate('/thankyoupage');
+        alert("Rooms added successfully");
+      } else {
+        console.log('API call failed');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const customStyles = {
     menuList: (provided) => ({
@@ -135,63 +115,51 @@ const RoomCollection = ({ totalRoom, settotalRoom, token, setpage }) => {
     }),
   };
 
-
-
   return (
     <div>
       <div>
+      <input
+            type="text"
+            placeholder="Enter total rooms"
+            onChange={handleTotalRoomChange}
+          />
         <div style={style}>
-          {myarray.map((RoomNumber, index) => (
-
-            <div key={RoomNumber} style={{ display: 'flex', gap: '30px', }} >
+         
+          {amenity.rooms.map((room, index) => (
+            <div key={index} style={{ display: 'flex', gap: '30px', marginBottom: '10px' }}>
               <div>{index + 1}</div>
-              <input type="text" placeholder='Room Number' style={{ width: '7rem', padding: '5px', marginBottom: '10px' }}
-                // onChange={(event)=> 
-                // setamenity({...amenity, roomNumber:event.target.value})}
-
+              <input
+                type="text"
+                placeholder="Room Number"
+                style={{ width: '7rem', padding: '5px' }}
+                value={room.roomNumber}
                 onChange={(event) => handleRoomChange(index, 'roomNumber', event.target.value)}
-
               />
-              <div style={{ marginBottom: '10px' }} >
+              <div>
                 <Select
                   options={options}
-                 
-                  // value={options.find(option => option.value === totalRoom.rooms[index]?.roomType)}
-                  // onChange={(selectedOption) => handleRoomChange(index, 'roomType', selectedOption.value.toString())}
-
                   onChange={(selectedOption) => handleRoomChange(index, 'roomType', selectedOption.value)}
-
                 />
-              </div >
-              <div style={{}}  >
-                <Select style={{ marginBottom: '50px', }}
+              </div>
+              <div>
+                <Select
                   closeMenuOnSelect={false}
                   components={Multidropdown}
                   styles={customStyles}
                   isMulti
                   options={Amenity}
-
-                  // value={Amenity.filter(option => totalRoom.rooms[index]?.amenities?.includes(option.value))}
-
                   onChange={(selectedOptions) => handleRoomChange(index, 'amenities', selectedOptions.map(option => option.value))}
-
-
                 />
               </div>
-
             </div>
-
-          )
-
-          )}
+          ))}
         </div>
       </div>
-
       <div className="form-groups">
-        <button type="submit" onClick={apiCall} >Submit</button>
+        <button type="submit" onClick={apiCall}>Submit</button>
       </div>
     </div>
-  )
+  );
 }
 
 export default RoomCollection;

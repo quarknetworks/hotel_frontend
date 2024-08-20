@@ -98,3 +98,11 @@ h1 {
   font-size: 16px;
   background-color: rgb(102, 102, 236);
 }
+
+.printbutton button{
+  display: flex;
+  float:right;
+  /* margin: 30rem ; */
+  /* justify-content: center;
+  align-items: center; */
+}

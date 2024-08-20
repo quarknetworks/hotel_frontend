@@ -6,6 +6,23 @@ import API_ENDPOINTS from '../confi';
 import { useLocation } from 'react-router-dom';
 import "../styles/CheckoutForm.css"
 
+
+// const Bill = React.forwardRef(({ billDetails }, ref) => (
+//   <div ref={ref} id="bill-container" className="bill">
+//     <h2>Bill</h2>
+//     <p>GST Number: {billDetails.gst}</p>
+//     <p>Room Number: {billDetails.roomNumber}</p>
+//     <p>Total Amount: {billDetails.totelAmount}</p>
+//     <p>Services: {billDetails.services.join(', ')}</p>
+//     <p>Amount Paid: {billDetails.totelAmount}</p>
+//     <p>Payment Status: {billDetails.payment}</p>
+//     <p>price: {billDetails.priceday}</p>
+//     <p>Billing Name: {billDetails.guestDetails.firstName}</p>
+//     <p>Phone Number: {billDetails.phone}</p>
+//   </div>
+// ));
+
+
 const CheckoutForm = () => {
   const [guestName, setGuestName] = useState('');
   const [totalAmount, setTotalAmount] = useState('');
@@ -22,10 +39,13 @@ const CheckoutForm = () => {
   console.log(paymentDone)
   console.log(paymentOption)
   const [paidAmountInput, setPaidAmountInput] = useState('');
+  const [billDetails, setBillDetails] = useState();
+  console.log(billDetails)
   console.log(paidAmountInput)
 
   const location = useLocation();
   const { theme } = useTheme();
+  // const billRef = useRef();
 
   const hotelid = location.state.hotelId;
   const bookingid = location.state.bookingId;
@@ -41,15 +61,13 @@ const CheckoutForm = () => {
           }
         });
         console.log(response)
-        // const data = response.data;
-        // console.log(data)
-        // const guest = response.data.booking.guestDetails[0];
+
         if (response.data.success == true) {
           const guest = response.data?.booking.guestDetails[0];
           console.log(guest)
           const data = response.data.booking;
           console.log(data)
-         
+
           setGuestName(guest.firstName);
           setPaidAmount(data.deposit);
           setBalanceAmount(data.balance);
@@ -90,7 +108,21 @@ const CheckoutForm = () => {
           'Content-Type': 'application/json'
         }
       });
+      console.log(response)
+      setBillDetails({
+        gst: response.data.Gst,
+        roomNumber: response.data.RoomNumber,
+        totelAmount: response.data.totelAmount,
+        // services: response.data.services || [], 
+        payment: response.data.payment,
+        priceday: response.data.priceday,
+        guestDetails: response.data.guestDetails[0],  // Assuming it's an array
+        phone: response.data.phone,
+      });
+
       if (response.data.payment == "paid") {
+        // setBillDetails(response.data);
+
         fetchCheckoutDetails()
         // alert("Checkout successful");
         // setRoomNumber('');
@@ -122,9 +154,7 @@ const CheckoutForm = () => {
     const token = sessionStorage.getItem('token');
     try {
       const response = await axios.post(`${API_ENDPOINTS.API}/guests/${roomNumber}/checkout`, {
-        // paymentMethod: paymentOption,
-        // amount: paidAmountInput,
-        // roomNumber:roomNumber
+
       }, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -132,7 +162,7 @@ const CheckoutForm = () => {
       });
 
       console.log(response)
-    
+
       if (response.data.success) {
         setGuestName('');
         setPaidAmount('');
@@ -148,6 +178,70 @@ const CheckoutForm = () => {
     } catch (error) {
       console.error('Error processing payment:', error);
     }
+  };
+
+
+  const handlePrintBill = () => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+      <head>
+        <title>Bill</title>
+        <style>
+              body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+      }
+      .bill {
+        background-color: #fff;
+        color: #333;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        max-width: 400px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .bill h2 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #4CAF50;
+      }
+      .bill p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 8px 0;
+      }
+      .bill p strong {
+        font-weight: bold;
+      }
+      .bill p:last-child {
+        margin-top: 20px;
+        font-size: 18px;
+        text-align: right;
+      }
+        </style>
+      </head>
+      <body>
+        <div class="bill">
+          <h2>Bill</h2>
+          <p>GST Percentage: </strong> ${billDetails.gst}</p>
+           <p>Billing Name: </strong> ${billDetails.guestDetails.firstName}</p>
+          <p>Room Number: </strong> ${billDetails.roomNumber}</p>
+          <p>Amount Paid: </strong> ${billDetails.totelAmount}</p>
+          <p>Payment Status:</strong>  ${billDetails.payment}</p>  
+          <p>Phone Number:</strong> ${billDetails.phone}</p>
+          <p>Price: </strong> ${billDetails.priceday}</p>
+           <p>Total Amount:</strong>  ${billDetails.totelAmount}</p>
+        </div>
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
   };
 
   if (isLoading) {
@@ -183,14 +277,14 @@ const CheckoutForm = () => {
                 <input type='text' value={balanceAmount} readOnly />
               </div>
 
-             
 
-            
-                <div className='input-fiel'>
-                  <label>Enter Amount Paid:</label>
-                  <input type='text' value={paidAmountInput} onChange={handlePaymentAmountChange} />
-                </div>
-           
+
+
+              <div className='input-fiel'>
+                <label>Enter Amount Paid:</label>
+                <input type='text' value={paidAmountInput} onChange={handlePaymentAmountChange} />
+              </div>
+
 
               <div className='payment-status'>
                 <label>Payment Status:</label>
@@ -216,13 +310,21 @@ const CheckoutForm = () => {
                   <button onClick={submitData}>Pay</button>
                 </div>
               )} */}
-
-              <div className='input-fie'>
-                <button onClick={handlePaymentSubmission} disabled={!paymentOption || !paidAmountInput}>Submit</button>
+              <div style={{display:'flex', justifyContent:'space-between'}}>
+                <div className='input-fie'>
+                  <button onClick={handlePaymentSubmission} disabled={!paymentOption || !paidAmountInput}>Submit</button>
+                </div>
+                {billDetails && (
+                  <div className='input-fie'>
+                    {/* <Bill billDetails={billDetails} /> */}
+                    <button onClick={handlePrintBill}>Print Bill</button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
