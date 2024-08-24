@@ -229,7 +229,7 @@ const HotelGuestForm = () => {
   }
 
 
-    // e.preventDefault();
+    e.preventDefault();
 
     const token = sessionStorage.getItem('token');
 
