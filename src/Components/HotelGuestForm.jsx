@@ -214,6 +214,8 @@ const HotelGuestForm = () => {
 
   const handleSubmit = async (e) => {
 
+     e.preventDefault();
+
     if (!email || !phone || !checkInDate || !checkOutDate || !numOfGuests || !RoomNumber || !Aadress || !PriceGiven) {
       alert('Please fill in all required fields.');
       return;
@@ -229,7 +231,7 @@ const HotelGuestForm = () => {
   }
 
 
-    e.preventDefault();
+   
 
     const token = sessionStorage.getItem('token');
 
